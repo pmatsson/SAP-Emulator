@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Builder.ViewModel"
+                    xmlns:local="clr-namespace:Builder.Resource">
+
+
+
+    <DataTemplate x:Key="ConditionTemplate">
+        <StackPanel>
+            <ComboBox x:Name="SelectedConditionComboBox" ItemsSource="{Binding ConditionCell.Conditions, Mode=OneTime}" DisplayMemberPath="DisplayName" SelectedItem="{Binding ConditionCell.Selected, Mode=TwoWay}"/>
+            <TextBox>
+                <TextBox.Style>
+                    <Style>
+                        <Setter Property="TextBox.Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Contains">
+                                <Setter Property="TextBox.Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </StackPanel>
+    </DataTemplate>
+
+
+</ResourceDictionary>

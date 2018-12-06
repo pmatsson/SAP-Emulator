@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Builder.ViewModel"
+                    xmlns:local="clr-namespace:Builder.Resource">
+
+
+
+    <DataTemplate x:Key="TriggerTemplate">
+        <UniformGrid Columns="2">
+            <ComboBox x:Name="SelectedTriggerComboBox" ItemsSource="{Binding TriggerCell.Triggers, Mode=OneTime}" DisplayMemberPath="DisplayName" 
+                      SelectedItem="{Binding TriggerCell.Selected, Mode=TwoWay}" Grid.Column="0" Margin="5" Height="Auto"/>
+            <TextBox Grid.Column="1" Margin="5">
+                <TextBox.Style>
+                    <Style>
+                        <Setter Property="TextBox.Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Received">
+                                <Setter Property="TextBox.Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </UniformGrid>
+    </DataTemplate>
+
+
+</ResourceDictionary>

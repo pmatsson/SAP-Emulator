@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Builder.View.TestBuilderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             MinWidth="100" MinHeight="200">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource/TriggerResource.xaml" />
+                <ResourceDictionary Source="../Resource/ConditionResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+    </UserControl.Resources>
+
+
+
+    <DataGrid ItemsSource="{Binding MyRows}" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="#FFF4FDFD"
+               AlternationCount="2" AlternatingRowBackground="#FFEEEEEE">
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell">
+                <Setter Property="Padding" Value="20"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DataGrid.CellStyle>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Width="1*" Header="When" CellTemplate="{StaticResource TriggerTemplate}" />
+            <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>
