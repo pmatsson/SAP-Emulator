@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Builder.Model.Condition
 {
-    public interface ICondition
+    [Serializable]
+    public abstract class ICondition
     {
-        string DisplayName { get; }
+        public abstract string DisplayName { get; }
     }
 }

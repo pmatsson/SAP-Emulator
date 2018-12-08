@@ -1,7 +1,10 @@
-﻿namespace Builder.Model.Trigger
+﻿using System.Xml.Serialization;
+
+namespace Builder.Model.Trigger
 {
+    [XmlType("Once")]
     public class OnceTrigger : ITrigger
     {
-        public string DisplayName => "Once";
+        public override string DisplayName => "Once";
     }
 }

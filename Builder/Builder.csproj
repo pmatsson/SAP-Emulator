@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Action\IAction.cs" />
+    <Compile Include="Model\Action\SendAction.cs" />
     <Compile Include="Model\Condition\AlwaysCondition.cs" />
     <Compile Include="Model\Condition\ContainsCondition.cs" />
     <Compile Include="Model\Condition\ICondition.cs" />
@@ -79,6 +81,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resource\ConditionResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\ActionResource.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

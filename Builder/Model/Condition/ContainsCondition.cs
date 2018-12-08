@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Xml.Serialization;
 
 namespace Builder.Model.Condition
 {
+    [XmlType("Contains")]
     public class ContainsCondition : ICondition
     {
-        public string DisplayName => "Contains";
+        public override string DisplayName => "Contains";
     }
 }

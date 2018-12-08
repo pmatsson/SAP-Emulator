@@ -35,5 +35,15 @@ namespace Builder
         {
             TestBuilderView.AddRow();
         }
+
+        private void GenerateXML_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SerializeRules();
+        }
+
+        private void LoadXML_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DeSerializeRules();
+        }
     }
 }

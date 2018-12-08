@@ -12,13 +12,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resource/TriggerResource.xaml" />
                 <ResourceDictionary Source="../Resource/ConditionResource.xaml" />
+                <ResourceDictionary Source="../Resource/ActionResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
     </UserControl.Resources>
 
 
 
-    <DataGrid ItemsSource="{Binding MyRows}" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="#FFF4FDFD"
+    <DataGrid ItemsSource="{Binding MyRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="#FFF4FDFD"
                AlternationCount="2" AlternatingRowBackground="#FFEEEEEE">
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell">
@@ -37,6 +38,7 @@
         <DataGrid.Columns>
             <DataGridTemplateColumn Width="1*" Header="When" CellTemplate="{StaticResource TriggerTemplate}" />
             <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}" />
+            <DataGridTemplateColumn Width="1*" Header="Then" CellTemplate="{StaticResource ActionTemplate}" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

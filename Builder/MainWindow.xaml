@@ -10,11 +10,15 @@
     <Grid>
         <Grid FlowDirection="LeftToRight" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
-            <Button x:Name="AddRowButton" Click="AddRowButton_Click" Grid.Row="0">Test button</Button>
-            <view:TestBuilderView x:Name="TestBuilderView" Grid.Row="1"/>
+            <view:TestBuilderView x:Name="TestBuilderView" Grid.Row="0"/>
+            <UniformGrid Columns="3" Grid.Row="1">
+                <Button x:Name="AddRowButton" Click="AddRowButton_Click" Grid.Column="0">New rule</Button>
+                <Button x:Name="GenerateXML" Grid.Column="1" Click="GenerateXML_Click">Generate XML</Button>
+                <Button x:Name="LoadXML" Grid.Column="2" Click="LoadXML_Click">Load XML</Button>
+            </UniformGrid>
         </Grid>
     </Grid>
 </Window>
