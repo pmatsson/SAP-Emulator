@@ -9,7 +9,7 @@
         <UniformGrid Columns="2">
             <ComboBox x:Name="SelectedActopmComboBox" ItemsSource="{Binding ActionGroup.Actions, Mode=OneTime}" DisplayMemberPath="DisplayName" 
                       SelectedItem="{Binding ActionGroup.Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="5" Height="Auto"/>
-            <TextBox Grid.Column="1" Margin="5">
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding ActionGroup.Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Style>
                     <Style>
                         <Setter Property="TextBox.Visibility" Value="Collapsed" />

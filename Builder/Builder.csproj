@@ -58,11 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Action\IAction.cs" />
+    <Compile Include="Model\Action\ActionBase.cs" />
     <Compile Include="Model\Action\SendAction.cs" />
     <Compile Include="Model\Condition\AlwaysCondition.cs" />
     <Compile Include="Model\Condition\ContainsCondition.cs" />
-    <Compile Include="Model\Condition\ICondition.cs" />
+    <Compile Include="Model\Condition\ConditionBase.cs" />
+    <Compile Include="Model\IRule.cs" />
     <Compile Include="ViewModel\ContainerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\TestBuilderView.xaml.cs">
@@ -98,7 +99,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Trigger\ITrigger.cs" />
+    <Compile Include="Model\Trigger\TriggerBase.cs" />
     <Compile Include="Model\Trigger\OnceTrigger.cs" />
     <Compile Include="Model\Trigger\ReceivedTrigger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -6,10 +6,10 @@
 
 
     <DataTemplate x:Key="ConditionTemplate">
-        <StackPanel>
+        <UniformGrid Columns="2">
             <ComboBox x:Name="SelectedConditionComboBox" ItemsSource="{Binding ConditionGroup.Conditions, Mode=OneTime}" DisplayMemberPath="DisplayName" 
-                      SelectedItem="{Binding ConditionGroup.Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox>
+                      SelectedItem="{Binding ConditionGroup.Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="5"/>
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding ConditionGroup.Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Style>
                     <Style>
                         <Setter Property="TextBox.Visibility" Value="Collapsed" />
@@ -21,7 +21,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-        </StackPanel>
+        </UniformGrid>
     </DataTemplate>
 
 

@@ -13,20 +13,19 @@ namespace Builder.ViewModel
 
     public class TriggerGroup : ViewModelBase
     {
-        private ITrigger _selected;
+        private TriggerBase _selected;
+
+        private ObservableCollection<TriggerBase> _triggers;
 
         [XmlIgnore]
-        private ObservableCollection<ITrigger> _triggers;
-
-        [XmlIgnore]
-        public ObservableCollection<ITrigger> Triggers
+        public ObservableCollection<TriggerBase> Triggers
         {
             get => _triggers;
             set => SetProperty(ref _triggers, value);
         }
 
         [XmlElement("Trigger")]
-        public ITrigger Selected
+        public TriggerBase Selected
         {
             get => _selected;
             set
@@ -34,7 +33,7 @@ namespace Builder.ViewModel
                 // Deserialized values must be among the options for the combobox
                 if (!Triggers.Contains(value))
                 {
-                    var loadedTriggers = new ObservableCollection<ITrigger>();
+                    var loadedTriggers = new ObservableCollection<TriggerBase>();
                     foreach (var trigger in Triggers)
                     {
                         if (value.GetType() == trigger.GetType())
@@ -55,7 +54,7 @@ namespace Builder.ViewModel
 
         public TriggerGroup()
         {
-            Triggers = new ObservableCollection<ITrigger>()
+            Triggers = new ObservableCollection<TriggerBase>()
             {
                 new OnceTrigger(),
                 new ReceivedTrigger()
@@ -67,20 +66,19 @@ namespace Builder.ViewModel
 
     public class ConditionGroup : ViewModelBase
     {
-        private ICondition _selected;
+        private ConditionBase _selected;
+
+        private ObservableCollection<ConditionBase> _conditions;
 
         [XmlIgnore]
-        private ObservableCollection<ICondition> _conditions;
-
-        [XmlIgnore]
-        public ObservableCollection<ICondition> Conditions
+        public ObservableCollection<ConditionBase> Conditions
         {
             get => _conditions;
             set => SetProperty(ref _conditions, value);
         }
 
         [XmlElement("Condition")]
-        public ICondition Selected
+        public ConditionBase Selected
         {
             get => _selected;
             set
@@ -88,7 +86,7 @@ namespace Builder.ViewModel
                 // Deserialized values must be among the options for the combobox
                 if (!Conditions.Contains(value))
                 {
-                    var loadedConditions = new ObservableCollection<ICondition>();
+                    var loadedConditions = new ObservableCollection<ConditionBase>();
                     foreach (var condition in Conditions)
                     {
                         if (value.GetType() == condition.GetType())
@@ -108,7 +106,7 @@ namespace Builder.ViewModel
 
         public ConditionGroup()
         {
-            Conditions = new ObservableCollection<ICondition>()
+            Conditions = new ObservableCollection<ConditionBase>()
             {
                 new AlwaysCondition(),
                 new ContainsCondition()
@@ -120,20 +118,19 @@ namespace Builder.ViewModel
 
     public class ActionGroup : ViewModelBase
     {
-        private IAction _selected;
+        private ActionBase _selected;
+
+        private ObservableCollection<ActionBase> _actions;
 
         [XmlIgnore]
-        private ObservableCollection<IAction> _actions;
-
-        [XmlIgnore]
-        public ObservableCollection<IAction> Actions
+        public ObservableCollection<ActionBase> Actions
         {
             get => _actions;
             set => SetProperty(ref _actions, value);
         }
 
         [XmlElement("Action")]
-        public IAction Selected
+        public ActionBase Selected
         {
             get => _selected;
             set
@@ -141,7 +138,7 @@ namespace Builder.ViewModel
                 // Deserialized values must be among the options for the combobox
                 if (!Actions.Contains(value))
                 {
-                    var loadedActions = new ObservableCollection<IAction>();
+                    var loadedActions = new ObservableCollection<ActionBase>();
                     foreach (var action in Actions)
                     {
                         if (value.GetType() == action.GetType())
@@ -161,7 +158,7 @@ namespace Builder.ViewModel
 
         public ActionGroup()
         {
-            Actions = new ObservableCollection<IAction>()
+            Actions = new ObservableCollection<ActionBase>()
             {
                 new SendAction()
             };
@@ -186,6 +183,7 @@ namespace Builder.ViewModel
         }
 
     }
+
     public class ContainerViewModel : ViewModelBase
     {
         private ObservableCollection<Rule> _rules;

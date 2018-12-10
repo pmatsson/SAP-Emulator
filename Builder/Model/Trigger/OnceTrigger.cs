@@ -3,7 +3,7 @@
 namespace Builder.Model.Trigger
 {
     [XmlType("Once")]
-    public class OnceTrigger : ITrigger
+    public class OnceTrigger : TriggerBase
     {
         public override string DisplayName => "Once";
     }

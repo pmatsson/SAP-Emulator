@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Builder.Model.Trigger
 {
     [Serializable]
-    public abstract class ITrigger
+    public abstract class TriggerBase : IRule
     {
         public abstract string DisplayName { get; }
 
@@ -14,12 +14,12 @@ namespace Builder.Model.Trigger
         [XmlIgnore]
         public virtual string Param2{ get; set; }
 
-        public bool ShouldSerializeParam1()
+        public virtual bool ShouldSerializeParam1()
         {
             return Param1 != null;
         }
 
-        public bool ShouldSerializeParam2()
+        public virtual bool ShouldSerializeParam2()
         {
             return Param2 != null;
         }
