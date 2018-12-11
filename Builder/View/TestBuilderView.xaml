@@ -19,7 +19,7 @@
 
 
 
-    <DataGrid ItemsSource="{Binding MyRows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="#FFF4FDFD"
+    <DataGrid ItemsSource="{Binding Rules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="#FFF4FDFD"
                AlternationCount="2" AlternatingRowBackground="#FFEEEEEE">
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell">
@@ -33,6 +33,12 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{x:Null}" />
+                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                    </Trigger>
+                </Style.Triggers>
             </Style>
         </DataGrid.CellStyle>
         <DataGrid.Columns>

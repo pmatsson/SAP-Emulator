@@ -29,9 +29,9 @@ namespace Builder.View
 
         public void AddRow()
         {
-            if (DataContext is ContainerViewModel)
+            if (DataContext is RuleViewModel)
             {
-                var triggContext = DataContext as ContainerViewModel;
+                var triggContext = DataContext as RuleViewModel;
                 triggContext.AddRow();
             }
         }

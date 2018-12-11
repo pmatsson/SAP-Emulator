@@ -21,11 +21,11 @@ namespace Builder
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ContainerViewModel ViewModel { get; set; }
+        private RuleViewModel ViewModel { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new ContainerViewModel();
+            ViewModel = new RuleViewModel();
 
             this.DataContext = ViewModel;
             TestBuilderView.DataContext = ViewModel;
