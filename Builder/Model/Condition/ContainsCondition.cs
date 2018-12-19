@@ -7,7 +7,10 @@ namespace Builder.Model.Condition
     {
         public override string DisplayName => "Contains";
 
-        [XmlAttribute("value")]
+        [XmlElement("Path")]
         public override string Param1 { get; set; }
+
+        [XmlElement("Value")]
+        public override string Param2 { get; set; }
     }
 }

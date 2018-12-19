@@ -74,7 +74,7 @@ namespace Builder.ViewModel
         [XmlIgnore]
         public RelayCommand<Trigger> RemoveTriggerCommand { get; private set; }
 
-        [XmlElement("Trigger")]
+        [XmlElement("TriggerItem")]
         public ObservableCollection<Trigger> Triggers
         {
             get => _triggers;

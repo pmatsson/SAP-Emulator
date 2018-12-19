@@ -1,24 +1,56 @@
-﻿<Window x:Class="Builder.MainWindow"
+﻿<Controls:MetroWindow x:Class="Builder.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:view="clr-namespace:Builder.View"
         xmlns:local="clr-namespace:Builder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid FlowDirection="LeftToRight" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="20"/>
-            </Grid.RowDefinitions>
-            <view:TestBuilderView x:Name="TestBuilderView" Grid.Row="0"/>
-            <UniformGrid Columns="3" Grid.Row="1">
-                <Button x:Name="AddRowButton" Click="AddRowButton_Click" Grid.Column="0">New rule</Button>
-                <Button x:Name="GenerateXML" Grid.Column="1" Click="GenerateXML_Click">Generate XML</Button>
-                <Button x:Name="LoadXML" Grid.Column="2" Click="LoadXML_Click">Load XML</Button>
-            </UniformGrid>
-        </Grid>
+        Title="SAP Emulator" Height="775" Width="1000">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout x:Name="EditFlyout" Header="File" Position="Right" Width="200" IsOpen="False" Theme="Accent">
+                <StackPanel>
+                    <Button x:Name="GenerateXML" Background="White" BorderBrush="LightGray" Margin="0,1,0,0" Click="GenerateXML_Click" Style="{DynamicResource SquareButtonStyle}">Save</Button>
+                    <Button x:Name="LoadXML" Background="White" BorderBrush="LightGray" Margin="0,1,0,0" Click="LoadXML_Click" Style="{DynamicResource SquareButtonStyle}">Open</Button>
+                </StackPanel>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+    <Grid Background="LightGray">
+        <view:TestBuilderView x:Name="TestBuilderView"  Margin="10" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40">
+            <Button x:Name="AddRowButton" Click="AddRowButton_Click" Background="Transparent" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0" >
+                <Path Data="{StaticResource ico_add}" Stretch="Fill" Fill="LightSeaGreen"/>
+            </Button>
+            <Button x:Name="RemoveRowButton" Click="RemoveRowButton_Click" Background="Transparent" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="6" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0" >
+                <Path Data="{StaticResource ico_remove}" Stretch="Fill" Fill="IndianRed" />
+            </Button>
+            <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            </StackPanel>
+            <Button x:Name="PlayButton" Click="PlayButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="6" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+                <Path Data="{StaticResource ico_play}" Stretch="Fill" Fill="Green"/>
+            </Button>
+            <Button x:Name="FileButton" Click="FileButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+                <Path Data="{StaticResource ico_file}" Stretch="Fill" Fill="Yellow"/>
+            </Button>
+            <Button x:Name="SaveButton" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+                <Path Data="{StaticResource ico_save}" Stretch="Fill" Fill="MediumPurple"/>
+            </Button>
+            <Button x:Name="SettingsButton" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+                <Path Data="{StaticResource ico_settings}" Stretch="Fill" Fill="Gray"/>
+            </Button>
+        </StackPanel>
     </Grid>
-</Window>
+</Controls:MetroWindow>

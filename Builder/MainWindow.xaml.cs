@@ -1,25 +1,16 @@
-﻿using Builder.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Builder.MQ;
+using Builder.Processor;
+using Builder.ViewModel;
+using MahApps.Metro.Controls;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Builder
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private RuleViewModel ViewModel { get; set; }
         public MainWindow()
@@ -29,6 +20,7 @@ namespace Builder
 
             this.DataContext = ViewModel;
             TestBuilderView.DataContext = ViewModel;
+            
         }
 
         private void AddRowButton_Click(object sender, RoutedEventArgs e)
@@ -44,6 +36,21 @@ namespace Builder
         private void LoadXML_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.DeSerializeRules();
+        }
+
+        private void FileButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditFlyout.IsOpen = true;
+        }
+
+        private void RemoveRowButton_Click(object sender, RoutedEventArgs e)
+        {
+            TestBuilderView.DeleteSelectedRow();
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.StartTest();
         }
     }
 }

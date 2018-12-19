@@ -24,7 +24,7 @@ namespace Builder.ViewModel
             set => SetProperty(ref _availableConditions, value);
         }
 
-        [XmlElement("Type")]
+        [XmlElement("Condition")]
         public ConditionBase Selected
         {
             get => _selected;
@@ -73,7 +73,7 @@ namespace Builder.ViewModel
         [XmlIgnore]
         public RelayCommand<Condition> RemoveConditionCommand { get; private set; }
 
-        [XmlElement("Condition")]
+        [XmlElement("ConditionItem")]
         public ObservableCollection<Condition> Conditions
         {
             get => _conditions;

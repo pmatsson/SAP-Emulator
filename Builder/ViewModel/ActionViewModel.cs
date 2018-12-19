@@ -11,7 +11,6 @@ using System.Xml.Serialization;
 namespace Builder.ViewModel
 {
 
-
     public class Action : ViewModelBase
     {
         private ActionBase _selected;
@@ -73,7 +72,7 @@ namespace Builder.ViewModel
         [XmlIgnore]
         public RelayCommand<Action> RemoveActionCommand { get; private set; }
 
-        [XmlElement("Action")]
+        [XmlElement("ActionItem")]
         public ObservableCollection<Action> Actions
         {
             get => _actions;

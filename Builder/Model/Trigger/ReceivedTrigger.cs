@@ -8,9 +8,10 @@ namespace Builder.Model.Trigger
     {
         public override string DisplayName => "Received";
 
-        [XmlAttribute("telegramType")]
+        [XmlElement("DocumentType")]
         public override string Param1 { get; set; }
 
+        public string GetDocumentType() => Param1;
 
     }
 }

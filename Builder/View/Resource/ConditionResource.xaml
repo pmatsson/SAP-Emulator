@@ -4,8 +4,8 @@
                     xmlns:local="clr-namespace:Builder.Resource">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Style/Icons.xaml" />
-        <ResourceDictionary Source="../Resource/ButtonDictionary.xaml" />
+        <ResourceDictionary Source="../../Style/Icons.xaml" />
+        <ResourceDictionary Source="../../Style/ButtonDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="ConditionTemplate">
@@ -17,7 +17,7 @@
             <ItemsControl ItemsSource="{Binding ConditionGroup.Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <UniformGrid Columns="3">
+                        <UniformGrid Columns="4">
                             <ComboBox x:Name="SelectedConditionComboBox" ItemsSource="{Binding AvailableConditions, Mode=OneTime}" DisplayMemberPath="DisplayName" 
                             SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="5"/>
                             <TextBox Grid.Column="1" Margin="5" Text="{Binding Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -32,13 +32,25 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Button Grid.Column="2" Command="{Binding Path=DataContext.ConditionGroup.RemoveConditionCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" 
+                            <TextBox Grid.Column="2" Margin="5" Text="{Binding Selected.Param2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style>
+                                        <Setter Property="TextBox.Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Contains">
+                                                <Setter Property="TextBox.Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button Grid.Column="3" Command="{Binding Path=DataContext.ConditionGroup.RemoveConditionCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" 
                             CommandParameter="{Binding}" Width="20" Height="20" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Style="{StaticResource btn_remove}"/>
                         </UniformGrid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Grid.Row="1" Command="{Binding ConditionGroup.AddConditionCommand}" Content="Add"/>
+            <Button Grid.Row="1" Command="{Binding ConditionGroup.AddConditionCommand}" Style="{StaticResource btn_add}" />        
         </Grid>
     </DataTemplate>
 

@@ -1,19 +1,8 @@
-﻿using Builder.Model.Trigger;
-using Builder.ViewModel;
+﻿using Builder.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Builder.View
 {
@@ -32,7 +21,17 @@ namespace Builder.View
             if (DataContext is RuleViewModel)
             {
                 var triggContext = DataContext as RuleViewModel;
-                triggContext.AddRow();
+                triggContext.AddRule();
+            }
+        }
+
+        public void DeleteSelectedRow()
+        {
+            if (DataContext is RuleViewModel && RuleDG.SelectedItem != null)
+            {
+                var triggContext = DataContext as RuleViewModel;
+
+                triggContext.RemoveRule(RuleDG.SelectedItem as Rule);
             }
         }
     }

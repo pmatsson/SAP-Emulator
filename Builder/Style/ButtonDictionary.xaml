@@ -8,6 +8,7 @@
 
     <Style x:Key="btn_remove" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" x:Shared="False">
         <Setter Property="Button.Visibility" Value="Visible" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Content">
             <Setter.Value>
                 <Path Data="{StaticResource ico_remove}" Stretch="Fill"  Fill="Red" Margin="2" />
@@ -19,4 +20,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="btn_add" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" x:Shared="False" >
+        <Setter Property="Button.Visibility" Value="Visible" />
+        <Setter Property="Margin" Value="0,20,0,0" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Path Data="{StaticResource ico_add}" Stretch="Fill"  Fill="Green"  />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Button.IsEnabled" Value="False">
+                <Setter Property="Button.Visibility" Value="Collapsed" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

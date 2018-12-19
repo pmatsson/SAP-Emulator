@@ -1,6 +1,8 @@
 ﻿using Builder.Model.Action;
 using Builder.Model.Condition;
 using Builder.Model.Trigger;
+using Builder.MQ;
+using Builder.Processor;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
@@ -15,13 +17,11 @@ namespace Builder.ViewModel
 
     public class Rule : ViewModelBase
     {
-        [XmlElement("Triggers")]
         public TriggerGroup TriggerGroup { get; set; }
 
-        [XmlElement("Conditions")]
         public ConditionGroup ConditionGroup { get; set; }
 
-        [XmlElement("Actions")]
+
         public ActionGroup ActionGroup { get; set; }
 
         public Rule()
@@ -54,9 +54,24 @@ namespace Builder.ViewModel
 
         }
 
-        public void AddRow()
+        public void StartTest()
+        {
+            var mq = new MQHandler();
+            var con = mq.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414);
+            //var test = mq.Write("test1337");
+            //string teststr = "";
+            //var test2 = mq.Read(ref teststr);
+            var test = new RuleProcessor(Rules.ToList(), mq);
+        }
+
+        public void AddRule()
         {
             Rules.Add(new Rule());
+        }
+
+        public void RemoveRule(Rule rule)
+        {
+            Rules.Remove(rule);
         }
 
         public void SerializeRules()

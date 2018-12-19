@@ -7,7 +7,11 @@ namespace Builder.Model.Action
     {
         public override string DisplayName => "Send";
 
-        [XmlAttribute("path")]
+        [XmlElement("FilePath")]
         public override string Param1 { get; set; }
+
+
+        public string GetFilePath() => Param1;
+
     }
 }
