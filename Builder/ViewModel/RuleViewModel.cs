@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Xml.Serialization;
 
+
 namespace Builder.ViewModel
 {
 
@@ -41,6 +42,9 @@ namespace Builder.ViewModel
     public class RuleViewModel : ViewModelBase
     {
         private ObservableCollection<Rule> _rules;
+        private ObservableCollection<Rule> _processedRules;
+        private RuleProcessor _ruleProcessor;
+        private bool _isRunningEmulator;
 
         public ObservableCollection<Rule> Rules
         {
@@ -48,23 +52,56 @@ namespace Builder.ViewModel
             set => SetProperty(ref _rules, value);
         }
 
+        public ObservableCollection<Rule> ProcessedRules
+        {
+            get => _processedRules;
+            set => SetProperty(ref _processedRules, value);
+        }
+
+        public bool IsRunningEmulator
+        {
+            get => _isRunningEmulator;
+            set => SetProperty(ref _isRunningEmulator, value);
+        }
+
+
         public RuleViewModel()
         {
             Rules = new ObservableCollection<Rule>();
+            ProcessedRules = new ObservableCollection<Rule>();
+            _isRunningEmulator = false;
 
         }
 
-        public void StartTest()
+        public void StartEmulation()
         {
-            var mq = new MQHandler();
-            var con = mq.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414);
-            //var test = mq.Write("test1337");
-            //string teststr = "";
-            //var test2 = mq.Read(ref teststr);
-            var test = new RuleProcessor(Rules.ToList(), mq);
+            var mqHandler = new MQHandler();
+            if(mqHandler.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414))
+            {
+                IsRunningEmulator = true;
+                _ruleProcessor = new RuleProcessor(Rules.ToList(), mqHandler);
+                _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
+                var res = _ruleProcessor.Start();
+            }
         }
 
-        public void AddRule()
+        public void CancelEmulation()
+        {
+            if(_ruleProcessor != null)
+            {
+                _ruleProcessor.Cancel();
+                ProcessedRules.Clear();
+                IsRunningEmulator = false;
+            }
+        }
+
+        private void RuleProcessor_RuleProcessed(object sender, Rule e)
+        {
+            if(!_processedRules.Contains(e))
+                _processedRules.Add(e);
+        }
+
+        public void CreateRule()
         {
             Rules.Add(new Rule());
         }
@@ -78,7 +115,6 @@ namespace Builder.ViewModel
         {
             TextWriter writer = new StreamWriter("test.xml");
             RuleSerializer.Serialize(Rules.ToList(), writer);
-
         }
 
         public void DeSerializeRules()

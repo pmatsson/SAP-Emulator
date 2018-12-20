@@ -12,15 +12,22 @@ namespace Builder
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private RuleViewModel ViewModel { get; set; }
+        private RuleViewModel _RuleViewModel { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new RuleViewModel();
+            _RuleViewModel = new RuleViewModel();
 
-            this.DataContext = ViewModel;
-            TestBuilderView.DataContext = ViewModel;
+            this.DataContext = _RuleViewModel;
+            TestBuilderView.DataContext = _RuleViewModel;
+            EmulatorView.DataContext = _RuleViewModel;
+            EmulatorView.CancelButton.Click += CancelButton_Click;
             
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            _RuleViewModel.CancelEmulation();
         }
 
         private void AddRowButton_Click(object sender, RoutedEventArgs e)
@@ -28,20 +35,6 @@ namespace Builder
             TestBuilderView.AddRow();
         }
 
-        private void GenerateXML_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SerializeRules();
-        }
-
-        private void LoadXML_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.DeSerializeRules();
-        }
-
-        private void FileButton_Click(object sender, RoutedEventArgs e)
-        {
-            EditFlyout.IsOpen = true;
-        }
 
         private void RemoveRowButton_Click(object sender, RoutedEventArgs e)
         {
@@ -50,7 +43,22 @@ namespace Builder
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.StartTest();
+            _RuleViewModel.StartEmulation();
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            _RuleViewModel.SerializeRules();
+        }
+
+        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            _RuleViewModel.DeSerializeRules();
+        }
+
+        //private void CancelButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _RuleViewModel.CancelEmulation();
+        //}
     }
 }

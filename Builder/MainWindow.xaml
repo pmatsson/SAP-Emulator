@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:conv="clr-namespace:Builder.View.Converter"
         xmlns:view="clr-namespace:Builder.View"
         xmlns:local="clr-namespace:Builder"
         mc:Ignorable="d"
@@ -14,22 +15,38 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <conv:NegateBooleanConverter x:Key="boolinverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl>
-            <Controls:Flyout x:Name="EditFlyout" Header="File" Position="Right" Width="200" IsOpen="False" Theme="Accent">
-                <StackPanel>
-                    <Button x:Name="GenerateXML" Background="White" BorderBrush="LightGray" Margin="0,1,0,0" Click="GenerateXML_Click" Style="{DynamicResource SquareButtonStyle}">Save</Button>
-                    <Button x:Name="LoadXML" Background="White" BorderBrush="LightGray" Margin="0,1,0,0" Click="LoadXML_Click" Style="{DynamicResource SquareButtonStyle}">Open</Button>
-                </StackPanel>
-            </Controls:Flyout>
-        </Controls:FlyoutsControl>
-    </Controls:MetroWindow.Flyouts>
-    <Grid Background="LightGray">
-        <view:TestBuilderView x:Name="TestBuilderView"  Margin="10" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40">
+    <Grid Background="White">
+        
+        <!-- Test builder view -->
+        <view:TestBuilderView x:Name="TestBuilderView" Grid.Column="0" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}" >
+            <view:TestBuilderView.Style>
+                <Style TargetType="view:TestBuilderView">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRunningEmulator}" Value="true">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </view:TestBuilderView.Style>
+        </view:TestBuilderView>
+
+        <!-- Test builder buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRunningEmulator}" Value="true">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
             <Button x:Name="AddRowButton" Click="AddRowButton_Click" Background="Transparent" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0" >
                 <Path Data="{StaticResource ico_add}" Stretch="Fill" Fill="LightSeaGreen"/>
             </Button>
@@ -42,15 +59,29 @@
             <Button x:Name="PlayButton" Click="PlayButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="6" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
                 <Path Data="{StaticResource ico_play}" Stretch="Fill" Fill="Green"/>
             </Button>
-            <Button x:Name="FileButton" Click="FileButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+            <Button x:Name="OpenButton" Click="OpenButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
                 <Path Data="{StaticResource ico_file}" Stretch="Fill" Fill="Yellow"/>
             </Button>
-            <Button x:Name="SaveButton" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
+            <Button x:Name="SaveButton" Click="SaveButton_Click" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
                 <Path Data="{StaticResource ico_save}" Stretch="Fill" Fill="MediumPurple"/>
             </Button>
             <Button x:Name="SettingsButton" Background="LightGray" Margin="2.5,0,2.5,0" Width="30" Height="30" Padding="5" Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" BorderThickness="0">
                 <Path Data="{StaticResource ico_settings}" Stretch="Fill" Fill="Gray"/>
             </Button>
         </StackPanel>
+        
+        <!-- Emulator view -->
+        <view:EmulatorView x:Name="EmulatorView" Grid.Column="0">
+            <view:EmulatorView.Style>
+                <Style TargetType="view:EmulatorView">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRunningEmulator}" Value="true">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </view:EmulatorView.Style>
+        </view:EmulatorView>
     </Grid>
 </Controls:MetroWindow>

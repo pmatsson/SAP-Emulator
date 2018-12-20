@@ -17,49 +17,104 @@ namespace Builder.Processor
 {
     public class RuleProcessor
     {
-        List<Rule> _rules;
-        MQHandler _mqhandler;
+        private List<Rule> _rules;
+        private MQHandler _mqhandler;
+        private CancellationTokenSource _wtoken;
+
+        public event EventHandler<Rule> RuleProcessed;
 
         public RuleProcessor(List<Rule> rules, MQHandler mqhandler)
         {
             _rules = rules;
             _mqhandler = mqhandler;
-
-            string text = System.IO.File.ReadAllText(@"C:\Users\cmatsson\Projects\MSS\OCI\IMS5\OCI_instruction.xml");
-            _mqhandler.Write(text);
-            Start();
+            _wtoken = new CancellationTokenSource();
+            RuleProcessed += RuleProcessor_RuleProcessed;
         }
 
-
-        public void Start()
+        private void RuleProcessor_RuleProcessed(object sender, Rule e)
         {
-            while(true)
+            foreach (var trigger in e.TriggerGroup.Triggers)
             {
-                string msg = "";
-                if(_mqhandler.Read(ref msg))
+                if(trigger.Selected is OnceTrigger)
                 {
-                    Rule rule = null;
-                    XmlDocument doc = Parse(msg);
-
-                    if(CheckTrigger(doc, ref rule) && CheckCondition(doc, rule.ConditionGroup))
-                    {
-                        DoAction(doc, rule.ActionGroup);
-                    }
+                    (trigger.Selected as OnceTrigger).HitCount++;
                 }
-
-                Thread.Sleep(500);
             }
         }
 
+        public async Task<bool> Start()
+        {
+            foreach(Rule rule in _rules)
+            {
+                foreach (Trigger trigger in rule.TriggerGroup.Triggers)
+                {
+                    if (trigger.Selected is OnceTrigger)
+                    {
+                        (trigger.Selected as OnceTrigger).HitCount = 0;
+                    }
+                }
 
-        public XmlDocument Parse(string msg)
+                ProcessRules();
+            }
+
+            await Task.Delay(1000);
+
+            while (!_wtoken.IsCancellationRequested)
+            {
+                ProcessMessage();
+                await Task.Delay(1000);
+            }
+
+            return true;
+        }
+
+
+
+        private void ProcessMessage()
+        {
+            string msg = "";
+            if (_mqhandler.Read(ref msg))
+            {
+                XmlDocument doc = CreateXmlDoc(msg);
+                if (doc != null)
+                {
+                    ProcessRules(doc);
+                }
+            }
+        }
+
+        public void ProcessRules(XmlDocument doc = null)
+        {
+            Rule ruleOut = null;
+            if (CheckTrigger(doc, ref ruleOut) && CheckCondition(doc, ruleOut.ConditionGroup))
+            {
+                DoAction(doc, ruleOut.ActionGroup);
+                RuleProcessed(this, ruleOut);
+            }
+        }
+
+        public void Cancel()
+        {
+            _wtoken.Cancel();
+        }
+
+
+        public XmlDocument CreateXmlDoc(string msg)
         {
             var doc = new XmlDocument();
-            doc.LoadXml(msg);
+            try
+            {
+                doc.LoadXml(msg);
+            }
+            catch (XmlException ex)
+            {
+                return null;
+            }
+
             return doc;
         }
 
-        public bool CheckTrigger(XmlDocument doc, ref Rule rhit)
+        public bool CheckTrigger(XmlDocument doc, ref Rule ruleOut)
         {
             foreach (Rule rule in _rules)
             {
@@ -68,17 +123,17 @@ namespace Builder.Processor
                 {
                     if (trigger.Selected is OnceTrigger)
                     {
-                        hitList.Add((trigger.Selected as OnceTrigger).HitCount++ == 0);
+                        hitList.Add((trigger.Selected as OnceTrigger).HitCount == 0);
                     }
                     else if(trigger.Selected is ReceivedTrigger)
                     {
-                        hitList.Add(((trigger.Selected as ReceivedTrigger).GetDocumentType() == doc.DocumentElement.Name));
+                        hitList.Add(((trigger.Selected as ReceivedTrigger).GetDocumentType() == doc?.DocumentElement.Name));
                     }
                 }
 
                 if (hitList.Count > 0 && !hitList.Contains(false))
                 {
-                    rhit = rule;
+                    ruleOut = rule;
                     return true;
                 }
             }
@@ -121,16 +176,36 @@ namespace Builder.Processor
 
         public void DoAction(XmlDocument doc, ActionGroup ag)
         {
+
             foreach(var action in ag.Actions)
             {
                 if(action.Selected is SendAction)
                 {
-
                     string text = System.IO.File.ReadAllText((action.Selected as SendAction).GetFilePath());
                     _mqhandler.Write(text);
                 }
             }
         }
 
+        public void LogMessageToFile(string msg)
+        {
+            System.IO.StreamWriter sw = System.IO.File.AppendText(GetTempPath() + "debug.txt");
+            try
+            {
+                string logLine = System.String.Format("{0:G}: {1}.", DateTime.Now, msg);
+                sw.WriteLine(logLine);
+            }
+            finally
+            {
+                sw.Close();
+            }
+        }
+
+        public string GetTempPath()
+        {
+            string path = System.Environment.GetEnvironmentVariable("TEMP");
+            if (!path.EndsWith("\\")) path += "\\";
+            return path;
+        }
     }
 }

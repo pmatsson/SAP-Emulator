@@ -57,6 +57,7 @@
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -93,6 +94,10 @@
     <Compile Include="ViewModel\RuleViewModel.cs" />
     <Compile Include="ViewModel\TriggerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\Converter\NegateBooleanConverter.cs" />
+    <Compile Include="View\EmulatorView.xaml.cs">
+      <DependentUpon>EmulatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TestBuilderView.xaml.cs">
       <DependentUpon>TestBuilderView.xaml</DependentUpon>
     </Compile>
@@ -109,6 +114,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Style\ButtonDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EmulatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

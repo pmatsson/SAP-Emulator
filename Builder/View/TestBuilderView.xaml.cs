@@ -21,7 +21,7 @@ namespace Builder.View
             if (DataContext is RuleViewModel)
             {
                 var triggContext = DataContext as RuleViewModel;
-                triggContext.AddRule();
+                triggContext.CreateRule();
             }
         }
 
