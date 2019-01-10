@@ -13,21 +13,22 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resource/TriggerResource.xaml" />
-                <ResourceDictionary Source="Resource/ConditionResource.xaml" />
-                <ResourceDictionary Source="Resource/ActionResource.xaml" />
+                <ResourceDictionary Source="Resource/TriggerResource.xaml"/>
+                <ResourceDictionary Source="Resource/ConditionResource.xaml"/>
+                <ResourceDictionary Source="Resource/ActionResource.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
 
 
-    <DataGrid x:Name="RuleDG" ItemsSource="{Binding Rules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" 
-              CanUserAddRows="False" CanUserDeleteRows="True" AlternationCount="9999" >
+    <DataGrid x:Name="RuleDG" ItemsSource="{Binding Rules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False" 
+              CanUserAddRows="False" CanUserDeleteRows="True" AlternationCount="2" EnableColumnVirtualization="True" EnableRowVirtualization="True"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell">
                 <Setter Property="Padding" Value="20"/>
-                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
                 <Setter Property="BorderThickness" Value="0,0,0,0.5" />
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Template">
@@ -41,8 +42,8 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background"  Value="AliceBlue"/>
-                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Background"  Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource AccentSelectedColorBrush}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -51,22 +52,28 @@
             <Style TargetType="DataGridRow">
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="AliceBlue" />
+                        <Setter Property="Background" Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}" />
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                        <Setter Property="Background" Value="WhiteSmoke"></Setter>
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                        <Setter Property="Background" Value="FloralWhite"></Setter>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </DataGrid.RowStyle>
         <DataGrid.Columns>
-            <DataGridTemplateColumn Width="Auto" Header="#">
+            <!--<DataGridTemplateColumn Width="Auto" Header="#">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=AlternationIndex}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            </DataGridTemplateColumn>-->
             <DataGridTemplateColumn Width="1*" Header="When" CellTemplate="{StaticResource TriggerTemplate}"/>
-            <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}" />
-            <DataGridTemplateColumn Width="1*" Header="Then" CellTemplate="{StaticResource ActionTemplate}" />
+            <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}"/>
+            <DataGridTemplateColumn Width="1*" Header="Then" CellTemplate="{StaticResource ActionTemplate}"/>
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

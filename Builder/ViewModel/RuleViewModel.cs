@@ -1,4 +1,5 @@
-﻿using Builder.Model.Action;
+﻿using Builder.Common;
+using Builder.Model.Action;
 using Builder.Model.Condition;
 using Builder.Model.Trigger;
 using Builder.MQ;
@@ -16,7 +17,7 @@ using System.Xml.Serialization;
 namespace Builder.ViewModel
 {
 
-    public class Rule : ViewModelBase
+    public class Rule : NotifyPropertyChangedBase
     {
         public TriggerGroup TriggerGroup { get; set; }
 
@@ -39,12 +40,13 @@ namespace Builder.ViewModel
 
     }
 
-    public class RuleViewModel : ViewModelBase
+    public class RuleViewModel : NotifyPropertyChangedBase
     {
         private ObservableCollection<Rule> _rules;
         private ObservableCollection<Rule> _processedRules;
         private RuleProcessor _ruleProcessor;
         private bool _isRunningEmulator;
+        private string _openDocument;
 
         public ObservableCollection<Rule> Rules
         {
@@ -64,6 +66,11 @@ namespace Builder.ViewModel
             set => SetProperty(ref _isRunningEmulator, value);
         }
 
+        public string OpenDocument
+        {
+            get => _openDocument;
+            set => SetProperty(ref _openDocument, value);
+        }
 
         public RuleViewModel()
         {
@@ -76,9 +83,8 @@ namespace Builder.ViewModel
         public void StartEmulation()
         {
             var mqHandler = new MQHandler();
-            if(mqHandler.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414))
-            {
-                IsRunningEmulator = true;
+            if(IsRunningEmulator = mqHandler.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414))
+            { 
                 _ruleProcessor = new RuleProcessor(Rules.ToList(), mqHandler);
                 _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
                 var res = _ruleProcessor.Start();
@@ -111,15 +117,15 @@ namespace Builder.ViewModel
             Rules.Remove(rule);
         }
 
-        public void SerializeRules()
+        public void SerializeRules(string filename)
         {
-            TextWriter writer = new StreamWriter("test.xml");
+            TextWriter writer = new StreamWriter(filename);
             RuleSerializer.Serialize(Rules.ToList(), writer);
         }
 
-        public void DeSerializeRules()
+        public void DeSerializeRules(string filename)
         {
-            Rules = RuleSerializer.Deserialize("test.xml");
+            Rules = RuleSerializer.Deserialize(filename);
         }
 
         public static class RuleSerializer
@@ -195,11 +201,26 @@ namespace Builder.ViewModel
                 }
 
 
+                ObservableCollection<Rule> result = null;
                 TextReader reader = new StreamReader(path);
                 XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Rule>), ruleTypes.ToArray());
-                var result = (ObservableCollection<Rule>)serializer.Deserialize(reader);
-                reader.Close();
+                try
+                {
+                    result = (ObservableCollection<Rule>)serializer.Deserialize(reader);
+
+                }
+                catch(InvalidOperationException ex)
+                {
+                    // TODO: Handle exception
+                    return null;
+                }
+                finally
+                {
+                    reader.Close();
+                }
+
                 return result;
+
             }
         }
     }

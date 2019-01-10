@@ -1,4 +1,5 @@
-﻿using Builder.Model.Condition;
+﻿using Builder.Common;
+using Builder.Model.Condition;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace Builder.ViewModel
 {
-    public class Condition : ViewModelBase
+    public class Condition : NotifyPropertyChangedBase
     {
         private ConditionBase _selected;
 
@@ -63,7 +64,7 @@ namespace Builder.ViewModel
         }
     }
 
-    public class ConditionGroup : ViewModelBase
+    public class ConditionGroup : NotifyPropertyChangedBase
     {
         private ObservableCollection<Condition> _conditions;
 

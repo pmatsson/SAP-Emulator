@@ -2,7 +2,10 @@
 using Builder.Processor;
 using Builder.ViewModel;
 using MahApps.Metro.Controls;
+using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Builder
 {
@@ -48,13 +51,41 @@ namespace Builder
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            _RuleViewModel.SerializeRules();
+            if (_RuleViewModel.OpenDocument == "" || _RuleViewModel.OpenDocument == null)
+                SaveAsButton_Click(sender, e);
+            else
+                _RuleViewModel.SerializeRules(_RuleViewModel.OpenDocument);
+        }
+
+        private void SaveAsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "EmulatorRules"; // Default file name
+            dlg.DefaultExt = ".xml"; // Default file extension
+            dlg.Filter = "XML documents (.xml)|*.xml"; // Filter files by extension
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                _RuleViewModel.SerializeRules(dlg.FileName);
+                _RuleViewModel.OpenDocument = dlg.FileName;
+            }
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            _RuleViewModel.DeSerializeRules();
+            var dlg = new Microsoft.Win32.OpenFileDialog();
+            var result = dlg.ShowDialog();
+            if (result == true && dlg.CheckPathExists)
+            {
+                _RuleViewModel.DeSerializeRules(dlg.FileName);
+                _RuleViewModel.OpenDocument = dlg.FileName;
+            }
         }
+
+
+
 
         //private void CancelButton_Click(object sender, RoutedEventArgs e)
         //{

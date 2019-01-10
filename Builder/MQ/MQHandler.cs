@@ -1,6 +1,7 @@
 ﻿using IBM.WMQ;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace Builder.MQ
 {
@@ -40,10 +41,9 @@ namespace Builder.MQ
             catch (MQException exp)
             {
                 return false;
-
             }
 
-            return true;
+            return _queueManager.IsConnected;
         }
 
 

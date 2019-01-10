@@ -1,4 +1,5 @@
-﻿using Builder.Model.Action;
+﻿using Builder.Common;
+using Builder.Model.Action;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,9 @@ using System.Xml.Serialization;
 namespace Builder.ViewModel
 {
 
-    public class Action : ViewModelBase
+    public class Action : NotifyPropertyChangedBase
     {
+
         private ActionBase _selected;
 
         private ObservableCollection<ActionBase> _availableActions;
@@ -55,15 +57,17 @@ namespace Builder.ViewModel
         {
             AvailableActions = new ObservableCollection<ActionBase>()
             {
-                new SendAction()
+                new SendAction(),
+                new ModifyAction()
             };
 
             if (Selected == null) Selected = AvailableActions.First();
         }
     }
 
-    public class ActionGroup : ViewModelBase
+    public class ActionGroup : NotifyPropertyChangedBase
     {
+
         private ObservableCollection<Action> _actions;
 
         [XmlIgnore]

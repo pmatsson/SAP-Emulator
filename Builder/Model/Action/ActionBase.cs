@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Builder.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Xml.Serialization;
 namespace Builder.Model.Action
 {
     [Serializable]
-    public abstract class ActionBase : IRule
+    public abstract class ActionBase :  NotifyPropertyChangedBase, IRule
     {
         public abstract string DisplayName { get; }
 

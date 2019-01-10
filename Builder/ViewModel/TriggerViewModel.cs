@@ -1,4 +1,5 @@
-﻿using Builder.Model.Trigger;
+﻿using Builder.Common;
+using Builder.Model.Trigger;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Xml.Serialization;
 namespace Builder.ViewModel
 {
 
-    public class Trigger : ViewModelBase
+    public class Trigger : NotifyPropertyChangedBase
     {
         private TriggerBase _selected;
 
@@ -64,7 +65,7 @@ namespace Builder.ViewModel
         }
     }
 
-    public class TriggerGroup : ViewModelBase
+    public class TriggerGroup : NotifyPropertyChangedBase
     {
         private ObservableCollection<Trigger> _triggers;
 
