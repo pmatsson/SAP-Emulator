@@ -64,7 +64,7 @@ namespace Builder
             dlg.DefaultExt = ".xml"; // Default file extension
             dlg.Filter = "XML documents (.xml)|*.xml"; // Filter files by extension
 
-            Nullable<bool> result = dlg.ShowDialog();
+            var result = dlg.ShowDialog();
 
             if (result == true)
             {
@@ -81,6 +81,33 @@ namespace Builder
             {
                 _RuleViewModel.DeSerializeRules(dlg.FileName);
                 _RuleViewModel.OpenDocument = dlg.FileName;
+            }
+        }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_RuleViewModel.Rules.Count != 0)
+            {
+                string messageBoxText = "Do you want to save changes?";
+                string caption = "Emulator";
+                MessageBoxButton button = MessageBoxButton.YesNoCancel;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+                MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon);
+
+                // Process message box results
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        SaveButton_Click(sender, e);
+                        _RuleViewModel.Rules.Clear();
+                        break;
+                    case MessageBoxResult.No:
+                        _RuleViewModel.Rules.Clear();
+                        break;
+                    case MessageBoxResult.Cancel:
+                        
+                        break;
+                }
             }
         }
 
