@@ -3,6 +3,7 @@ using Builder.Processor;
 using Builder.ViewModel;
 using MahApps.Metro.Controls;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,50 +16,47 @@ namespace Builder
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private RuleViewModel _RuleViewModel { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            _RuleViewModel = new RuleViewModel();
+            MyPresenter.DataContext = DataContext;
+            //this.DataContext = _ruleViewModel = new RuleViewModel();
 
-            this.DataContext = _RuleViewModel;
-            TestBuilderView.DataContext = _RuleViewModel;
-            EmulatorView.DataContext = _RuleViewModel;
-            EmulatorView.CancelButton.Click += CancelButton_Click;
-            
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            _RuleViewModel.CancelEmulation();
         }
 
         private void AddRowButton_Click(object sender, RoutedEventArgs e)
         {
-            TestBuilderView.AddRow();
+            (DataContext as RuleViewModel).CreateRule();
         }
 
 
         private void RemoveRowButton_Click(object sender, RoutedEventArgs e)
         {
-            TestBuilderView.DeleteSelectedRow();
+            (DataContext as RuleViewModel).RemoveSelectedRule();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            _RuleViewModel.StartEmulation();
+            (DataContext as RuleViewModel).StartEmulation();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as RuleViewModel).CancelEmulation();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_RuleViewModel.OpenDocument == "" || _RuleViewModel.OpenDocument == null)
+            var rvm = (DataContext as RuleViewModel);
+            if (rvm.OpenDocument == "" || rvm.OpenDocument == null)
                 SaveAsButton_Click(sender, e);
             else
-                _RuleViewModel.SerializeRules(_RuleViewModel.OpenDocument);
+                rvm.SerializeRules(rvm.OpenDocument);
         }
 
         private void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
+            var rvm = (DataContext as RuleViewModel);
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "EmulatorRules"; // Default file name
             dlg.DefaultExt = ".xml"; // Default file extension
@@ -68,25 +66,27 @@ namespace Builder
 
             if (result == true)
             {
-                _RuleViewModel.SerializeRules(dlg.FileName);
-                _RuleViewModel.OpenDocument = dlg.FileName;
+                rvm.SerializeRules(dlg.FileName);
+                rvm.OpenDocument = dlg.FileName;
             }
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
+            var rvm = (DataContext as RuleViewModel);
             var dlg = new Microsoft.Win32.OpenFileDialog();
             var result = dlg.ShowDialog();
             if (result == true && dlg.CheckPathExists)
             {
-                _RuleViewModel.DeSerializeRules(dlg.FileName);
-                _RuleViewModel.OpenDocument = dlg.FileName;
+                rvm.DeSerializeRules(dlg.FileName);
+                rvm.OpenDocument = dlg.FileName;
             }
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_RuleViewModel.Rules.Count != 0)
+            var rvm = (DataContext as RuleViewModel);
+            if (rvm.Rules.Count != 0)
             {
                 string messageBoxText = "Do you want to save changes?";
                 string caption = "Emulator";
@@ -99,10 +99,10 @@ namespace Builder
                 {
                     case MessageBoxResult.Yes:
                         SaveButton_Click(sender, e);
-                        _RuleViewModel.Rules.Clear();
+                        rvm.Rules.Clear();
                         break;
                     case MessageBoxResult.No:
-                        _RuleViewModel.Rules.Clear();
+                        rvm.Rules.Clear();
                         break;
                     case MessageBoxResult.Cancel:
                         
@@ -110,13 +110,5 @@ namespace Builder
                 }
             }
         }
-
-
-
-
-        //private void CancelButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _RuleViewModel.CancelEmulation();
-        //}
     }
 }

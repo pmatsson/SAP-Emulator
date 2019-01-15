@@ -1,20 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:conv="clr-namespace:Builder.View.Converter"
                     xmlns:local="clr-namespace:Builder.View.Style">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Style/Icons.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!--<Style x:Key="ControlButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButton}">
-        <Setter Property="Focusable" Value="False"/>
-    </Style>-->
-
     <Style x:Key="BaseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButton}">
         <Setter Property="Focusable" Value="False"/>
     </Style>
 
+    <Style x:Key="BaseToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MetroToggleButton}">
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
+    
     <Style x:Key="FileButtonStyle" TargetType="Button" x:Shared="False" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Content">
             <Setter.Value>
@@ -23,7 +24,33 @@
         </Setter>
     </Style>
 
-    <!--BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"-->
+    <Style x:Key="MQSettingsToggleButtonStyle" TargetType="ToggleButton" x:Shared="False" BasedOn="{StaticResource BaseToggleButtonStyle}">
+        <Style.Resources>
+            <conv:IsNotNullOrEmptyStringConverter x:Key="isNotNullOrEmptyConv"/>
+        </Style.Resources>
+        <Setter Property="Content">
+            <Setter.Value>
+                <iconPacks:PackIconMaterial Kind="LanDisconnect" Foreground="Red"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=QueueManagerName, Converter={StaticResource isNotNullOrEmptyConv}}" Value="True"/>
+                    <Condition Binding="{Binding Path=QueueName, Converter={StaticResource isNotNullOrEmptyConv}}" Value="True"/>
+                    <Condition Binding="{Binding Path=ChannelName, Converter={StaticResource isNotNullOrEmptyConv}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Hostname, Converter={StaticResource isNotNullOrEmptyConv}}" Value="True"/>
+                    <Condition Binding="{Binding Path=Port, Converter={StaticResource isNotNullOrEmptyConv}}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <iconPacks:PackIconMaterial Kind="LanConnect" Foreground="Black"/>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="RemoveButtonStyle" TargetType="Button" x:Shared="False" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Content">
             <Setter.Value>

@@ -57,7 +57,8 @@ namespace Builder.ViewModel
             AvailableConditions = new ObservableCollection<ConditionBase>()
             {
                 new AlwaysCondition(),
-                new ContainsCondition()
+                new ContainsCondition(),
+                new CountCondition()
             };
 
             if (Selected == null) Selected = AvailableConditions.First();

@@ -20,9 +20,29 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Grid.Column="0" Text="{Binding Selected.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Controls:TextBoxHelper.Watermark="path" Margin="{StaticResource RuleSubElementMargin}"/>
-            <TextBox Grid.Column="1" Text="{Binding Selected.Param2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}"/>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Count template -->
+    <DataTemplate x:Key="CountContent">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" SelectedIndex="0" SelectedValue="{Binding Selected.Operator, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValuePath="Content" Margin="{StaticResource RuleSubElementMargin}">
+                <ComboBoxItem Content="="/>
+                <ComboBoxItem Content="&gt;"/>
+                <ComboBoxItem Content="&lt;"/>
+                <ComboBoxItem Content="&gt;="/>
+                <ComboBoxItem Content="&lt;="/>
+            </ComboBox>
+            <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}"/>
         </Grid>
     </DataTemplate>
@@ -36,6 +56,9 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Always">
                 <Setter Property="ContentTemplate" Value="{StaticResource AlwaysContent}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Count">
+                <Setter Property="ContentTemplate" Value="{StaticResource CountContent}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

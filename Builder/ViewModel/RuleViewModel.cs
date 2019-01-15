@@ -1,4 +1,5 @@
 ﻿using Builder.Common;
+using Builder.Model;
 using Builder.Model.Action;
 using Builder.Model.Condition;
 using Builder.Model.Trigger;
@@ -26,6 +27,8 @@ namespace Builder.ViewModel
 
         public ActionGroup ActionGroup { get; set; }
 
+        public int ProcessCount { get; set; }
+
         public Rule()
         {
             TriggerGroup = new TriggerGroup();
@@ -37,16 +40,23 @@ namespace Builder.ViewModel
             ActionGroup.AddAction();
         }
 
-
+        public void Reset()
+        {
+            ProcessCount = 0;
+            foreach (var trigger in TriggerGroup.Triggers) trigger.Selected.Reset();
+            foreach (var condition in ConditionGroup.Conditions) condition.Selected.Reset();
+            foreach (var action in ActionGroup.Actions) action.Selected.Reset();
+        }
     }
 
     public class RuleViewModel : NotifyPropertyChangedBase
     {
         private ObservableCollection<Rule> _rules;
-        private ObservableCollection<Rule> _processedRules;
+        private int _processedRulesCount;
         private RuleProcessor _ruleProcessor;
         private bool _isRunningEmulator;
         private string _openDocument;
+        private Rule _selectedRule;
 
         public ObservableCollection<Rule> Rules
         {
@@ -54,11 +64,18 @@ namespace Builder.ViewModel
             set => SetProperty(ref _rules, value);
         }
 
-        public ObservableCollection<Rule> ProcessedRules
+        public Rule SelectedRule
         {
-            get => _processedRules;
-            set => SetProperty(ref _processedRules, value);
+            get => _selectedRule;
+            set => SetProperty(ref _selectedRule, value);
         }
+
+        public int ProcessedRuleCount
+        {
+            get => _processedRulesCount;
+            set => SetProperty(ref _processedRulesCount, value);
+        }
+
 
         public bool IsRunningEmulator
         {
@@ -75,7 +92,6 @@ namespace Builder.ViewModel
         public RuleViewModel()
         {
             Rules = new ObservableCollection<Rule>();
-            ProcessedRules = new ObservableCollection<Rule>();
             _isRunningEmulator = false;
 
         }
@@ -87,8 +103,14 @@ namespace Builder.ViewModel
             { 
                 _ruleProcessor = new RuleProcessor(Rules.ToList(), mqHandler);
                 _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
+
                 var res = _ruleProcessor.Start();
             }
+        }
+
+        private void _ruleProcessor_RuleProcessed(object sender, Rule e)
+        {
+            throw new NotImplementedException();
         }
 
         public void CancelEmulation()
@@ -96,15 +118,15 @@ namespace Builder.ViewModel
             if(_ruleProcessor != null)
             {
                 _ruleProcessor.Cancel();
-                ProcessedRules.Clear();
+                ProcessedRuleCount = 0;
                 IsRunningEmulator = false;
             }
         }
 
-        private void RuleProcessor_RuleProcessed(object sender, Rule e)
+        private void RuleProcessor_RuleProcessed(object sender, Rule rule)
         {
-            if(!_processedRules.Contains(e))
-                _processedRules.Add(e);
+            rule.ProcessCount++;
+            ProcessedRuleCount = Rules.Where(x => x?.ProcessCount > 0).Count();
         }
 
         public void CreateRule()
@@ -112,9 +134,10 @@ namespace Builder.ViewModel
             Rules.Add(new Rule());
         }
 
-        public void RemoveRule(Rule rule)
+        public void RemoveSelectedRule()
         {
-            Rules.Remove(rule);
+            if(SelectedRule != null)
+                Rules.Remove(SelectedRule);
         }
 
         public void SerializeRules(string filename)

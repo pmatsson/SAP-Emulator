@@ -7,15 +7,22 @@
              xmlns:conv="clr-namespace:Builder.View.Converter"
              xmlns:local="clr-namespace:Builder.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Background="White">
+             Background="Transparent">
 
-    <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="Running emulator" Foreground="{DynamicResource AccentColorBrush}" FontStyle="Oblique" FontSize="24" FontWeight="Bold" Margin="10"/>
-        <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsRunningEmulator}" Margin="10"/>
-        <Button x:Name="CancelButton" Content="Cancel" Style="{StaticResource AccentedSquareButtonStyle}" BorderThickness="0.5" IsEnabled="{Binding IsRunningEmulator}" Margin="10"/>
-        <Controls:Badged Badge="{Binding ProcessedRules.Count}" Margin="20" BadgePlacementMode="Right">
-            <Controls:MetroProgressBar Minimum="0" Maximum="{Binding Rules.Count}" Value="{Binding ProcessedRules.Count, Mode=OneWay}" Background="LightGray"/>
-        </Controls:Badged>
-    </StackPanel>
+    <Border BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="10" Background="White">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Grid.Row="0" Text="Running emulator" Foreground="{DynamicResource AccentColorBrush}" FontStyle="Oblique" 
+                   FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="50"/>
+
+            <Controls:ProgressRing Grid.Row="1" Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsRunningEmulator}" Margin="40"/>
+
+            <Controls:Badged Grid.Row="2" Badge="{Binding ProcessedRuleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20">
+
+                <Controls:MetroProgressBar Minimum="0" Maximum="{Binding Rules.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       Value="{Binding ProcessedRuleCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       Background="LightGray" Foreground="{DynamicResource ProgressBrush}" VerticalAlignment="Bottom"/>
+            </Controls:Badged>
+        </StackPanel>
+    </Border>
 </UserControl>

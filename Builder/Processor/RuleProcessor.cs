@@ -6,6 +6,7 @@ using Builder.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -25,40 +26,19 @@ namespace Builder.Processor
             _rules = rules;
             _mqhandler = mqhandler;
             _wtoken = new CancellationTokenSource();
-            RuleProcessed += RuleProcessor_RuleProcessed;
-        }
-
-        private void RuleProcessor_RuleProcessed(object sender, Rule e)
-        {
-            foreach (var trigger in e.TriggerGroup.Triggers)
-            {
-                if(trigger.Selected is OnceTrigger)
-                {
-                    (trigger.Selected as OnceTrigger).HitCount++;
-                }
-            }
         }
 
         public async Task<bool> Start()
         {
+            // Restore rules to default values
             foreach(Rule rule in _rules)
             {
-                foreach (Trigger trigger in rule.TriggerGroup.Triggers)
-                {
-                    if (trigger.Selected is OnceTrigger)
-                    {
-                        (trigger.Selected as OnceTrigger).HitCount = 0;
-                    }
-                }
-
-                ProcessRules();
+                rule.Reset();
             }
-
-            await Task.Delay(1000);
 
             while (!_wtoken.IsCancellationRequested)
             {
-                ProcessMessage();
+                ProcessRules();
                 await Task.Delay(1000);
             }
 
@@ -67,26 +47,30 @@ namespace Builder.Processor
 
 
 
-        private void ProcessMessage()
-        {
-            string msg = "";
-            if (_mqhandler.Read(ref msg))
-            {
-                XmlDocument doc = CreateXmlDoc(msg);
-                if (doc != null)
-                {
-                    ProcessRules(doc);
-                }
-            }
-        }
+        //private XmlDocument ReadMessage()
+        //{
+        //    XmlDocument result = null;
+        //    string msg = "";
+        //    if (_mqhandler.Read(ref msg))
+        //    {
+        //        result = CreateXmlDoc(msg);
+        //    }
+        //    return result;
+        //}
 
-        public void ProcessRules(XmlDocument doc = null)
+        public void ProcessRules()
         {
-            Rule ruleOut = null;
-            if (CheckTrigger(doc, ref ruleOut) && CheckCondition(doc, ruleOut.ConditionGroup))
+            foreach(Rule rule in _rules)
             {
-                DoAction(doc, ruleOut.ActionGroup);
-                RuleProcessed(this, ruleOut);
+                XmlDocument doc;
+                if (CheckTriggers(out doc, rule.TriggerGroup, rule.ProcessCount))
+                {
+                    if (CheckConditions(doc, rule.ConditionGroup, rule.ProcessCount))
+                    {
+                        DoActions(doc, rule.ActionGroup, rule.ProcessCount);
+                        RuleProcessed(this, rule);
+                    }
+                }
             }
         }
 
@@ -96,97 +80,65 @@ namespace Builder.Processor
         }
 
 
-        public XmlDocument CreateXmlDoc(string msg)
-        {
-            var doc = new XmlDocument();
-            try
-            {
-                doc.LoadXml(msg);
-            }
-            catch (XmlException ex)
-            {
-                return null;
-            }
+        //public XmlDocument CreateXmlDoc(string msg)
+        //{
+        //    var doc = new XmlDocument();
+        //    try
+        //    {
+        //        doc.LoadXml(msg);
+        //    }
+        //    catch (XmlException ex)
+        //    {
+        //        return null;
+        //    }
 
-            return doc;
-        }
+        //    return doc;
+        //}
 
-        public bool CheckTrigger(XmlDocument doc, ref Rule ruleOut)
+        public bool CheckTriggers(out XmlDocument doc, TriggerGroup tg, int processCount)
         {
-            foreach (Rule rule in _rules)
+            doc = null;
+            var trigResults = new Collection<bool>();
+            foreach (var trigger in tg.Triggers)
             {
-                var hitList = new Collection<bool>();
-                foreach (var trigger in rule.TriggerGroup.Triggers)
+                if(trigger.Selected is ReceivedTrigger)
                 {
-                    if (trigger.Selected is OnceTrigger)
-                    {
-                        hitList.Add((trigger.Selected as OnceTrigger).HitCount == 0);
-                    }
-                    else if(trigger.Selected is ReceivedTrigger)
-                    {
-                        hitList.Add(((trigger.Selected as ReceivedTrigger).GetDocumentType() == doc?.DocumentElement.Name));
-                    }
+                    var rt = (trigger.Selected as ReceivedTrigger);
+                    trigResults.Add(rt.Process(out doc, processCount));
                 }
-
-                if (hitList.Count > 0 && !hitList.Contains(false))
+                else
                 {
-                    ruleOut = rule;
-                    return true;
+                    trigResults.Add(trigger.Selected.TryProcess(doc, processCount));
                 }
             }
 
-            return false;
+            return (trigResults.Count > 0 && !trigResults.Contains(false));
         }
 
-        public bool CheckCondition(XmlDocument doc, ConditionGroup cg)
+        public bool CheckConditions(XmlDocument doc, ConditionGroup cg, int processCount)
         {
-            var hitList = new Collection<bool>();
+            var condResults = new Collection<bool>();
             foreach (var condition in cg.Conditions)
             {
-                if (condition.Selected is AlwaysCondition)
-                {
-                    hitList.Add(true);
-                }
-                else if (condition.Selected is ContainsCondition)
-                {
-                    bool containHit = false;
-                    var nodes = doc.SelectNodes(condition.Selected.Param1);
-                    for (int i = 0; i < nodes.Count; i++)
-                    {
-                        var node = nodes.Item(i);
-                        if (node.ChildNodes.Count == 1 && (node.FirstChild is XmlText))
-                        {
-                            if (nodes.Item(i).InnerText == condition.Selected.Param2)
-                            {
-                                containHit = true;
-                                break;
-                            }
-                        }
-                    }
-                    hitList.Add(containHit);
-                }
-            }
+                condResults.Add(condition.Selected.TryProcess(doc, processCount));
 
-            return (hitList.Count > 0 && !hitList.Contains(false));
+            }
+            return (condResults.Count > 0 && !condResults.Contains(false));
         }
 
 
-        public void DoAction(XmlDocument doc, ActionGroup ag)
+        public void DoActions(XmlDocument doc, ActionGroup ag, int processCount)
         {
-
-            foreach(var action in ag.Actions)
+            foreach (var action in ag.Actions)
             {
-                if(action.Selected is SendAction)
-                {
-                    string text = System.IO.File.ReadAllText((action.Selected as SendAction).GetFilePath());
-                    _mqhandler.Write(text);
-                }
+                action.Selected.TryProcess(doc, processCount);
             }
         }
+
 
         public void LogMessageToFile(string msg)
         {
-            System.IO.StreamWriter sw = System.IO.File.AppendText(GetTempPath() + "debug.txt");
+            StreamWriter sw = File.AppendText(GetTempPath() + "debug.txt");
             try
             {
                 string logLine = System.String.Format("{0:G}: {1}.", DateTime.Now, msg);
@@ -200,7 +152,7 @@ namespace Builder.Processor
 
         public string GetTempPath()
         {
-            string path = System.Environment.GetEnvironmentVariable("TEMP");
+            string path = Environment.GetEnvironmentVariable("TEMP");
             if (!path.EndsWith("\\")) path += "\\";
             return path;
         }

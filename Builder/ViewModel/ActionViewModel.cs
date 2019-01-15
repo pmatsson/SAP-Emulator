@@ -58,7 +58,7 @@ namespace Builder.ViewModel
             AvailableActions = new ObservableCollection<ActionBase>()
             {
                 new SendAction(),
-                new ModifyAction()
+                new AddAction()
             };
 
             if (Selected == null) Selected = AvailableActions.First();

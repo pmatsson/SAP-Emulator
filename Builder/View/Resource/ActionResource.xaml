@@ -3,6 +3,7 @@
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
                     xmlns:vm="clr-namespace:Builder.ViewModel"
                     xmlns:behavior="clr-namespace:Builder.View.Behavior"
                     xmlns:local="clr-namespace:Builder.Resource">
@@ -18,16 +19,32 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Grid.Column="0" Text="{Binding Selected.FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      IsReadOnly="True" Margin="{StaticResource RuleSubElementMargin}"/>
             <Button Grid.Column="1" DataContext="{Binding Path=Selected}" Style="{StaticResource FileButtonStyle}" 
                     Margin="{StaticResource RuleSubElementMargin}">
                 <i:Interaction.Behaviors>
-                    <behavior:FileDialogBehavior SetterName="Param1"/>
+                    <behavior:FileDialogBehavior SetterName="FilePath"/>
                 </i:Interaction.Behaviors>
             </Button>
+            <StackPanel Grid.Column="2" DataContext="{Binding Path=Selected}" Margin="{StaticResource RuleSubElementMargin}">
+                <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}"/>
+                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto">
+                    <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="MQ settings" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
+                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
+                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
+                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>
+                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname"/>
+                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </StackPanel>
         </Grid>
     </DataTemplate>
 
@@ -35,12 +52,26 @@
     <DataTemplate x:Key="ModifyContent">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding Selected.FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      IsReadOnly="True" Margin="{StaticResource RuleSubElementMargin}" />
-            <Controls:NumericUpDown Grid.Column="1"/>
+            <Button Grid.Column="1" DataContext="{Binding Path=Selected}" Style="{StaticResource FileButtonStyle}" 
+                    Margin="{StaticResource RuleSubElementMargin}">
+                <i:Interaction.Behaviors>
+                    <behavior:FileDialogBehavior SetterName="FilePath"/>
+                </i:Interaction.Behaviors>
+            </Button>
+            <UniformGrid Grid.ColumnSpan="2" Grid.Row="1" Columns="2" Rows="1">
+                <TextBox Grid.Column="0" Text="{Binding Selected.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Controls:TextBoxHelper.Watermark="path" />
+                <Controls:NumericUpDown HideUpDownButtons="True" Value="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,1,0"/>
+            </UniformGrid>
         </Grid>
     </DataTemplate>
 
@@ -51,7 +82,7 @@
             <DataTrigger Binding="{Binding ElementName=SelectedActionComboBox, Path=SelectedItem.DisplayName}" Value="Send">
                 <Setter Property="ContentTemplate" Value="{StaticResource SendContent}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedActionComboBox, Path=SelectedItem.DisplayName}" Value="Modify">
+            <DataTrigger Binding="{Binding ElementName=SelectedActionComboBox, Path=SelectedItem.DisplayName}" Value="Add">
                 <Setter Property="ContentTemplate" Value="{StaticResource ModifyContent}"/>
             </DataTrigger>
         </Style.Triggers>

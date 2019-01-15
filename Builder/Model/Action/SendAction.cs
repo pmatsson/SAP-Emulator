@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Builder.MQ;
+using System;
+using System.ComponentModel;
+using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Builder.Model.Action
@@ -6,22 +10,60 @@ namespace Builder.Model.Action
     [XmlType("Send")]
     public class SendAction : ActionBase
     {
-        private string _param1;
+        private string _filePath;
+        private MQProps _mqSettings;
+        private MQHandler _mqHandler;
 
         public override string DisplayName => "Send";
 
         [XmlElement("FilePath")]
-        public override string Param1
+        public string FilePath
         {
-            get => _param1;
+            get => _filePath;
             set
             {
-                _param1 = value;
-                SetProperty(ref _param1, value);
+                _filePath = value;
+                SetProperty(ref _filePath, value);
             }
         }
 
-        public string GetFilePath() => Param1;
+        public MQProps MQSettings
+        {
+            get => _mqSettings;
+            set => SetProperty(ref _mqSettings, value);
+        }
+
+        public SendAction()
+        {
+            MQSettings = new MQProps();
+            _mqHandler = new MQHandler();
+        }
+
+        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        {
+            if(!_mqHandler.IsConnected())
+            {
+                if (!_mqHandler.Connect(MQSettings))
+                {
+                    return false;
+                }
+            }
+
+            try
+            {
+                return _mqHandler.Write(File.ReadAllText(FilePath));
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _mqHandler.Disconnect();
+        }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace Builder.Model.Condition
 {
@@ -6,5 +7,10 @@ namespace Builder.Model.Condition
     public class AlwaysCondition : ConditionBase
     {
         public override string DisplayName => "Always";
+
+        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        {
+            return true;
+        }
     }
 }

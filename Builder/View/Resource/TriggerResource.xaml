@@ -15,8 +15,29 @@
 
     <!-- Recieved template -->
     <DataTemplate x:Key="ReceivedContent">
-        <TextBox  Text="{Binding Selected.Param1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <TextBox  Text="{Binding Selected.DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   Controls:TextBoxHelper.Watermark="telegram root" Margin="{StaticResource RuleSubElementMargin}"/>
+            <StackPanel Grid.Column="2" DataContext="{Binding Path=Selected}" Margin="{StaticResource RuleSubElementMargin}">
+                <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}"/>
+                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto">
+                    <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="MQ settings" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
+                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
+                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
+                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>
+                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname"/>
+                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </StackPanel>
+        </Grid>
     </DataTemplate>
     
     <!-- Action selector -->
@@ -53,7 +74,7 @@
                             <ComboBox x:Name="SelectedTriggerComboBox" ItemsSource="{Binding AvailableTriggers, Mode=OneTime}" DisplayMemberPath="DisplayName" 
                             SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="{StaticResource RuleElementMargin}"/>
 
-                            <!--Trigger settings-->
+                            <!--Trigger params -->
                             <ContentPresenter Grid.Column="1" Style="{StaticResource SelectedTriggerContent}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}"/>
 
                             <!--Trigger remove button-->

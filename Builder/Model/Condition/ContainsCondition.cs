@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace Builder.Model.Condition
 {
@@ -8,9 +9,26 @@ namespace Builder.Model.Condition
         public override string DisplayName => "Contains";
 
         [XmlElement("Path")]
-        public override string Param1 { get; set; }
+        public string Path { get; set; }
 
         [XmlElement("Value")]
-        public override string Param2 { get; set; }
+        public string Value { get; set; }
+
+        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        {
+            var nodes = doc?.SelectNodes(Path);
+            foreach(XmlNode node in nodes)
+            {
+                if (node.ChildNodes.Count == 1 && (node.FirstChild is XmlText))
+                {
+                    if (node.InnerText == Value)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

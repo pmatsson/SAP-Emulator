@@ -86,13 +86,15 @@
     </ApplicationDefinition>
     <Compile Include="Common\NotifyPropertyChangedBase.cs" />
     <Compile Include="Model\Action\ActionBase.cs" />
-    <Compile Include="Model\Action\ModifyAction.cs" />
+    <Compile Include="Model\Action\AddAction.cs" />
     <Compile Include="Model\Action\SendAction.cs" />
     <Compile Include="Model\Condition\AlwaysCondition.cs" />
     <Compile Include="Model\Condition\ContainsCondition.cs" />
     <Compile Include="Model\Condition\ConditionBase.cs" />
-    <Compile Include="Model\IRule.cs" />
+    <Compile Include="Model\Condition\CountCondition.cs" />
+    <Compile Include="Model\UnitBase.cs" />
     <Compile Include="MQ\MQHandler.cs" />
+    <Compile Include="MQ\MQProps.cs" />
     <Compile Include="Processor\RuleProcessor.cs" />
     <Compile Include="ViewModel\ActionViewModel.cs" />
     <Compile Include="ViewModel\ConditionViewModel.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="ViewModel\TriggerViewModel.cs" />
     <Compile Include="View\Behavior\FileDialogBehavior.cs" />
     <Compile Include="View\Converter\NegateBooleanConverter.cs" />
+    <Compile Include="View\Converter\IsNotNullOrEmptyStringConverter.cs" />
     <Compile Include="View\EmulatorView.xaml.cs">
       <DependentUpon>EmulatorView.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Resource\TriggerResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Style\GeneralDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace Builder.Model.Trigger
 {
@@ -7,7 +8,9 @@ namespace Builder.Model.Trigger
     {
         public override string DisplayName => "Once";
 
-        [XmlIgnore]
-        public int HitCount { get; set; }
+        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        {
+            return ruleProcessCount == 0;
+        }
     }
 }

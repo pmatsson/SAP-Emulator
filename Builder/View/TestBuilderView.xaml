@@ -20,10 +20,10 @@
     </UserControl.Resources>
 
 
-
-    <DataGrid x:Name="RuleDG" ItemsSource="{Binding Rules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False" 
+    <DataGrid x:Name="RuleDG" ItemsSource="{Binding Rules, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False" 
               CanUserAddRows="False" CanUserDeleteRows="True" AlternationCount="2" EnableColumnVirtualization="True" EnableRowVirtualization="True"
-              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedRule, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+              VerticalScrollBarVisibility="Visible">
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell">
                 <Setter Property="Padding" Value="20"/>
@@ -65,13 +65,6 @@
             </Style>
         </DataGrid.RowStyle>
         <DataGrid.Columns>
-            <!--<DataGridTemplateColumn Width="Auto" Header="#">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=AlternationIndex}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>-->
             <DataGridTemplateColumn Width="1*" Header="When" CellTemplate="{StaticResource TriggerTemplate}"/>
             <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}"/>
             <DataGridTemplateColumn Width="1*" Header="Then" CellTemplate="{StaticResource ActionTemplate}"/>
