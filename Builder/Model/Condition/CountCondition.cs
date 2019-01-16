@@ -12,9 +12,11 @@ namespace Builder.Model.Condition
     {
         public override string DisplayName => "Count";
 
-        public string Operator { get; set; }
+        public string Operator { get; set; } = "=";
 
         public string Value { get; set; }
+
+        public bool Resets { get; set; }
 
 
         protected override bool Process(XmlDocument doc, int ruleProcessCount)
@@ -43,6 +45,8 @@ namespace Builder.Model.Condition
                     result = false;
                     break;
             }
+
+            if (result && Resets) UnitProcessCount = 0;
 
             return result;
         }

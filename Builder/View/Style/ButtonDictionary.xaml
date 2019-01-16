@@ -24,6 +24,23 @@
         </Setter>
     </Style>
 
+    <Style x:Key="LoopToggleButtonStyle" TargetType="{x:Type ToggleButton}" x:Shared="False" BasedOn="{StaticResource BaseToggleButtonStyle}">
+        <Setter Property="Content">
+            <Setter.Value>
+                <iconPacks:PackIconEntypo Kind="Loop" Foreground="Black"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <iconPacks:PackIconEntypo Kind="Loop" Foreground="Azure"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="MQSettingsToggleButtonStyle" TargetType="ToggleButton" x:Shared="False" BasedOn="{StaticResource BaseToggleButtonStyle}">
         <Style.Resources>
             <conv:IsNotNullOrEmptyStringConverter x:Key="isNotNullOrEmptyConv"/>

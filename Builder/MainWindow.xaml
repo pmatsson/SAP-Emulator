@@ -13,7 +13,7 @@
         xmlns:local="clr-namespace:Builder"
         mc:Ignorable="d"
         Title="SAP Emulator" 
-        MinHeight="750" MinWidth="900" 
+        MinHeight="750" MinWidth="1050" 
         Background="{DynamicResource AccentColorBrush2}">
 
     <Window.Resources>
@@ -76,8 +76,6 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-
-
 
             <Border BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}" Background="#FFCAE5FF" CornerRadius="10" Padding="10">
                 <Controls:TransitioningContentControl x:Name="MyPresenter" Transition="Right" >

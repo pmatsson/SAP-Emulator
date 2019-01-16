@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:vm="clr-namespace:Builder.ViewModel"
                     xmlns:local="clr-namespace:Builder.Resource">
 
@@ -31,10 +32,11 @@
     <DataTemplate x:Key="CountContent">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" SelectedIndex="0" SelectedValue="{Binding Selected.Operator, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+            <ComboBox Grid.Column="0" SelectedValue="{Binding Selected.Operator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       SelectedValuePath="Content" Margin="{StaticResource RuleSubElementMargin}">
                 <ComboBoxItem Content="="/>
                 <ComboBoxItem Content="&gt;"/>
@@ -44,6 +46,10 @@
             </ComboBox>
             <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}"/>
+            <ToggleButton Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}" 
+                          Style="{StaticResource LoopToggleButtonStyle}"
+                          IsChecked="{Binding Selected.Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+            </ToggleButton>
         </Grid>
     </DataTemplate>
 

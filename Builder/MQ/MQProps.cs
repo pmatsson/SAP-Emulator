@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Builder.MQ
 {
-    public class MQProps : NotifyPropertyChangedBase
+    public class MQProps : NotifyPropertyChangedBase, IEquatable<MQProps>
     {
         string _queueManagerName;
         string _queueName;
@@ -43,6 +43,32 @@ namespace Builder.MQ
         {
             get => _port;
             set => SetProperty(ref _port, value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as MQProps);
+        }
+
+        public bool Equals(MQProps other)
+        {
+            return other != null &&
+                   QueueManagerName == other.QueueManagerName &&
+                   QueueName == other.QueueName &&
+                   ChannelName == other.ChannelName &&
+                   Hostname == other.Hostname &&
+                   EqualityComparer<int?>.Default.Equals(Port, other.Port);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1748027768;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(QueueManagerName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(QueueName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChannelName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Hostname);
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(Port);
+            return hashCode;
         }
     }
 }

@@ -3,10 +3,12 @@ using Builder.Model.Condition;
 using Builder.Model.Trigger;
 using Builder.MQ;
 using Builder.ViewModel;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -16,84 +18,151 @@ namespace Builder.Processor
     public class RuleProcessor
     {
         private List<Rule> _rules;
-        private MQHandler _mqhandler;
+        private Dictionary<MQProps,MQHandler> _recvHandlers;
+        private Dictionary<MQProps, XmlDocument> _recvFront;
         private CancellationTokenSource _wtoken;
 
-        public event EventHandler<Rule> RuleProcessed;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public RuleProcessor(List<Rule> rules, MQHandler mqhandler)
+        public event EventHandler<Rule> RuleProcessed;
+        public event EventHandler<string> MessageReceived;
+
+        public RuleProcessor(List<Rule> rules)
         {
             _rules = rules;
-            _mqhandler = mqhandler;
+            _recvHandlers = new Dictionary<MQProps, MQHandler>();
+            _recvFront = new Dictionary<MQProps, XmlDocument>();
             _wtoken = new CancellationTokenSource();
         }
 
-        public async Task<bool> Start()
+        public async Task Start()
         {
-            // Restore rules to default values
-            foreach(Rule rule in _rules)
+            logger.Trace("Starting emulation");
+
+            // Restore default values
+            _rules.ForEach(x => x.Reset());
+
+            // Create MQ handlers
+            foreach(var rule in _rules)
             {
-                rule.Reset();
+                foreach(var trigger in rule.TriggerGroup.Triggers)
+                {
+                    if (trigger.Selected is ReceivedTrigger)
+                    {
+                        CreateMQHandler((trigger.Selected as ReceivedTrigger).MQSettings);
+                    }
+                }
             }
 
+            // Start processing rules
             while (!_wtoken.IsCancellationRequested)
             {
-                ProcessRules();
-                await Task.Delay(1000);
-            }
+                try
+                {
+                    await ProcessRules();
+                }
+                catch(Exception ex)
+                {
+                    logger.Warn("Unhandled exception was caught. Throwing: {0}", ex.Message);
+                    throw;
+                }
 
-            return true;
+            }
         }
 
 
-
-        //private XmlDocument ReadMessage()
-        //{
-        //    XmlDocument result = null;
-        //    string msg = "";
-        //    if (_mqhandler.Read(ref msg))
-        //    {
-        //        result = CreateXmlDoc(msg);
-        //    }
-        //    return result;
-        //}
-
-        public void ProcessRules()
+        private void CreateMQHandler(MQProps props)
         {
+            if(!_recvHandlers.ContainsKey(props))
+            {
+                logger.Trace("MQ handler created. qm: {0} q: {1} ch: {2} h: {3} p: {4}", 
+                    props.QueueManagerName, props.QueueName, props.ChannelName, props.Hostname, props.Port);
+                _recvHandlers.Add(props, new MQHandler());
+            }
+        }
+
+        private void PopQueues(ref Dictionary<MQProps, XmlDocument> docs, Dictionary<MQProps, MQHandler> handlers)
+        {
+
+            docs.Clear();
+
+            foreach (var handler in handlers)
+            {
+                // Establish connection to MQ
+                if (!handler.Value.IsConnected())
+                {
+                    if (!handler.Value.Connect(handler.Key))
+                    {
+                        logger.Fatal("Was not able to connect. qm: {0} q: {1} ch: {2} h: {3} p: {4}",
+                            handler.Key.QueueManagerName, handler.Key.QueueName, handler.Key.ChannelName, handler.Key.Hostname, handler.Key.Port);
+                        throw new ArgumentException("Was not able to connect to the specified MQ instance");
+                    }
+                }
+
+
+                string msg = "";
+                var doc = new XmlDocument();
+
+                // Pop message queue
+                if (handler.Value.Read(ref msg))
+                {
+                    MessageReceived(this, msg);
+
+                    try
+                    {
+                        doc.LoadXml(msg);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warn(ex, "Received message contains invalid xml markup");
+                    }
+                }
+
+                // Store message with the associated handler
+                docs[handler.Key] = doc;
+            }
+        }
+
+        public async Task ProcessRules()
+        {
+            try
+            {
+                // Read messages from queues
+                PopQueues(ref _recvFront, _recvHandlers);
+            }
+            catch
+            {
+                throw;
+            }
+
             foreach(Rule rule in _rules)
             {
                 XmlDocument doc;
+                // Check trigger, retrieve xml if applicable
                 if (CheckTriggers(out doc, rule.TriggerGroup, rule.ProcessCount))
                 {
+                    logger.Trace("Found trigger");
+
+                    // Check conditions
                     if (CheckConditions(doc, rule.ConditionGroup, rule.ProcessCount))
                     {
+                        logger.Trace("Fulfilled condition");
+                        // Perform action
                         DoActions(doc, rule.ActionGroup, rule.ProcessCount);
                         RuleProcessed(this, rule);
                     }
                 }
             }
+
+            await Task.Delay(1000);
         }
 
         public void Cancel()
         {
+            logger.Trace("Cancel emulation requested");
             _wtoken.Cancel();
         }
 
-
-        //public XmlDocument CreateXmlDoc(string msg)
-        //{
-        //    var doc = new XmlDocument();
-        //    try
-        //    {
-        //        doc.LoadXml(msg);
-        //    }
-        //    catch (XmlException ex)
-        //    {
-        //        return null;
-        //    }
-
-        //    return doc;
-        //}
 
         public bool CheckTriggers(out XmlDocument doc, TriggerGroup tg, int processCount)
         {
@@ -104,14 +173,18 @@ namespace Builder.Processor
                 if(trigger.Selected is ReceivedTrigger)
                 {
                     var rt = (trigger.Selected as ReceivedTrigger);
-                    trigResults.Add(rt.Process(out doc, processCount));
+
+                    // Retrieve the current document from the queue
+                    doc = _recvFront[rt.MQSettings];
+                    trigResults.Add(trigger.Selected.TryProcess(doc, processCount));
                 }
                 else
                 {
-                    trigResults.Add(trigger.Selected.TryProcess(doc, processCount));
+                    trigResults.Add(trigger.Selected.TryProcess(null, processCount));
                 }
             }
 
+            // We have > 0 triggers and all triggers in TG are fulfilled
             return (trigResults.Count > 0 && !trigResults.Contains(false));
         }
 
@@ -121,8 +194,9 @@ namespace Builder.Processor
             foreach (var condition in cg.Conditions)
             {
                 condResults.Add(condition.Selected.TryProcess(doc, processCount));
-
             }
+
+            // We have > 0 conditions and all conditions in CG are fulfilled
             return (condResults.Count > 0 && !condResults.Contains(false));
         }
 
@@ -131,30 +205,10 @@ namespace Builder.Processor
         {
             foreach (var action in ag.Actions)
             {
+                logger.Trace("Performing action");
                 action.Selected.TryProcess(doc, processCount);
             }
         }
 
-
-        public void LogMessageToFile(string msg)
-        {
-            StreamWriter sw = File.AppendText(GetTempPath() + "debug.txt");
-            try
-            {
-                string logLine = System.String.Format("{0:G}: {1}.", DateTime.Now, msg);
-                sw.WriteLine(logLine);
-            }
-            finally
-            {
-                sw.Close();
-            }
-        }
-
-        public string GetTempPath()
-        {
-            string path = Environment.GetEnvironmentVariable("TEMP");
-            if (!path.EndsWith("\\")) path += "\\";
-            return path;
-        }
     }
 }

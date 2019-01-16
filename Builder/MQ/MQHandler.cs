@@ -18,7 +18,7 @@ namespace Builder.MQ
 
         public bool IsConnected()
         {
-            return _queueManager != null && _queueManager.IsConnected;
+            return  _queueManager != null && _queueManager.IsConnected;
         }
 
         public bool Connect(MQProps props)
@@ -36,12 +36,12 @@ namespace Builder.MQ
             {
                 _queueManager = new MQQueueManager(props.QueueManagerName, propshash);
             }
-            catch (MQException exp)
+            catch (MQException ex)
             {
                 return false;
             }
 
-            return _queueManager.IsConnected;
+            return this.IsConnected();
         }
 
         public bool Connect(string queueManagerName, string queueName, string channelName, string hostname, int port)
@@ -62,7 +62,7 @@ namespace Builder.MQ
             }
             catch (MQException exp)
             {
-                return false;
+                //return false;
             }
             return _queueManager.IsConnected;
         }
@@ -116,7 +116,40 @@ namespace Builder.MQ
                 var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_INPUT_AS_Q_DEF + MQC.MQOO_FAIL_IF_QUIESCING);
                 var queueMessage = new MQMessage();
                 queueMessage.Format = MQC.MQFMT_STRING;
+                queue.Get(queueMessage, new MQGetMessageOptions());
 
+                result = queueMessage.ReadString(queueMessage.MessageLength);
+            }
+
+            catch (MQException MQexp)
+            {
+
+                result = "Exception : " + MQexp.Message;
+                return false;
+
+            }
+
+            catch (Exception exp)
+            {
+
+                result = "Exception: " + exp.Message;
+                return false;
+
+            }
+
+            return true;
+        }
+
+        public bool Peek(ref string result)
+        {
+
+            result = "";
+
+            try
+            {
+                var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_BROWSE | MQC.MQOO_FAIL_IF_QUIESCING);
+                var queueMessage = new MQMessage();
+                queueMessage.Format = MQC.MQFMT_STRING;
                 queue.Get(queueMessage, new MQGetMessageOptions());
 
                 result = queueMessage.ReadString(queueMessage.MessageLength);

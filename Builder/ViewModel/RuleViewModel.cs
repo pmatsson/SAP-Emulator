@@ -6,6 +6,7 @@ using Builder.Model.Trigger;
 using Builder.MQ;
 using Builder.Processor;
 using GalaSoft.MvvmLight.CommandWpf;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,6 +52,8 @@ namespace Builder.ViewModel
 
     public class RuleViewModel : NotifyPropertyChangedBase
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private ObservableCollection<Rule> _rules;
         private int _processedRulesCount;
         private RuleProcessor _ruleProcessor;
@@ -96,21 +99,39 @@ namespace Builder.ViewModel
 
         }
 
-        public void StartEmulation()
+        public async void StartEmulation()
         {
-            var mqHandler = new MQHandler();
-            if(IsRunningEmulator = mqHandler.Connect("QM1_DEV", "Q1_DEV", "SCC1", "localhost", 1414))
-            { 
-                _ruleProcessor = new RuleProcessor(Rules.ToList(), mqHandler);
-                _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
+            IsRunningEmulator = true;
+            _ruleProcessor = new RuleProcessor(Rules.ToList());
+            _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
+            _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
 
-                var res = _ruleProcessor.Start();
+            // Logging configuration
+            var config = new NLog.Config.LoggingConfiguration();
+            var logfile = new NLog.Targets.FileTarget("logfile")
+            {
+                FileName = "emulation_" + DateTime.Now.DayOfYear.ToString() + ".log"
+            };
+
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Warn, LogLevel.Fatal, logfile);
+            LogManager.Configuration = config;
+
+            try
+            {
+                await _ruleProcessor.Start();
+            }
+            catch
+            {
+                _ruleProcessor.Cancel();
+                IsRunningEmulator = false;
             }
         }
 
-        private void _ruleProcessor_RuleProcessed(object sender, Rule e)
+        private void _ruleProcessor_MessageReceived(object sender, string s)
         {
-            throw new NotImplementedException();
+            logger.Info("Received message {0}", s);
         }
 
         public void CancelEmulation()
@@ -127,6 +148,7 @@ namespace Builder.ViewModel
         {
             rule.ProcessCount++;
             ProcessedRuleCount = Rules.Where(x => x?.ProcessCount > 0).Count();
+            logger.Trace("Rule processed. This rule has been processed {0} times", rule.ProcessCount.ToString());
         }
 
         public void CreateRule()
@@ -151,13 +173,13 @@ namespace Builder.ViewModel
             Rules = RuleSerializer.Deserialize(filename);
         }
 
+
         public static class RuleSerializer
         {
             public static void Serialize(List<Rule> rules, TextWriter stream)
             {
                 List<Type> ruleTypes = new List<Type>();
                 var rule = new Rule();
-
 
                 foreach (var trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
                 {
