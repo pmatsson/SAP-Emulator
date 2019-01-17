@@ -37,7 +37,7 @@ namespace Builder.Processor
 
         public async Task Start()
         {
-            logger.Trace("Starting emulation");
+            logger.Debug("Starting emulation");
 
             // Restore default values
             _rules.ForEach(x => x.Reset());
@@ -75,7 +75,7 @@ namespace Builder.Processor
         {
             if(!_recvHandlers.ContainsKey(props))
             {
-                logger.Trace("MQ handler created. qm: {0} q: {1} ch: {2} h: {3} p: {4}", 
+                logger.Debug("MQ handler created. qm: {0} q: {1} ch: {2} h: {3} p: {4}", 
                     props.QueueManagerName, props.QueueName, props.ChannelName, props.Hostname, props.Port);
                 _recvHandlers.Add(props, new MQHandler());
             }
@@ -141,12 +141,12 @@ namespace Builder.Processor
                 // Check trigger, retrieve xml if applicable
                 if (CheckTriggers(out doc, rule.TriggerGroup, rule.ProcessCount))
                 {
-                    logger.Trace("Found trigger");
+                    logger.Debug("Fulfilled trigger for rule {0}", rule.GetHashCode());
 
                     // Check conditions
                     if (CheckConditions(doc, rule.ConditionGroup, rule.ProcessCount))
                     {
-                        logger.Trace("Fulfilled condition");
+                        logger.Debug("Fulfilled condition for rule {0}", rule.GetHashCode());
                         // Perform action
                         DoActions(doc, rule.ActionGroup, rule.ProcessCount);
                         RuleProcessed(this, rule);
@@ -157,9 +157,9 @@ namespace Builder.Processor
             await Task.Delay(1000);
         }
 
-        public void Cancel()
+        public void Stop()
         {
-            logger.Trace("Cancel emulation requested");
+            logger.Debug("Stopping emulation...");
             _wtoken.Cancel();
         }
 
@@ -205,7 +205,7 @@ namespace Builder.Processor
         {
             foreach (var action in ag.Actions)
             {
-                logger.Trace("Performing action");
+                logger.Debug("Performing action: {0}", action.Selected.DisplayName);
                 action.Selected.TryProcess(doc, processCount);
             }
         }

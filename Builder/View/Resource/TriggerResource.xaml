@@ -7,6 +7,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Style/Icons.xaml" />
         <ResourceDictionary Source="../Style/ButtonDictionary.xaml" />
+        <ResourceDictionary Source="../Style/GeneralDictionary.xaml" />
         <ResourceDictionary Source="../Style/SharedSettingsDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -24,10 +25,10 @@
                   Controls:TextBoxHelper.Watermark="telegram root" Margin="{StaticResource RuleSubElementMargin}"/>
             <StackPanel Grid.Column="2" DataContext="{Binding Path=Selected}" Margin="{StaticResource RuleSubElementMargin}">
                 <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}"/>
-                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto">
-                    <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1">
+                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
+                    <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
                         <StackPanel>
-                            <TextBlock Text="MQ settings" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
+                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
                             <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
                             <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
                             <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>

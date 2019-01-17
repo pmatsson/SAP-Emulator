@@ -12,7 +12,7 @@
         xmlns:vm="clr-namespace:Builder.ViewModel"
         xmlns:local="clr-namespace:Builder"
         mc:Ignorable="d"
-        Title="SAP Emulator" 
+        Title="MQ chatter" 
         MinHeight="750" MinWidth="1050" 
         Background="{DynamicResource AccentColorBrush2}">
 
@@ -69,6 +69,7 @@
             </MenuItem>
             <MenuItem Header="_Edit"/>
             <MenuItem Header="Tools"/>
+            <MenuItem Header="Help"/>
         </Menu>
         
         <Grid Width="{Binding ElementName=EmulatorMainWindow, Path=MinWidth}" VerticalAlignment="Stretch" HorizontalAlignment="Center" DockPanel.Dock="Top">
@@ -101,7 +102,7 @@
                     HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,20,0,20" CornerRadius="5" Grid.Row="1">
                 <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="AddRowButton" Click="AddRowButton_Click" Style="{StaticResource BaseButtonStyle}" Margin="10" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}">
-                        <iconPacks:PackIconMaterial Kind="PlaylistPlus" Foreground="LightSeaGreen"/>
+                        <iconPacks:PackIconMaterial Kind="PlaylistPlus" Foreground="Green"/>
                     </Button>
                     <Button x:Name="RemoveRowButton" Click="RemoveRowButton_Click" Style="{StaticResource BaseButtonStyle}" Margin="10" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}">
                         <iconPacks:PackIconFontAwesome Kind="TrashAltRegular" Foreground="IndianRed"/>

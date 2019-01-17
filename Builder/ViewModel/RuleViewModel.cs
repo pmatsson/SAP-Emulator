@@ -124,21 +124,21 @@ namespace Builder.ViewModel
             }
             catch
             {
-                _ruleProcessor.Cancel();
+                _ruleProcessor.Stop();
                 IsRunningEmulator = false;
             }
         }
 
         private void _ruleProcessor_MessageReceived(object sender, string s)
         {
-            logger.Info("Received message {0}", s);
+            logger.Trace("Retrieved message: {0}", s);
         }
 
         public void CancelEmulation()
         {
             if(_ruleProcessor != null)
             {
-                _ruleProcessor.Cancel();
+                _ruleProcessor.Stop();
                 ProcessedRuleCount = 0;
                 IsRunningEmulator = false;
             }
@@ -148,7 +148,7 @@ namespace Builder.ViewModel
         {
             rule.ProcessCount++;
             ProcessedRuleCount = Rules.Where(x => x?.ProcessCount > 0).Count();
-            logger.Trace("Rule processed. This rule has been processed {0} times", rule.ProcessCount.ToString());
+            logger.Trace("Rule " + rule.GetHashCode() + " processed. This rule has been processed {0} time(s)", rule.ProcessCount.ToString());
         }
 
         public void CreateRule()

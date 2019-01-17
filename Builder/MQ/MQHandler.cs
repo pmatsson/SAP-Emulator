@@ -1,4 +1,5 @@
 ﻿using IBM.WMQ;
+using NLog;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace Builder.MQ
 {
     public class MQHandler
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private MQQueueManager _queueManager;
         private string _queue;
 
@@ -90,14 +92,9 @@ namespace Builder.MQ
 
             }
 
-            catch (MQException MQexp)
+            catch (Exception ex)
             {
-                return false;
-            }
-
-            catch (Exception exp)
-
-            {
+                logger.Warn(ex, "Unable to send message to queue");
                 return false;
             }
 

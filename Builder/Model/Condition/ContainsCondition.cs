@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using Builder.Common;
+using NLog;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Builder.Model.Condition
@@ -6,6 +8,7 @@ namespace Builder.Model.Condition
     [XmlType("Contains")]
     public class ContainsCondition : ConditionBase
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public override string DisplayName => "Contains";
 
         [XmlElement("Path")]
@@ -16,9 +19,11 @@ namespace Builder.Model.Condition
 
         protected override bool Process(XmlDocument doc, int ruleProcessCount)
         {
-            var nodes = doc?.SelectNodes(Path);
+            logger.Debug("Searching for {0}", Path);
+            var nodes = doc?.SelectNodes(Path, NamespaceManager.CreateNamespaceManager(doc));
             foreach(XmlNode node in nodes)
             {
+                logger.Debug("Matched {0}", node.InnerText);
                 if (node.ChildNodes.Count == 1 && (node.FirstChild is XmlText))
                 {
                     if (node.InnerText == Value)

@@ -15,24 +15,5 @@ namespace Builder.View
         {
             InitializeComponent();
         }
-
-        //public void AddRow()
-        //{
-        //    if (DataContext is RuleViewModel)
-        //    {
-        //        var triggContext = DataContext as RuleViewModel;
-        //        triggContext.CreateRule();
-        //    }
-        //}
-
-        //public void DeleteSelectedRow()
-        //{
-        //    if (DataContext is RuleViewModel && RuleDG.SelectedItem != null)
-        //    {
-        //        var triggContext = DataContext as RuleViewModel;
-
-        //        triggContext.RemoveRule(RuleDG.SelectedItem as Rule);
-        //    }
-        //}
     }
 }

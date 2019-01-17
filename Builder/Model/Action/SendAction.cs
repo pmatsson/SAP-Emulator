@@ -1,4 +1,5 @@
 ﻿using Builder.MQ;
+using NLog;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -49,14 +50,9 @@ namespace Builder.Model.Action
                 }
             }
 
-            try
-            {
-                return _mqHandler.Write(File.ReadAllText(FilePath));
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            bool result = _mqHandler.Write(File.ReadAllText(FilePath));
+            _mqHandler.Disconnect();
+            return result;
         }
 
         public override void Reset()

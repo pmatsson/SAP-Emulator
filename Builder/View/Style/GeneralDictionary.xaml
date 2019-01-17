@@ -3,26 +3,12 @@
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:local="clr-namespace:Builder.View.Style">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Style/Icons.xaml" />
+        <ResourceDictionary Source="../Style/ButtonDictionary.xaml" />
+        <ResourceDictionary Source="../Style/SharedSettingsDictionary.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <!--Bindings require DataContext of a MQProp property --><!--
-    <Style x:Key="MQPopupStyle" TargetType="{x:Type Popup}">
-        <Setter Property="StaysOpen" Value="False" />
-        <Setter Property="Width" Value="150" />
-        <Setter Property="Child">
-            <Setter.Value>
-                <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="1">
-                    <StackPanel>
-                        <TextBlock Text="MQ settings" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
-                        <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
-                        <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
-                        <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>
-                        <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname"/>
-                        <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port"/>
-                    </StackPanel>
-                </Border>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
 
 
 </ResourceDictionary>
