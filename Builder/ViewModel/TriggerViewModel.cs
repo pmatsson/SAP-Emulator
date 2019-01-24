@@ -58,6 +58,7 @@ namespace Builder.ViewModel
             AvailableTriggers = new ObservableCollection<TriggerBase>()
             {
                 new OnceTrigger(),
+                new TimerTrigger(),
                 new ReceivedTrigger()
             };
 

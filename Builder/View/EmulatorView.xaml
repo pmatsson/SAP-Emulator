@@ -11,7 +11,7 @@
 
     <Border BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="10" Background="White">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Grid.Row="0" Text="Running emulator" Foreground="{DynamicResource AccentColorBrush}" FontStyle="Oblique" 
+            <TextBlock Grid.Row="0" Text="Processing rules" Foreground="{DynamicResource AccentColorBrush}" FontStyle="Oblique" 
                    FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="50"/>
 
             <Controls:ProgressRing Grid.Row="1" Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsRunningEmulator}" Margin="40"/>

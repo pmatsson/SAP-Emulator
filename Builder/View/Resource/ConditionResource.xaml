@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Text="{Binding Selected.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     Controls:TextBoxHelper.Watermark="path" Margin="{StaticResource RuleSubElementMargin}"/>
+                     Controls:TextBoxHelper.Watermark="xpath" Margin="{StaticResource RuleSubElementMargin}"/>
             <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}"/>
         </Grid>
@@ -47,8 +47,8 @@
             <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}"/>
             <ToggleButton Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}" 
-                          Style="{StaticResource LoopToggleButtonStyle}"
-                          IsChecked="{Binding Selected.Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                          Style="{StaticResource LoopToggleButtonStyle}" ToolTip="Repeating" BorderBrush="Transparent"
+                          IsChecked="{Binding Selected.Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </ToggleButton>
         </Grid>
     </DataTemplate>

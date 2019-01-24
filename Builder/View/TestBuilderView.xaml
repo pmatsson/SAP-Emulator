@@ -69,5 +69,6 @@
             <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}"/>
             <DataGridTemplateColumn Width="1*" Header="Then" CellTemplate="{StaticResource ActionTemplate}"/>
         </DataGrid.Columns>
+
     </DataGrid>
 </UserControl>

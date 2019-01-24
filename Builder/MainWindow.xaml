@@ -13,7 +13,9 @@
         xmlns:local="clr-namespace:Builder"
         mc:Ignorable="d"
         Title="MQ chatter" 
-        MinHeight="750" MinWidth="1050" 
+        MinHeight="750" MinWidth="1050"
+        Height="750"
+        Width="1050"
         Background="{DynamicResource AccentColorBrush2}">
 
     <Window.Resources>
@@ -30,7 +32,6 @@
         <vm:RuleViewModel />
     </Window.DataContext>
 
-
     <DockPanel>
         <Menu DockPanel.Dock="Top" Margin="0,0,0,40">
             <MenuItem Header="_File">
@@ -45,8 +46,8 @@
                 <MenuItem  Margin="-20,0,0,0" Click="OpenButton_Click">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <iconPacks:PackIconMaterial Kind="FolderOpen" Foreground="YellowGreen" Margin="0,0,5,0"/>
-                            <ContentPresenter Content="Open" />
+                            <iconPacks:PackIconMaterial Kind="FolderOpen" Foreground="Yellow" Margin="0,0,5,0"/>
+                            <ContentPresenter Content="Open..." />
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
@@ -62,16 +63,22 @@
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <iconPacks:PackIconEntypo Kind="Save" Foreground="MediumPurple" Margin="0,0,5,0"/>
-                            <ContentPresenter Content="Save as" />
+                            <ContentPresenter Content="Save As..." />
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Edit"/>
-            <MenuItem Header="Tools"/>
-            <MenuItem Header="Help"/>
+            <MenuItem Header="Tools">
+                <MenuItem Header="MQ sender" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Constructing a rule" IsEnabled="False"/>
+                <MenuItem Header="Running chatter" IsEnabled="False"/>
+                <MenuItem Header="XPath" IsEnabled="False"/>
+            </MenuItem>
         </Menu>
-        
+
         <Grid Width="{Binding ElementName=EmulatorMainWindow, Path=MinWidth}" VerticalAlignment="Stretch" HorizontalAlignment="Center" DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -99,7 +106,7 @@
 
             <!-- Test builder buttons -->
             <Border BorderThickness="2" BorderBrush="{DynamicResource AccentColorBrush}" Background="#FFCAE5FF"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,20,0,20" CornerRadius="5" Grid.Row="1">
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,20" CornerRadius="5" Grid.Row="1">
                 <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="AddRowButton" Click="AddRowButton_Click" Style="{StaticResource BaseButtonStyle}" Margin="10" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}">
                         <iconPacks:PackIconMaterial Kind="PlaylistPlus" Foreground="Green"/>
@@ -118,22 +125,6 @@
                     </Button>
                 </VirtualizingStackPanel>
             </Border>
-            
-            <!-- Emulator view --><!--
-            <view:EmulatorView x:Name="EmulatorView" Grid.Column="0">
-                <view:EmulatorView.Style>
-                    <Style TargetType="view:EmulatorView">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsRunningEmulator}" Value="true">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </view:EmulatorView.Style>
-            </view:EmulatorView>-->
         </Grid>
     </DockPanel>
-    
-    
 </Controls:MetroWindow>

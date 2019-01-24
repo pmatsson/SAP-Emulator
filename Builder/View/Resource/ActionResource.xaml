@@ -35,12 +35,12 @@
                 <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
                     <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
                         <StackPanel>
-                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
-                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
-                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
-                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>
-                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname"/>
-                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port"/>
+                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="10"/>
+                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager" Margin="2"/>
+                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue" Margin="2"/>
+                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel" Margin="2"/>
+                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname" Margin="2"/>
+                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port" Margin="2"/>
                         </StackPanel>
                     </Border>
                 </Popup>
@@ -75,6 +75,7 @@
         </Grid>
     </DataTemplate>
 
+    
     <!-- Action selector -->
     <Style x:Key="SelectedActionContent" TargetType="ContentPresenter">
         <Setter Property="ContentTemplate" Value="{StaticResource SendContent}"/>

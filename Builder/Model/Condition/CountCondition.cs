@@ -23,7 +23,7 @@ namespace Builder.Model.Condition
         {
             int value;
             bool result;
-            Int32.TryParse(Value, out value);
+            int.TryParse(Value, out value);
             switch (Operator)
             {
                 case "=":

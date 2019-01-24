@@ -56,7 +56,6 @@ namespace Builder.MQ
             props.Add(MQC.USER_ID_PROPERTY, MQEnvironment.UserId);
             props.Add(MQC.PASSWORD_PROPERTY, MQEnvironment.Password);
 
-
             try
             {
                 _queueManager = new MQQueueManager(queueManagerName, props);
@@ -82,90 +81,70 @@ namespace Builder.MQ
             try
             {
                 var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_OUTPUT + MQC.MQOO_FAIL_IF_QUIESCING);
-
                 var queueMessage = new MQMessage();
                 queueMessage.WriteString(message);
                 queueMessage.Format = MQC.MQFMT_STRING;
-
                 queue.Put(queueMessage, new MQPutMessageOptions());
-
-
             }
-
             catch (Exception ex)
             {
                 logger.Warn(ex, "Unable to send message to queue");
                 return false;
             }
-
             return true;
         }
 
-
-
         public bool Read(ref string result)
         {
-
             result = "";
-
             try
             {
-                var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_INPUT_AS_Q_DEF + MQC.MQOO_FAIL_IF_QUIESCING);
-                var queueMessage = new MQMessage();
-                queueMessage.Format = MQC.MQFMT_STRING;
-                queue.Get(queueMessage, new MQGetMessageOptions());
+                var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_INPUT_AS_Q_DEF + 
+                                                              MQC.MQOO_FAIL_IF_QUIESCING + 
+                                                              MQC.MQOO_INQUIRE);
 
-                result = queueMessage.ReadString(queueMessage.MessageLength);
+                if(queue.CurrentDepth > 0)
+                {
+                    var queueMessage = new MQMessage();
+                    queueMessage.Format = MQC.MQFMT_STRING;
+                    queue.Get(queueMessage, new MQGetMessageOptions());
+                    result = queueMessage.ReadString(queueMessage.MessageLength);
+                    return true;
+                }
             }
-
-            catch (MQException MQexp)
+            catch (MQException mqex)
             {
-
-                result = "Exception : " + MQexp.Message;
-                return false;
-
+                result = "MQ exception : " + mqex.Message;
             }
 
-            catch (Exception exp)
+            catch (Exception ex)
             {
-
-                result = "Exception: " + exp.Message;
-                return false;
-
+                result = "Exception: " + ex.Message;
             }
 
-            return true;
+            return false;
         }
 
         public bool Peek(ref string result)
         {
-
             result = "";
-
             try
             {
                 var queue = _queueManager.AccessQueue(_queue, MQC.MQOO_BROWSE | MQC.MQOO_FAIL_IF_QUIESCING);
                 var queueMessage = new MQMessage();
                 queueMessage.Format = MQC.MQFMT_STRING;
                 queue.Get(queueMessage, new MQGetMessageOptions());
-
                 result = queueMessage.ReadString(queueMessage.MessageLength);
             }
-
             catch (MQException MQexp)
             {
-
                 result = "Exception : " + MQexp.Message;
                 return false;
-
             }
-
             catch (Exception exp)
             {
-
                 result = "Exception: " + exp.Message;
                 return false;
-
             }
 
             return true;

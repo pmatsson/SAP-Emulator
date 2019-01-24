@@ -28,19 +28,33 @@
                 <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
                     <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
                         <StackPanel>
-                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="2"/>
-                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager"/>
-                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue"/>
-                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel"/>
-                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname"/>
-                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port"/>
+                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="10"/>
+                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager" Margin="2"/>
+                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue" Margin="2"/>
+                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel" Margin="2"/>
+                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname" Margin="2"/>
+                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port" Margin="2"/>
                         </StackPanel>
                     </Border>
                 </Popup>
             </StackPanel>
         </Grid>
     </DataTemplate>
-    
+
+    <!-- Timer template -->
+    <DataTemplate x:Key="TimerContent">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding Selected.Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                Controls:TextBoxHelper.Watermark="time" Margin="{StaticResource RuleSubElementMargin}" Grid.Column="0"/>
+            <ComboBox Grid.Column="1" SelectedValue="{Binding Selected.TimeUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Margin="{StaticResource RuleSubElementMargin}" ItemsSource="{Binding Selected.TimeUnits}"/>
+        </Grid>
+    </DataTemplate>
+
     <!-- Action selector -->
     <Style x:Key="SelectedTriggerContent" TargetType="ContentPresenter">
         <Setter Property="ContentTemplate" Value="{StaticResource OnceContent}"/>
@@ -50,6 +64,9 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Received">
                 <Setter Property="ContentTemplate" Value="{StaticResource ReceivedContent}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Every">
+                <Setter Property="ContentTemplate" Value="{StaticResource TimerContent}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

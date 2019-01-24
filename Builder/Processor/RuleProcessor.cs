@@ -66,7 +66,6 @@ namespace Builder.Processor
                     logger.Warn("Unhandled exception was caught. Throwing: {0}", ex.Message);
                     throw;
                 }
-
             }
         }
 
