@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Builder.Common
+namespace MQChatter.Common
 {
     public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
@@ -12,11 +11,12 @@ namespace Builder.Common
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
         {
             //if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
     }

@@ -1,10 +1,6 @@
-﻿using Builder.ViewModel;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows.Controls;
 
-namespace Builder.View
+namespace MQChatter.View
 {
     /// <summary>
     /// Interaction logic for TriggerView.xaml

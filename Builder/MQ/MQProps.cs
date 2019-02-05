@@ -1,19 +1,16 @@
-﻿using Builder.Common;
+﻿using MQChatter.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Builder.MQ
+namespace MQChatter.MQ
 {
     public class MQProps : NotifyPropertyChangedBase, IEquatable<MQProps>
     {
-        string _queueManagerName;
-        string _queueName;
-        string _channelName;
-        string _hostName;
-        int? _port;
+        private string _queueManagerName;
+        private string _queueName;
+        private string _channelName;
+        private string _hostName;
+        private int? _port;
 
         public string QueueManagerName
         {
@@ -62,7 +59,7 @@ namespace Builder.MQ
 
         public override int GetHashCode()
         {
-            var hashCode = -1748027768;
+            int hashCode = -1748027768;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(QueueManagerName);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(QueueName);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ChannelName);

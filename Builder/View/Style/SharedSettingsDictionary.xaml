@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:local="clr-namespace:Builder.View.Style">
+                    xmlns:local="clr-namespace:MQChatter.View.Style">
 
     <Thickness x:Key="RuleElementMargin">0,0,2,2</Thickness>
     <Thickness x:Key="RuleSubElementMargin">0,0,2,0</Thickness>

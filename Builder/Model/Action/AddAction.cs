@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MQChatter.ViewModel.RuleGroup.Action;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Builder.Model.Action
+namespace MQChatter.Model.Action
 {
     [XmlType("Add")]
     public class AddAction : ActionBase
     {
-        private string _filePath;
+        //private string _filePath;
         private string _path;
+
         private int _value;
 
         public override string DisplayName => "Add";
 
-        [XmlElement("FilePath")]
-        public string FilePath
-        {
-            get => _filePath;
-            set
-            {
-                _filePath = value;
-                SetProperty(ref _filePath, value);
-            }
-        }
+        //[XmlElement("FilePath")]
+        //public string FilePath
+        //{
+        //    get => _filePath;
+        //    set
+        //    {
+        //        _filePath = value;
+        //        SetProperty(ref _filePath, value);
+        //    }
+        //}
 
         [XmlElement("Path")]
         public string Path
@@ -51,11 +51,27 @@ namespace Builder.Model.Action
             }
         }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        protected override bool ProcessAction(XmlDocument doc, int ruleProcessCount, ActionGroup actionGroup)
         {
+            string filePath;
+
+            SendAction sendAction = actionGroup
+                ?.Actions.Where(x => x.Selected is SendAction)
+                ?.First()
+                ?.Selected as SendAction;
+
+            if (sendAction != null)
+            {
+                filePath = sendAction.FilePath;
+            }
+            else
+            {
+                throw new ArgumentException("The provided rule group does not contain any Send Actions");
+            }
+
             try
             {
-                var text = File.ReadAllText(FilePath, Encoding.Default);
+                string text = File.ReadAllText(filePath, Encoding.Default);
 
                 XmlDocument addDoc = new XmlDocument();
                 addDoc.LoadXml(text);
@@ -64,12 +80,11 @@ namespace Builder.Model.Action
                 {
                     if ((node.ChildNodes.Count == 1) && node.FirstChild is XmlText)
                     {
-                        int docValue;
-                        if (Int32.TryParse(node.FirstChild.InnerText, out docValue))
+                        if (int.TryParse(node.FirstChild.InnerText, out int docValue))
                         {
                             docValue += Value;
                             node.FirstChild.InnerText = docValue.ToString();
-                            addDoc.Save(FilePath);
+                            addDoc.Save(filePath);
                         }
                         else
                         {
@@ -78,7 +93,7 @@ namespace Builder.Model.Action
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

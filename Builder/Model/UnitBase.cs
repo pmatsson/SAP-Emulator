@@ -1,8 +1,8 @@
-﻿using Builder.Common;
+﻿using MQChatter.Common;
+using MQChatter.ViewModel.RuleGroup;
 using System.Xml;
-using System.Xml.Serialization;
 
-namespace Builder.Model
+namespace MQChatter.Model
 {
     public abstract class UnitBase : NotifyPropertyChangedBase
     {
@@ -11,14 +11,13 @@ namespace Builder.Model
             UnitProcessCount = 0;
         }
 
-        public bool TryProcess(XmlDocument doc, int ruleProcessCount)
+        public bool TryProcess(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup)
         {
             UnitProcessCount++;
-            return Process(doc, ruleProcessCount);
+            return Process(doc, ruleProcessCount, ruleGroup);
         }
 
-        protected abstract bool Process(XmlDocument doc, int ruleProcessCount);
-
+        protected abstract bool Process(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup);
 
         protected int UnitProcessCount { get; set; }
     }

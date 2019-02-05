@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+﻿using System.Windows;
 
-namespace Builder
+namespace MQChatter
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -16,5 +8,4 @@ namespace Builder
     public partial class App : Application
     {
     }
-
 }

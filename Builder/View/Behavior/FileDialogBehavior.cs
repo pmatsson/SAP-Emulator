@@ -1,11 +1,10 @@
-﻿namespace Builder.View.Behavior
+﻿namespace MQChatter.View.Behavior
 {
     using System.Linq;
     using System.Reflection;
     using System.Windows;
     using System.Windows.Interactivity;
     using Button = System.Windows.Controls.Button;
-
 
     public class FileDialogBehavior : Behavior<Button>
     {
@@ -24,17 +23,16 @@
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-            var result = dialog.ShowDialog();
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            bool? result = dialog.ShowDialog();
             if (result == true && dialog.CheckPathExists && AssociatedObject.DataContext != null)
             {
-                var propertyInfo = AssociatedObject.DataContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                PropertyInfo propertyInfo = AssociatedObject.DataContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => p.CanRead && p.CanWrite)
                     .First(p => p.Name.Equals(SetterName));
 
                 propertyInfo.SetValue(AssociatedObject.DataContext, dialog.FileName, null);
             }
         }
-
     }
 }

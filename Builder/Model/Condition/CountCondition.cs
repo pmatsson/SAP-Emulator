@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MQChatter.ViewModel.RuleGroup.Condition;
 using System.Xml;
-using System.Xml.Serialization;
 
-namespace Builder.Model.Condition
+namespace MQChatter.Model.Condition
 {
     public class CountCondition : ConditionBase
     {
@@ -18,35 +13,41 @@ namespace Builder.Model.Condition
 
         public bool Resets { get; set; }
 
-
-        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        protected override bool ProcessCondition(XmlDocument doc, int ruleProcessCount, ConditionGroup conditionGroup)
         {
-            int value;
             bool result;
-            int.TryParse(Value, out value);
+            int.TryParse(Value, out int value);
             switch (Operator)
             {
                 case "=":
-                    result = this.UnitProcessCount == value;
+                    result = UnitProcessCount == value;
                     break;
+
                 case "<":
-                    result = this.UnitProcessCount < value;
+                    result = UnitProcessCount < value;
                     break;
+
                 case ">":
-                    result = this.UnitProcessCount > value;
+                    result = UnitProcessCount > value;
                     break;
+
                 case "<=":
-                    result = this.UnitProcessCount <= value;
+                    result = UnitProcessCount <= value;
                     break;
+
                 case ">=":
-                    result = this.UnitProcessCount >= value;
+                    result = UnitProcessCount >= value;
                     break;
+
                 default:
                     result = false;
                     break;
             }
 
-            if (result && Resets) UnitProcessCount = 0;
+            if (result && Resets)
+            {
+                UnitProcessCount = 0;
+            }
 
             return result;
         }

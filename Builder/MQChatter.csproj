@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F6029D3-DED9-4E61-B880-CDEF6A771698}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Builder</RootNamespace>
-    <AssemblyName>Builder</AssemblyName>
+    <RootNamespace>MQChatter</RootNamespace>
+    <AssemblyName>MQChatter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -105,22 +105,26 @@
     <Compile Include="Model\Condition\ContainsCondition.cs" />
     <Compile Include="Model\Condition\ConditionBase.cs" />
     <Compile Include="Model\Condition\CountCondition.cs" />
+    <Compile Include="ViewModel\RuleGroup\Action\Action.cs" />
+    <Compile Include="ViewModel\RuleGroup\Action\ActionGroup.cs" />
+    <Compile Include="ViewModel\RuleGroup\Condition\Condition.cs" />
+    <Compile Include="ViewModel\RuleGroup\Condition\ConditionGroup.cs" />
+    <Compile Include="ViewModel\RuleGroup\Trigger\Trigger.cs" />
+    <Compile Include="ViewModel\RuleGroup\Trigger\TriggerGroup.cs" />
     <Compile Include="Model\Trigger\TimerTrigger.cs" />
     <Compile Include="Model\UnitBase.cs" />
     <Compile Include="MQ\MQHandler.cs" />
     <Compile Include="MQ\MQProps.cs" />
     <Compile Include="Processor\RuleProcessor.cs" />
-    <Compile Include="ViewModel\ActionViewModel.cs" />
-    <Compile Include="ViewModel\ConditionViewModel.cs" />
+    <Compile Include="ViewModel\RuleGroup\IRuleGroup.cs" />
     <Compile Include="ViewModel\RuleViewModel.cs" />
-    <Compile Include="ViewModel\TriggerViewModel.cs" />
     <Compile Include="View\Behavior\FileDialogBehavior.cs" />
     <Compile Include="View\Converter\NegateBooleanConverter.cs" />
     <Compile Include="View\Converter\IsNotNullOrEmptyStringConverter.cs" />
-    <Compile Include="View\EmulatorView.xaml.cs">
+    <Compile Include="View\Processor\EmulatorView.xaml.cs">
       <DependentUpon>EmulatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestBuilderView.xaml.cs">
+    <Compile Include="View\Builder\TestBuilderView.xaml.cs">
       <DependentUpon>TestBuilderView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -139,27 +143,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EmulatorView.xaml">
+    <Page Include="View\Processor\EmulatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Resource\ConditionResource.xaml">
+    <Page Include="View\Builder\TestBuilderView.ConditionResource.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Resource\ActionResource.xaml">
+    <Page Include="View\Builder\TestBuilderView.ActionResource.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Resource\TriggerResource.xaml">
+    <Page Include="View\Builder\TestBuilderView.TriggerResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Style\GeneralDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Style\Icons.xaml">
+    <Page Include="View\Style\ColorDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TestBuilderView.xaml">
+    <Page Include="View\Builder\TestBuilderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

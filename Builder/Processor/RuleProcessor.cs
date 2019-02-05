@@ -1,30 +1,31 @@
-﻿using Builder.Model.Action;
-using Builder.Model.Condition;
-using Builder.Model.Trigger;
-using Builder.MQ;
-using Builder.ViewModel;
+﻿using MQChatter.Model.Trigger;
+using MQChatter.MQ;
+using MQChatter.ViewModel;
+using MQChatter.ViewModel.RuleGroup.Action;
+using MQChatter.ViewModel.RuleGroup.Condition;
+using MQChatter.ViewModel.RuleGroup.Trigger;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using Action = MQChatter.ViewModel.RuleGroup.Action.Action;
 
-namespace Builder.Processor
+namespace MQChatter.Processor
 {
     public class RuleProcessor
     {
         private List<Rule> _rules;
-        private Dictionary<MQProps,MQHandler> _recvHandlers;
+        private Dictionary<MQProps, MQHandler> _recvHandlers;
         private Dictionary<MQProps, XmlDocument> _recvFront;
         private CancellationTokenSource _wtoken;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public event EventHandler<Rule> RuleProcessed;
+
         public event EventHandler<string> MessageReceived;
 
         public RuleProcessor(List<Rule> rules)
@@ -43,9 +44,9 @@ namespace Builder.Processor
             _rules.ForEach(x => x.Reset());
 
             // Create MQ handlers
-            foreach(var rule in _rules)
+            foreach (Rule rule in _rules)
             {
-                foreach(var trigger in rule.TriggerGroup.Triggers)
+                foreach (Trigger trigger in rule.TriggerGroup.Triggers)
                 {
                     if (trigger.Selected is ReceivedTrigger)
                     {
@@ -61,7 +62,7 @@ namespace Builder.Processor
                 {
                     await ProcessRules();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Warn("Unhandled exception was caught. Throwing: {0}", ex.Message);
                     throw;
@@ -69,12 +70,11 @@ namespace Builder.Processor
             }
         }
 
-
         private void CreateMQHandler(MQProps props)
         {
-            if(!_recvHandlers.ContainsKey(props))
+            if (!_recvHandlers.ContainsKey(props))
             {
-                logger.Debug("MQ handler created. qm: {0} q: {1} ch: {2} h: {3} p: {4}", 
+                logger.Debug("MQ handler created. qm: {0} q: {1} ch: {2} h: {3} p: {4}",
                     props.QueueManagerName, props.QueueName, props.ChannelName, props.Hostname, props.Port);
                 _recvHandlers.Add(props, new MQHandler());
             }
@@ -82,10 +82,9 @@ namespace Builder.Processor
 
         private void PopQueues(ref Dictionary<MQProps, XmlDocument> docs, Dictionary<MQProps, MQHandler> handlers)
         {
-
             docs.Clear();
 
-            foreach (var handler in handlers)
+            foreach (KeyValuePair<MQProps, MQHandler> handler in handlers)
             {
                 // Establish connection to MQ
                 if (!handler.Value.IsConnected())
@@ -98,9 +97,8 @@ namespace Builder.Processor
                     }
                 }
 
-
                 string msg = "";
-                var doc = new XmlDocument();
+                XmlDocument doc = new XmlDocument();
 
                 // Pop message queue
                 if (handler.Value.Read(ref msg))
@@ -134,11 +132,10 @@ namespace Builder.Processor
                 throw;
             }
 
-            foreach(Rule rule in _rules)
+            foreach (Rule rule in _rules)
             {
-                XmlDocument doc;
                 // Check trigger, retrieve xml if applicable
-                if (CheckTriggers(out doc, rule.TriggerGroup, rule.ProcessCount))
+                if (CheckTriggers(out XmlDocument doc, rule.TriggerGroup, rule.ProcessCount))
                 {
                     logger.Debug("Fulfilled trigger for rule {0}", rule.GetHashCode());
 
@@ -162,24 +159,23 @@ namespace Builder.Processor
             _wtoken.Cancel();
         }
 
-
         public bool CheckTriggers(out XmlDocument doc, TriggerGroup tg, int processCount)
         {
             doc = null;
-            var trigResults = new Collection<bool>();
-            foreach (var trigger in tg.Triggers)
+            Collection<bool> trigResults = new Collection<bool>();
+            foreach (Trigger trigger in tg.Triggers)
             {
-                if(trigger.Selected is ReceivedTrigger)
+                if (trigger.Selected is ReceivedTrigger)
                 {
-                    var rt = (trigger.Selected as ReceivedTrigger);
+                    ReceivedTrigger rt = (trigger.Selected as ReceivedTrigger);
 
                     // Retrieve the current document from the queue
                     doc = _recvFront[rt.MQSettings];
-                    trigResults.Add(trigger.Selected.TryProcess(doc, processCount));
+                    trigResults.Add(trigger.Selected.TryProcess(doc, processCount, tg));
                 }
                 else
                 {
-                    trigResults.Add(trigger.Selected.TryProcess(null, processCount));
+                    trigResults.Add(trigger.Selected.TryProcess(null, processCount, tg));
                 }
             }
 
@@ -189,25 +185,24 @@ namespace Builder.Processor
 
         public bool CheckConditions(XmlDocument doc, ConditionGroup cg, int processCount)
         {
-            var condResults = new Collection<bool>();
-            foreach (var condition in cg.Conditions)
+            Collection<bool> condResults = new Collection<bool>();
+            foreach (Condition condition in cg.Conditions)
             {
-                condResults.Add(condition.Selected.TryProcess(doc, processCount));
+                condResults.Add(condition.Selected.TryProcess(doc, processCount, cg));
             }
 
             // We have > 0 conditions and all conditions in CG are fulfilled
             return (condResults.Count > 0 && !condResults.Contains(false));
         }
 
-
         public void DoActions(XmlDocument doc, ActionGroup ag, int processCount)
         {
-            foreach (var action in ag.Actions)
+            foreach (Action action in ag.Actions)
             {
                 logger.Debug("Performing action: {0}", action.Selected.DisplayName);
-                action.Selected.TryProcess(doc, processCount);
+
+                action.Selected.TryProcess(doc, processCount, ag);
             }
         }
-
     }
 }

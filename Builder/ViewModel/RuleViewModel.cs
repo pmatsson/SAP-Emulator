@@ -1,30 +1,27 @@
-﻿using Builder.Common;
-using Builder.Model;
-using Builder.Model.Action;
-using Builder.Model.Condition;
-using Builder.Model.Trigger;
-using Builder.MQ;
-using Builder.Processor;
-using GalaSoft.MvvmLight.CommandWpf;
+﻿using MQChatter.Common;
+using MQChatter.Model.Action;
+using MQChatter.Model.Condition;
+using MQChatter.Model.Trigger;
+using MQChatter.Processor;
+using MQChatter.ViewModel.RuleGroup.Action;
+using MQChatter.ViewModel.RuleGroup.Condition;
+using MQChatter.ViewModel.RuleGroup.Trigger;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
 using System.Xml.Serialization;
+using Action = MQChatter.ViewModel.RuleGroup.Action.Action;
 
-
-namespace Builder.ViewModel
+namespace MQChatter.ViewModel
 {
-
     public class Rule : NotifyPropertyChangedBase
     {
         public TriggerGroup TriggerGroup { get; set; }
 
         public ConditionGroup ConditionGroup { get; set; }
-
 
         public ActionGroup ActionGroup { get; set; }
 
@@ -44,9 +41,20 @@ namespace Builder.ViewModel
         public void Reset()
         {
             ProcessCount = 0;
-            foreach (var trigger in TriggerGroup.Triggers) trigger.Selected.Reset();
-            foreach (var condition in ConditionGroup.Conditions) condition.Selected.Reset();
-            foreach (var action in ActionGroup.Actions) action.Selected.Reset();
+            foreach (Trigger trigger in TriggerGroup.Triggers)
+            {
+                trigger.Selected.Reset();
+            }
+
+            foreach (Condition condition in ConditionGroup.Conditions)
+            {
+                condition.Selected.Reset();
+            }
+
+            foreach (Action action in ActionGroup.Actions)
+            {
+                action.Selected.Reset();
+            }
         }
     }
 
@@ -79,7 +87,6 @@ namespace Builder.ViewModel
             set => SetProperty(ref _processedRulesCount, value);
         }
 
-
         public bool IsRunningEmulator
         {
             get => _isRunningEmulator;
@@ -96,7 +103,6 @@ namespace Builder.ViewModel
         {
             Rules = new ObservableCollection<Rule>();
             _isRunningEmulator = false;
-
         }
 
         public async void StartEmulation()
@@ -107,13 +113,13 @@ namespace Builder.ViewModel
             _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
 
             // Logging configuration
-            var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget("logfile")
+            NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
+            NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile")
             {
                 FileName = "emulation_" + DateTime.Now.DayOfYear.ToString() + ".log"
             };
 
-            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            NLog.Targets.ConsoleTarget logconsole = new NLog.Targets.ConsoleTarget("logconsole");
             config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
             config.AddRule(LogLevel.Warn, LogLevel.Fatal, logfile);
             LogManager.Configuration = config;
@@ -136,7 +142,7 @@ namespace Builder.ViewModel
 
         public void CancelEmulation()
         {
-            if(_ruleProcessor != null)
+            if (_ruleProcessor != null)
             {
                 _ruleProcessor.Stop();
                 ProcessedRuleCount = 0;
@@ -158,8 +164,10 @@ namespace Builder.ViewModel
 
         public void RemoveSelectedRule()
         {
-            if(SelectedRule != null)
+            if (SelectedRule != null)
+            {
                 Rules.Remove(SelectedRule);
+            }
         }
 
         public void SerializeRules(string filename)
@@ -173,35 +181,34 @@ namespace Builder.ViewModel
             Rules = RuleSerializer.Deserialize(filename);
         }
 
-
         public static class RuleSerializer
         {
             public static void Serialize(List<Rule> rules, TextWriter stream)
             {
                 List<Type> ruleTypes = new List<Type>();
-                var rule = new Rule();
+                Rule rule = new Rule();
 
-                foreach (var trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
+                foreach (TriggerBase trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
                 {
-                    var type = trigger.GetType();
+                    Type type = trigger.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
                     }
                 }
 
-                foreach (var condition in rule.ConditionGroup.Conditions.First().AvailableConditions)
+                foreach (ConditionBase condition in rule.ConditionGroup.Conditions.First().AvailableConditions)
                 {
-                    var type = condition.GetType();
+                    Type type = condition.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
                     }
                 }
 
-                foreach (var action in rule.ActionGroup.Actions.First().AvailableActions)
+                foreach (ActionBase action in rule.ActionGroup.Actions.First().AvailableActions)
                 {
-                    var type = action.GetType();
+                    Type type = action.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
@@ -216,35 +223,34 @@ namespace Builder.ViewModel
             public static ObservableCollection<Rule> Deserialize(string path)
             {
                 List<Type> ruleTypes = new List<Type>();
-                var rule = new Rule();
+                Rule rule = new Rule();
 
-                foreach (var trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
+                foreach (TriggerBase trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
                 {
-                    var type = trigger.GetType();
+                    Type type = trigger.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
                     }
                 }
 
-                foreach (var condition in rule.ConditionGroup.Conditions.First().AvailableConditions)
+                foreach (ConditionBase condition in rule.ConditionGroup.Conditions.First().AvailableConditions)
                 {
-                    var type = condition.GetType();
+                    Type type = condition.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
                     }
                 }
 
-                foreach (var action in rule.ActionGroup.Actions.First().AvailableActions)
+                foreach (ActionBase action in rule.ActionGroup.Actions.First().AvailableActions)
                 {
-                    var type = action.GetType();
+                    Type type = action.GetType();
                     if (!ruleTypes.Contains(type))
                     {
                         ruleTypes.Add(type);
                     }
                 }
-
 
                 ObservableCollection<Rule> result = null;
                 TextReader reader = new StreamReader(path);
@@ -252,9 +258,8 @@ namespace Builder.ViewModel
                 try
                 {
                     result = (ObservableCollection<Rule>)serializer.Deserialize(reader);
-
                 }
-                catch(InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
                     // TODO: Handle exception
                     return null;
@@ -265,7 +270,6 @@ namespace Builder.ViewModel
                 }
 
                 return result;
-
             }
         }
     }

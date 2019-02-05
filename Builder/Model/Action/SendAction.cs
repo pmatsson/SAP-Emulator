@@ -1,12 +1,10 @@
-﻿using Builder.MQ;
-using NLog;
-using System;
-using System.ComponentModel;
+﻿using MQChatter.MQ;
+using MQChatter.ViewModel.RuleGroup.Action;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Builder.Model.Action
+namespace MQChatter.Model.Action
 {
     [XmlType("Send")]
     public class SendAction : ActionBase
@@ -40,9 +38,15 @@ namespace Builder.Model.Action
             _mqHandler = new MQHandler();
         }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        public override void Reset()
         {
-            if(!_mqHandler.IsConnected())
+            base.Reset();
+            _mqHandler.Disconnect();
+        }
+
+        protected override bool ProcessAction(XmlDocument doc, int ruleProcessCount, ActionGroup actionGroup)
+        {
+            if (!_mqHandler.IsConnected())
             {
                 if (!_mqHandler.Connect(MQSettings))
                 {
@@ -54,12 +58,5 @@ namespace Builder.Model.Action
             _mqHandler.Disconnect();
             return result;
         }
-
-        public override void Reset()
-        {
-            base.Reset();
-            _mqHandler.Disconnect();
-        }
-
     }
 }

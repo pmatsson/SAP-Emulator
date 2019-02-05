@@ -1,9 +1,9 @@
-﻿using Builder.MQ;
-using System;
+﻿using MQChatter.MQ;
+using MQChatter.ViewModel.RuleGroup.Trigger;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Builder.Model.Trigger
+namespace MQChatter.Model.Trigger
 {
     [XmlType("Recieved")]
     public class ReceivedTrigger : TriggerBase
@@ -14,7 +14,6 @@ namespace Builder.Model.Trigger
 
         [XmlElement("DocumentType")]
         public string DocumentType { get; set; }
-
 
         public MQProps MQSettings
         {
@@ -27,10 +26,9 @@ namespace Builder.Model.Trigger
             _mqSettings = new MQProps();
         }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        protected override bool ProcessTrigger(XmlDocument doc, int ruleProcessCount, TriggerGroup triggerGroup)
         {
             return DocumentType == doc?.DocumentElement?.Name;
         }
-
     }
 }

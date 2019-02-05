@@ -1,14 +1,15 @@
-﻿using System.Xml;
+﻿using MQChatter.ViewModel.RuleGroup.Condition;
+using System.Xml;
 using System.Xml.Serialization;
 
-namespace Builder.Model.Condition
+namespace MQChatter.Model.Condition
 {
     [XmlType("Always")]
     public class AlwaysCondition : ConditionBase
     {
         public override string DisplayName => "Always";
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount)
+        protected override bool ProcessCondition(XmlDocument doc, int ruleProcessCount, ConditionGroup conditionGroup)
         {
             return true;
         }

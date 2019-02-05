@@ -1,16 +1,9 @@
-﻿using Builder.MQ;
-using Builder.Processor;
-using Builder.ViewModel;
-using MahApps.Metro.Controls;
-using System;
-using System.Diagnostics;
+﻿using MahApps.Metro.Controls;
+using MQChatter.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
-namespace Builder
+namespace MQChatter
 {
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -21,14 +14,12 @@ namespace Builder
             InitializeComponent();
             MyPresenter.DataContext = DataContext;
             //this.DataContext = _ruleViewModel = new RuleViewModel();
-
         }
 
         private void AddRowButton_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as RuleViewModel).CreateRule();
         }
-
 
         private void RemoveRowButton_Click(object sender, RoutedEventArgs e)
         {
@@ -47,22 +38,28 @@ namespace Builder
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var rvm = (DataContext as RuleViewModel);
+            RuleViewModel rvm = (DataContext as RuleViewModel);
             if (rvm.OpenDocument == "" || rvm.OpenDocument == null)
+            {
                 SaveAsButton_Click(sender, e);
+            }
             else
+            {
                 rvm.SerializeRules(rvm.OpenDocument);
+            }
         }
 
         private void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
-            var rvm = (DataContext as RuleViewModel);
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "EmulatorRules"; // Default file name
-            dlg.DefaultExt = ".xml"; // Default file extension
-            dlg.Filter = "XML documents (.xml)|*.xml"; // Filter files by extension
+            RuleViewModel rvm = (DataContext as RuleViewModel);
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "EmulatorRules", // Default file name
+                DefaultExt = ".xml", // Default file extension
+                Filter = "XML documents (.xml)|*.xml" // Filter files by extension
+            };
 
-            var result = dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
 
             if (result == true)
             {
@@ -73,9 +70,9 @@ namespace Builder
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            var rvm = (DataContext as RuleViewModel);
-            var dlg = new Microsoft.Win32.OpenFileDialog();
-            var result = dlg.ShowDialog();
+            RuleViewModel rvm = (DataContext as RuleViewModel);
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            bool? result = dlg.ShowDialog();
             if (result == true && dlg.CheckPathExists)
             {
                 rvm.DeSerializeRules(dlg.FileName);
@@ -85,7 +82,7 @@ namespace Builder
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            var rvm = (DataContext as RuleViewModel);
+            RuleViewModel rvm = (DataContext as RuleViewModel);
             if (rvm.Rules.Count != 0)
             {
                 string messageBoxText = "Do you want to save changes?";
@@ -101,11 +98,13 @@ namespace Builder
                         SaveButton_Click(sender, e);
                         rvm.Rules.Clear();
                         break;
+
                     case MessageBoxResult.No:
                         rvm.Rules.Clear();
                         break;
+
                     case MessageBoxResult.Cancel:
-                        
+
                         break;
                 }
             }

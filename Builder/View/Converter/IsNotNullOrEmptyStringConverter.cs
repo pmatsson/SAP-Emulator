@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Builder.View.Converter
+namespace MQChatter.View.Converter
 {
     [ValueConversion(typeof(string), typeof(bool))]
     public class IsNotNullOrEmptyStringConverter : IValueConverter
@@ -15,6 +11,7 @@ namespace Builder.View.Converter
         {
             return !(value == null || value.ToString() == "");
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
