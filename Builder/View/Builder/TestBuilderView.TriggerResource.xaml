@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:triggerType="clr-namespace:MQChatter.Model.Trigger"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
 
     <ResourceDictionary.MergedDictionaries>
@@ -8,18 +9,18 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Once template -->
-    <DataTemplate x:Key="OnceContent" />
+    <DataTemplate DataType="{x:Type triggerType:OnceTrigger}" />
 
     <!-- Recieved template -->
-    <DataTemplate x:Key="ReceivedContent">
+    <DataTemplate DataType="{x:Type triggerType:ReceivedTrigger}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <TextBox  Text="{Binding Selected.DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox  Text="{Binding DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   Controls:TextBoxHelper.Watermark="telegram root" Margin="{StaticResource RuleSubElementMargin}" />
-            <StackPanel Grid.Column="2" DataContext="{Binding Path=Selected}" Margin="{StaticResource RuleSubElementMargin}">
+            <StackPanel Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}">
                 <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}" />
                 <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
                     <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
@@ -38,34 +39,18 @@
     </DataTemplate>
 
     <!-- Timer template -->
-    <DataTemplate x:Key="TimerContent">
+    <DataTemplate DataType="{x:Type triggerType:TimerTrigger}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Selected.Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Controls:TextBoxHelper.Watermark="time" Margin="{StaticResource RuleSubElementMargin}" Grid.Column="0" />
-            <ComboBox Grid.Column="1" SelectedValue="{Binding Selected.TimeUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       Margin="{StaticResource RuleSubElementMargin}" ItemsSource="{Binding Selected.TimeUnits}" />
+            <ComboBox Grid.Column="1" SelectedValue="{Binding TimeUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Margin="{StaticResource RuleSubElementMargin}" ItemsSource="{Binding TimeUnits}" />
         </Grid>
     </DataTemplate>
-
-    <!-- Action selector -->
-    <Style x:Key="SelectedTriggerContent" TargetType="ContentPresenter">
-        <Setter Property="ContentTemplate" Value="{StaticResource OnceContent}" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Once">
-                <Setter Property="ContentTemplate" Value="{StaticResource OnceContent}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Received">
-                <Setter Property="ContentTemplate" Value="{StaticResource ReceivedContent}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedTriggerComboBox, Path=SelectedItem.DisplayName}" Value="Every">
-                <Setter Property="ContentTemplate" Value="{StaticResource TimerContent}" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
     <!-- Action template -->
     <DataTemplate x:Key="TriggerTemplate">
@@ -88,8 +73,8 @@
                             <ComboBox x:Name="SelectedTriggerComboBox" ItemsSource="{Binding AvailableTriggers, Mode=OneTime}" DisplayMemberPath="DisplayName"
                             SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="{StaticResource RuleElementMargin}" />
 
-                            <!--Trigger params -->
-                            <ContentPresenter Grid.Column="1" Style="{StaticResource SelectedTriggerContent}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
+                            <!--Trigger content control-->
+                            <ContentControl Grid.Column="1" DataContext="{Binding Path=Selected}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
 
                             <!--Trigger remove button-->
                             <Button Grid.Column="2" Command="{Binding Path=DataContext.TriggerGroup.RemoveTriggerCommand,

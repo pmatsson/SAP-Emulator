@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:actionType="clr-namespace:MQChatter.Model.Action"
                     xmlns:behavior="clr-namespace:MQChatter.View.Behavior">
 
     <ResourceDictionary.MergedDictionaries>
@@ -10,24 +12,24 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- SendAction template -->
-    <DataTemplate x:Key="SendContent">
+    <DataTemplate DataType="{x:Type actionType:SendAction}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Grid.Column="0" Text="{Binding FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      IsReadOnly="True" Margin="{StaticResource RuleSubElementMargin}" />
-            <Button Grid.Column="1" DataContext="{Binding Path=Selected}" Style="{StaticResource FileButtonStyle}"
+            <Button Grid.Column="1"  Style="{StaticResource FileButtonStyle}"
                     Margin="{StaticResource RuleSubElementMargin}">
                 <i:Interaction.Behaviors>
                     <behavior:FileDialogBehavior SetterName="FilePath" />
                 </i:Interaction.Behaviors>
             </Button>
-            <StackPanel Grid.Column="2" DataContext="{Binding Path=Selected}" Margin="{StaticResource RuleSubElementMargin}">
+            <StackPanel Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}">
                 <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}" />
-                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
+                <Popup x:Name="test123" IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
                     <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
                         <StackPanel>
                             <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="10" />
@@ -43,31 +45,33 @@
         </Grid>
     </DataTemplate>
 
-    <!-- ModifyAction template -->
-    <DataTemplate x:Key="ModifyContent">
+    <!-- AddAction template -->
+    <DataTemplate DataType="{x:Type actionType:AddAction}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Controls:TextBoxHelper.Watermark="path" />
-            <Controls:NumericUpDown Grid.Column="1" HideUpDownButtons="true" Value="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,1,0" />
+            <TextBox Grid.Column="0" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Controls:TextBoxHelper.Watermark="xpath" />
+            <Controls:NumericUpDown Grid.Column="1" HideUpDownButtons="true" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,1,0" />
         </Grid>
     </DataTemplate>
 
-    <!-- Action selector -->
-    <Style x:Key="SelectedActionContent" TargetType="ContentPresenter">
-        <Setter Property="ContentTemplate" Value="{StaticResource SendContent}" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=SelectedActionComboBox, Path=SelectedItem.DisplayName}" Value="Send">
-                <Setter Property="ContentTemplate" Value="{StaticResource SendContent}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedActionComboBox, Path=SelectedItem.DisplayName}" Value="Add">
-                <Setter Property="ContentTemplate" Value="{StaticResource ModifyContent}" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
+    <!-- CopyAction template -->
+    <DataTemplate DataType="{x:Type actionType:CopyAction}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding PathFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Controls:TextBoxHelper.Watermark="xpath from" />
+            <TextBox Grid.Column="1" Text="{Binding PathTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Controls:TextBoxHelper.Watermark="xpath to" />
+        </Grid>
+    </DataTemplate>
+
 
     <!-- Action template -->
     <DataTemplate x:Key="ActionTemplate">
@@ -76,7 +80,11 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding ActionGroup.Actions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding ActionGroup.Actions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.ColumnSpan="2">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -89,7 +97,7 @@
                             <ComboBox x:Name="SelectedActionComboBox" ItemsSource="{Binding AvailableActions, Mode=OneTime}" DisplayMemberPath="DisplayName"
                             SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="{StaticResource RuleElementMargin}" />
 
-                            <ContentPresenter Grid.Column="1" Style="{StaticResource SelectedActionContent}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
+                            <ContentControl Grid.Column="1" DataContext="{Binding Path=Selected}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
 
                             <Button Grid.Column="2" Command="{Binding Path=DataContext.ActionGroup.RemoveActionCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                             CommandParameter="{Binding}" Style="{StaticResource RemoveButtonStyle}" Margin="{StaticResource RuleLastElementMargin}" />
@@ -97,7 +105,22 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Grid.Row="1" Command="{Binding ActionGroup.AddActionCommand}" Style="{StaticResource AddRuleButtonStyle}" />
+
+            <Button Grid.Row="1" Grid.Column="0" Command="{Binding ActionGroup.AddActionCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddRuleButtonStyle}" />
+
+            <Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=ActionGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ActionGroup.ErrorMessage}" Margin="4,0,0,0" >
+                <Controls:Badged.Style>
+                    <Style TargetType="Controls:Badged">
+                        <Setter Property="BadgeBackground" Value="IndianRed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActionGroup.NumberOfErrors}" Value="0">
+                                <Setter Property="BadgeBackground" Value="DodgerBlue"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:Badged.Style>
+                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"/>
+            </Controls:Badged>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

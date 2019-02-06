@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup.Trigger
 {
-    public class Trigger : NotifyPropertyChangedBase
+    public class ATrigger : NotifyPropertyChangedBase
     {
         private TriggerBase _selected;
 
@@ -46,7 +46,7 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
             }
         }
 
-        public Trigger()
+        public ATrigger()
         {
             AvailableTriggers = new ObservableCollection<TriggerBase>()
             {

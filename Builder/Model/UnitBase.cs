@@ -11,13 +11,13 @@ namespace MQChatter.Model
             UnitProcessCount = 0;
         }
 
-        public bool TryProcess(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup)
+        public bool TryProcess(XmlDocument doc, int ruleProcessCount, IRuleUnit ruleUnit)
         {
             UnitProcessCount++;
-            return Process(doc, ruleProcessCount, ruleGroup);
+            return Process(doc, ruleProcessCount, ruleUnit);
         }
 
-        protected abstract bool Process(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup);
+        protected abstract bool Process(XmlDocument doc, int ruleProcessCount, IRuleUnit ruleUnit);
 
         protected int UnitProcessCount { get; set; }
     }

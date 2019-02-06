@@ -1,6 +1,7 @@
 ﻿using MQChatter.Model.Trigger;
 using MQChatter.MQ;
 using MQChatter.ViewModel;
+using MQChatter.ViewModel.RuleGroup;
 using MQChatter.ViewModel.RuleGroup.Action;
 using MQChatter.ViewModel.RuleGroup.Condition;
 using MQChatter.ViewModel.RuleGroup.Trigger;
@@ -11,26 +12,26 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Action = MQChatter.ViewModel.RuleGroup.Action.Action;
+using AAction = MQChatter.ViewModel.RuleGroup.Action.AAction;
 
 namespace MQChatter.Processor
 {
     public class RuleProcessor
     {
-        private List<Rule> _rules;
+        private List<ARuleGroup> _ruleGroups;
         private Dictionary<MQProps, MQHandler> _recvHandlers;
         private Dictionary<MQProps, XmlDocument> _recvFront;
         private CancellationTokenSource _wtoken;
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public event EventHandler<Rule> RuleProcessed;
+        public event EventHandler<ARuleGroup> RuleProcessed;
 
         public event EventHandler<string> MessageReceived;
 
-        public RuleProcessor(List<Rule> rules)
+        public RuleProcessor(List<ARuleGroup> ruleGroups)
         {
-            _rules = rules;
+            _ruleGroups = ruleGroups;
             _recvHandlers = new Dictionary<MQProps, MQHandler>();
             _recvFront = new Dictionary<MQProps, XmlDocument>();
             _wtoken = new CancellationTokenSource();
@@ -41,12 +42,12 @@ namespace MQChatter.Processor
             logger.Debug("Starting emulation");
 
             // Restore default values
-            _rules.ForEach(x => x.Reset());
+            _ruleGroups.ForEach(x => x.Reset());
 
             // Create MQ handlers
-            foreach (Rule rule in _rules)
+            foreach (ARuleGroup rule in _ruleGroups)
             {
-                foreach (Trigger trigger in rule.TriggerGroup.Triggers)
+                foreach (ATrigger trigger in rule.TriggerGroup.Triggers)
                 {
                     if (trigger.Selected is ReceivedTrigger)
                     {
@@ -132,20 +133,20 @@ namespace MQChatter.Processor
                 throw;
             }
 
-            foreach (Rule rule in _rules)
+            foreach (ARuleGroup ruleGroup in _ruleGroups)
             {
                 // Check trigger, retrieve xml if applicable
-                if (CheckTriggers(out XmlDocument doc, rule.TriggerGroup, rule.ProcessCount))
+                if (CheckTriggers(out XmlDocument doc, ruleGroup.TriggerGroup, ruleGroup.ProcessCount))
                 {
-                    logger.Debug("Fulfilled trigger for rule {0}", rule.GetHashCode());
+                    logger.Debug("Fulfilled trigger for rule {0}", ruleGroup.GetHashCode());
 
                     // Check conditions
-                    if (CheckConditions(doc, rule.ConditionGroup, rule.ProcessCount))
+                    if (CheckConditions(doc, ruleGroup.ConditionGroup, ruleGroup.ProcessCount))
                     {
-                        logger.Debug("Fulfilled condition for rule {0}", rule.GetHashCode());
+                        logger.Debug("Fulfilled condition for rule {0}", ruleGroup.GetHashCode());
                         // Perform action
-                        DoActions(doc, rule.ActionGroup, rule.ProcessCount);
-                        RuleProcessed(this, rule);
+                        DoActions(doc, ruleGroup.ActionGroup, ruleGroup.ProcessCount);
+                        RuleProcessed(this, ruleGroup);
                     }
                 }
             }
@@ -163,7 +164,7 @@ namespace MQChatter.Processor
         {
             doc = null;
             Collection<bool> trigResults = new Collection<bool>();
-            foreach (Trigger trigger in tg.Triggers)
+            foreach (ATrigger trigger in tg.Triggers)
             {
                 if (trigger.Selected is ReceivedTrigger)
                 {
@@ -186,7 +187,7 @@ namespace MQChatter.Processor
         public bool CheckConditions(XmlDocument doc, ConditionGroup cg, int processCount)
         {
             Collection<bool> condResults = new Collection<bool>();
-            foreach (Condition condition in cg.Conditions)
+            foreach (ACondition condition in cg.Conditions)
             {
                 condResults.Add(condition.Selected.TryProcess(doc, processCount, cg));
             }
@@ -197,7 +198,7 @@ namespace MQChatter.Processor
 
         public void DoActions(XmlDocument doc, ActionGroup ag, int processCount)
         {
-            foreach (Action action in ag.Actions)
+            foreach (AAction action in ag.Actions)
             {
                 logger.Debug("Performing action: {0}", action.Selected.DisplayName);
 

@@ -3,9 +3,7 @@ using MQChatter.Model.Action;
 using MQChatter.Model.Condition;
 using MQChatter.Model.Trigger;
 using MQChatter.Processor;
-using MQChatter.ViewModel.RuleGroup.Action;
-using MQChatter.ViewModel.RuleGroup.Condition;
-using MQChatter.ViewModel.RuleGroup.Trigger;
+using MQChatter.ViewModel.RuleGroup;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -13,69 +11,28 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Action = MQChatter.ViewModel.RuleGroup.Action.Action;
 
 namespace MQChatter.ViewModel
 {
-    public class Rule : NotifyPropertyChangedBase
-    {
-        public TriggerGroup TriggerGroup { get; set; }
-
-        public ConditionGroup ConditionGroup { get; set; }
-
-        public ActionGroup ActionGroup { get; set; }
-
-        public int ProcessCount { get; set; }
-
-        public Rule()
-        {
-            TriggerGroup = new TriggerGroup();
-            ConditionGroup = new ConditionGroup();
-            ActionGroup = new ActionGroup();
-
-            TriggerGroup.AddTrigger();
-            ConditionGroup.AddCondition();
-            ActionGroup.AddAction();
-        }
-
-        public void Reset()
-        {
-            ProcessCount = 0;
-            foreach (Trigger trigger in TriggerGroup.Triggers)
-            {
-                trigger.Selected.Reset();
-            }
-
-            foreach (Condition condition in ConditionGroup.Conditions)
-            {
-                condition.Selected.Reset();
-            }
-
-            foreach (Action action in ActionGroup.Actions)
-            {
-                action.Selected.Reset();
-            }
-        }
-    }
 
     public class RuleViewModel : NotifyPropertyChangedBase
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private ObservableCollection<Rule> _rules;
+        private ObservableCollection<ARuleGroup> _ruleGroups;
         private int _processedRulesCount;
         private RuleProcessor _ruleProcessor;
         private bool _isRunningEmulator;
         private string _openDocument;
-        private Rule _selectedRule;
+        private ARuleGroup _selectedRule;
 
-        public ObservableCollection<Rule> Rules
+        public ObservableCollection<ARuleGroup> RuleGroups
         {
-            get => _rules;
-            set => SetProperty(ref _rules, value);
+            get => _ruleGroups;
+            set => SetProperty(ref _ruleGroups, value);
         }
 
-        public Rule SelectedRule
+        public ARuleGroup SelectedRule
         {
             get => _selectedRule;
             set => SetProperty(ref _selectedRule, value);
@@ -101,14 +58,14 @@ namespace MQChatter.ViewModel
 
         public RuleViewModel()
         {
-            Rules = new ObservableCollection<Rule>();
+            RuleGroups = new ObservableCollection<ARuleGroup>();
             _isRunningEmulator = false;
         }
 
         public async void StartEmulation()
         {
             IsRunningEmulator = true;
-            _ruleProcessor = new RuleProcessor(Rules.ToList());
+            _ruleProcessor = new RuleProcessor(RuleGroups.ToList());
             _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
             _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
 
@@ -150,43 +107,43 @@ namespace MQChatter.ViewModel
             }
         }
 
-        private void RuleProcessor_RuleProcessed(object sender, Rule rule)
+        private void RuleProcessor_RuleProcessed(object sender, ARuleGroup rule)
         {
             rule.ProcessCount++;
-            ProcessedRuleCount = Rules.Where(x => x?.ProcessCount > 0).Count();
+            ProcessedRuleCount = RuleGroups.Where(x => x?.ProcessCount > 0).Count();
             logger.Trace("Rule " + rule.GetHashCode() + " processed. This rule has been processed {0} time(s)", rule.ProcessCount.ToString());
         }
 
         public void CreateRule()
         {
-            Rules.Add(new Rule());
+            RuleGroups.Add(new ARuleGroup());
         }
 
         public void RemoveSelectedRule()
         {
             if (SelectedRule != null)
             {
-                Rules.Remove(SelectedRule);
+                RuleGroups.Remove(SelectedRule);
             }
         }
 
         public void SerializeRules(string filename)
         {
             TextWriter writer = new StreamWriter(filename);
-            RuleSerializer.Serialize(Rules.ToList(), writer);
+            RuleSerializer.Serialize(RuleGroups.ToList(), writer);
         }
 
         public void DeSerializeRules(string filename)
         {
-            Rules = RuleSerializer.Deserialize(filename);
+            RuleGroups = RuleSerializer.Deserialize(filename);
         }
 
         public static class RuleSerializer
         {
-            public static void Serialize(List<Rule> rules, TextWriter stream)
+            public static void Serialize(List<ARuleGroup> rules, TextWriter stream)
             {
                 List<Type> ruleTypes = new List<Type>();
-                Rule rule = new Rule();
+                ARuleGroup rule = new ARuleGroup();
 
                 foreach (TriggerBase trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
                 {
@@ -215,17 +172,17 @@ namespace MQChatter.ViewModel
                     }
                 }
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Rule>), ruleTypes.ToArray());
+                XmlSerializer serializer = new XmlSerializer(typeof(List<ARuleGroup>), ruleTypes.ToArray());
                 serializer.Serialize(stream, rules);
                 stream.Close();
             }
 
-            public static ObservableCollection<Rule> Deserialize(string path)
+            public static ObservableCollection<ARuleGroup> Deserialize(string path)
             {
                 List<Type> ruleTypes = new List<Type>();
-                Rule rule = new Rule();
+                ARuleGroup ruleGroup = new ARuleGroup();
 
-                foreach (TriggerBase trigger in rule.TriggerGroup.Triggers.First().AvailableTriggers)
+                foreach (TriggerBase trigger in ruleGroup.TriggerGroup.Triggers.First().AvailableTriggers)
                 {
                     Type type = trigger.GetType();
                     if (!ruleTypes.Contains(type))
@@ -234,7 +191,7 @@ namespace MQChatter.ViewModel
                     }
                 }
 
-                foreach (ConditionBase condition in rule.ConditionGroup.Conditions.First().AvailableConditions)
+                foreach (ConditionBase condition in ruleGroup.ConditionGroup.Conditions.First().AvailableConditions)
                 {
                     Type type = condition.GetType();
                     if (!ruleTypes.Contains(type))
@@ -243,7 +200,7 @@ namespace MQChatter.ViewModel
                     }
                 }
 
-                foreach (ActionBase action in rule.ActionGroup.Actions.First().AvailableActions)
+                foreach (ActionBase action in ruleGroup.ActionGroup.Actions.First().AvailableActions)
                 {
                     Type type = action.GetType();
                     if (!ruleTypes.Contains(type))
@@ -252,12 +209,12 @@ namespace MQChatter.ViewModel
                     }
                 }
 
-                ObservableCollection<Rule> result = null;
+                ObservableCollection<ARuleGroup> result = null;
                 TextReader reader = new StreamReader(path);
-                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Rule>), ruleTypes.ToArray());
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<ARuleGroup>), ruleTypes.ToArray());
                 try
                 {
-                    result = (ObservableCollection<Rule>)serializer.Deserialize(reader);
+                    result = (ObservableCollection<ARuleGroup>)serializer.Deserialize(reader);
                 }
                 catch (InvalidOperationException)
                 {

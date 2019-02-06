@@ -6,18 +6,18 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup.Condition
 {
-    public class ConditionGroup : NotifyPropertyChangedBase, IRuleGroup
+    public class ConditionGroup : NotifyPropertyChangedBase, IRuleUnit
     {
-        private ObservableCollection<Condition> _conditions;
+        private ObservableCollection<ACondition> _conditions;
 
         [XmlIgnore]
         public RelayCommand AddConditionCommand { get; private set; }
 
         [XmlIgnore]
-        public RelayCommand<Condition> RemoveConditionCommand { get; private set; }
+        public RelayCommand<ACondition> RemoveConditionCommand { get; private set; }
 
         [XmlElement("ConditionItem")]
-        public ObservableCollection<Condition> Conditions
+        public ObservableCollection<ACondition> Conditions
         {
             get => _conditions;
             set => SetProperty(ref _conditions, value);
@@ -25,7 +25,7 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
 
         public void AddCondition()
         {
-            Conditions.Add(new Condition());
+            Conditions.Add(new ACondition());
         }
 
         public bool CanAddCondition()
@@ -33,21 +33,21 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             return true;
         }
 
-        public void RemoveCondition(Condition condition)
+        public void RemoveCondition(ACondition condition)
         {
             Conditions.Remove(condition);
         }
 
-        public bool CanRemoveCondition(Condition condition)
+        public bool CanRemoveCondition(ACondition condition)
         {
             return !condition.Equals(Conditions.First());
         }
 
         public ConditionGroup()
         {
-            Conditions = new ObservableCollection<Condition>();
+            Conditions = new ObservableCollection<ACondition>();
             AddConditionCommand = new RelayCommand(AddCondition, CanAddCondition);
-            RemoveConditionCommand = new RelayCommand<Condition>(RemoveCondition, CanRemoveCondition);
+            RemoveConditionCommand = new RelayCommand<ACondition>(RemoveCondition, CanRemoveCondition);
         }
     }
 }

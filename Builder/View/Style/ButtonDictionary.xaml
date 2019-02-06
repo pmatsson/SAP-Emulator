@@ -86,4 +86,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ErrorButtonStyle" TargetType="Button" x:Shared="False" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <iconPacks:PackIconMaterial Kind="AlertCircleOutline" />
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

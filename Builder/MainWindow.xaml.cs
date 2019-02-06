@@ -83,7 +83,7 @@ namespace MQChatter
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             RuleViewModel rvm = (DataContext as RuleViewModel);
-            if (rvm.Rules.Count != 0)
+            if (rvm.RuleGroups.Count != 0)
             {
                 string messageBoxText = "Do you want to save changes?";
                 string caption = "Emulator";
@@ -96,11 +96,11 @@ namespace MQChatter
                 {
                     case MessageBoxResult.Yes:
                         SaveButton_Click(sender, e);
-                        rvm.Rules.Clear();
+                        rvm.RuleGroups.Clear();
                         break;
 
                     case MessageBoxResult.No:
-                        rvm.Rules.Clear();
+                        rvm.RuleGroups.Clear();
                         break;
 
                     case MessageBoxResult.Cancel:
@@ -108,6 +108,15 @@ namespace MQChatter
                         break;
                 }
             }
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new HelpWindow();
+            w.Show();
+            w.Activate();
+            w.Focus();
+            w.Topmost = true;
         }
     }
 }

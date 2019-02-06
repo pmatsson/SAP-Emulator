@@ -72,10 +72,10 @@
             <MenuItem Header="Tools">
                 <MenuItem Header="MQ sender" IsEnabled="False" />
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="Constructing a rule" IsEnabled="False" />
+            <MenuItem Header="Help" Click="Help_Click">
+                <!--<MenuItem Header="Constructing a rule" IsEnabled="False" />
                 <MenuItem Header="Running chatter" IsEnabled="False" />
-                <MenuItem Header="XPath" IsEnabled="False" />
+                <MenuItem Header="XPath" IsEnabled="False" />-->
             </MenuItem>
         </Menu>
 

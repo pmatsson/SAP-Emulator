@@ -19,7 +19,7 @@
             <Controls:Badged Grid.Row="2" Badge="{Binding ProcessedRuleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20">
 
-                <Controls:MetroProgressBar Minimum="0" Maximum="{Binding Rules.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                <Controls:MetroProgressBar Minimum="0" Maximum="{Binding RuleGroups.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        Value="{Binding ProcessedRuleCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        Background="LightGray" Foreground="{DynamicResource ProgressBrush}" VerticalAlignment="Bottom" />
             </Controls:Badged>

@@ -10,9 +10,9 @@ namespace MQChatter.Model.Trigger
     {
         public abstract string DisplayName { get; }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup)
+        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleUnit ruleUnit)
         {
-            TriggerGroup triggerGroup = ruleGroup as TriggerGroup;
+            TriggerGroup triggerGroup = ruleUnit as TriggerGroup;
 
             if (triggerGroup == null)
             {

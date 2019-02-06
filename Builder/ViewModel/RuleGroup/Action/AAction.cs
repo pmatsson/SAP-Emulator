@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup.Action
 {
-    public class Action : NotifyPropertyChangedBase
+    public class AAction : NotifyPropertyChangedBase
     {
         private ActionBase _selected;
 
@@ -43,21 +43,33 @@ namespace MQChatter.ViewModel.RuleGroup.Action
                     AvailableActions = loadedActions;
                 }
                 SetProperty(ref _selected, value);
+
             }
         }
 
-        public Action()
+        public AAction()
         {
+
+
             AvailableActions = new ObservableCollection<ActionBase>()
             {
                 new SendAction(),
-                new AddAction()
+                new AddAction(),
+                new CopyAction()
             };
+
 
             if (Selected == null)
             {
                 Selected = AvailableActions.First();
             }
+
+            PropertyChanged += Selected_PropertyChanged;
+        }
+
+        private void Selected_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            //throw new System.NotImplementedException();
         }
     }
 }

@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DataGrid x:Name="RuleDG" ItemsSource="{Binding Rules, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False"
+    <DataGrid x:Name="RuleDG" ItemsSource="{Binding RuleGroups, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False"
               CanUserAddRows="False" CanUserDeleteRows="True" AlternationCount="2" EnableColumnVirtualization="True" EnableRowVirtualization="True"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedRule, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
               VerticalScrollBarVisibility="Visible">

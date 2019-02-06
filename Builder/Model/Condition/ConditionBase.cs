@@ -10,9 +10,9 @@ namespace MQChatter.Model.Condition
     {
         public abstract string DisplayName { get; }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup)
+        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleUnit ruleUnit)
         {
-            ConditionGroup conditionGroup = ruleGroup as ConditionGroup;
+            ConditionGroup conditionGroup = ruleUnit as ConditionGroup;
 
             if (conditionGroup == null)
             {

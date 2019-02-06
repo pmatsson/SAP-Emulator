@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conditionType="clr-namespace:MQChatter.Model.Condition"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
 
     <ResourceDictionary.MergedDictionaries>
@@ -8,31 +9,31 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Always template -->
-    <DataTemplate x:Key="AlwaysContent" />
+    <DataTemplate DataType="{x:Type conditionType:AlwaysCondition}" />
 
     <!-- Contains template -->
-    <DataTemplate x:Key="ContainsContent">
+    <DataTemplate DataType="{x:Type conditionType:ContainsCondition}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Selected.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Grid.Column="0" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Controls:TextBoxHelper.Watermark="xpath" Margin="{StaticResource RuleSubElementMargin}" />
-            <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}" />
         </Grid>
     </DataTemplate>
 
     <!-- Count template -->
-    <DataTemplate x:Key="CountContent">
+    <DataTemplate DataType="{x:Type conditionType:CountCondition}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" SelectedValue="{Binding Selected.Operator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <ComboBox Grid.Column="0" SelectedValue="{Binding Operator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       SelectedValuePath="Content" Margin="{StaticResource RuleSubElementMargin}">
                 <ComboBoxItem Content="=" />
                 <ComboBoxItem Content="&gt;" />
@@ -40,30 +41,14 @@
                 <ComboBoxItem Content="&gt;=" />
                 <ComboBoxItem Content="&lt;=" />
             </ComboBox>
-            <TextBox Grid.Column="1" Text="{Binding Selected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Controls:TextBoxHelper.Watermark="value" Margin="{StaticResource RuleSubElementMargin}" />
             <ToggleButton Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}"
                           Style="{StaticResource LoopToggleButtonStyle}" ToolTip="Repeating" BorderBrush="Transparent"
-                          IsChecked="{Binding Selected.Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                          IsChecked="{Binding Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </ToggleButton>
         </Grid>
     </DataTemplate>
-
-    <!-- Condition selector -->
-    <Style x:Key="SelectedConditionContent" TargetType="ContentPresenter">
-        <Setter Property="ContentTemplate" Value="{StaticResource AlwaysContent}" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Contains">
-                <Setter Property="ContentTemplate" Value="{StaticResource ContainsContent}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Always">
-                <Setter Property="ContentTemplate" Value="{StaticResource AlwaysContent}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding ElementName=SelectedConditionComboBox, Path=SelectedItem.DisplayName}" Value="Count">
-                <Setter Property="ContentTemplate" Value="{StaticResource CountContent}" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
 
     <!-- Condition template -->
     <DataTemplate x:Key="ConditionTemplate">
@@ -85,7 +70,7 @@
                             <ComboBox x:Name="SelectedConditionComboBox" ItemsSource="{Binding AvailableConditions, Mode=OneTime}" DisplayMemberPath="DisplayName"
                             SelectedItem="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="{StaticResource RuleElementMargin}" />
 
-                            <ContentPresenter Grid.Column="1" Style="{StaticResource SelectedConditionContent}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
+                            <ContentControl Grid.Column="1" DataContext="{Binding Path=Selected}" Content="{Binding}" Margin="{StaticResource RuleElementMargin}" />
 
                             <Button Grid.Column="2" Command="{Binding Path=DataContext.ConditionGroup.RemoveConditionCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                             CommandParameter="{Binding}" Style="{StaticResource RemoveButtonStyle}" Margin="{StaticResource RuleLastElementMargin}" />

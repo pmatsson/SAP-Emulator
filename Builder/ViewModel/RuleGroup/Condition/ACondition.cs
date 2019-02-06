@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup.Condition
 {
-    public class Condition : NotifyPropertyChangedBase
+    public class ACondition : NotifyPropertyChangedBase
     {
         private ConditionBase _selected;
 
@@ -46,7 +46,7 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             }
         }
 
-        public Condition()
+        public ACondition()
         {
             AvailableConditions = new ObservableCollection<ConditionBase>()
             {
@@ -59,6 +59,7 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             {
                 Selected = AvailableConditions.First();
             }
+
         }
     }
 }

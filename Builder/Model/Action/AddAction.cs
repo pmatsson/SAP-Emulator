@@ -11,44 +11,22 @@ namespace MQChatter.Model.Action
     [XmlType("Add")]
     public class AddAction : ActionBase
     {
-        //private string _filePath;
         private string _path;
-
         private int _value;
-
         public override string DisplayName => "Add";
-
-        //[XmlElement("FilePath")]
-        //public string FilePath
-        //{
-        //    get => _filePath;
-        //    set
-        //    {
-        //        _filePath = value;
-        //        SetProperty(ref _filePath, value);
-        //    }
-        //}
 
         [XmlElement("Path")]
         public string Path
         {
             get => _path;
-            set
-            {
-                _path = value;
-                SetProperty(ref _path, value);
-            }
+            set => SetProperty(ref _path, value);
         }
 
         [XmlElement("Value")]
         public int Value
         {
             get => _value;
-            set
-            {
-                _value = value;
-                SetProperty(ref _value, value);
-            }
+            set => SetProperty(ref _value, value);
         }
 
         protected override bool ProcessAction(XmlDocument doc, int ruleProcessCount, ActionGroup actionGroup)
@@ -66,7 +44,7 @@ namespace MQChatter.Model.Action
             }
             else
             {
-                throw new ArgumentException("The provided rule group does not contain any Send Actions");
+                throw new ArgumentException("The provided rule group must contain a Send Action");
             }
 
             try

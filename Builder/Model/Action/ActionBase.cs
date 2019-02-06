@@ -10,9 +10,9 @@ namespace MQChatter.Model.Action
     {
         public abstract string DisplayName { get; }
 
-        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleGroup ruleGroup)
+        protected override bool Process(XmlDocument doc, int ruleProcessCount, IRuleUnit ruleUnit)
         {
-            ActionGroup actionGroup = ruleGroup as ActionGroup;
+            ActionGroup actionGroup = ruleUnit as ActionGroup;
 
             if (actionGroup == null)
             {

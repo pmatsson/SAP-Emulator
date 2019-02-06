@@ -6,18 +6,18 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup.Trigger
 {
-    public class TriggerGroup : NotifyPropertyChangedBase, IRuleGroup
+    public class TriggerGroup : NotifyPropertyChangedBase, IRuleUnit
     {
-        private ObservableCollection<Trigger> _triggers;
+        private ObservableCollection<ATrigger> _triggers;
 
         [XmlIgnore]
         public RelayCommand AddTriggerCommand { get; private set; }
 
         [XmlIgnore]
-        public RelayCommand<Trigger> RemoveTriggerCommand { get; private set; }
+        public RelayCommand<ATrigger> RemoveTriggerCommand { get; private set; }
 
         [XmlElement("TriggerItem")]
-        public ObservableCollection<Trigger> Triggers
+        public ObservableCollection<ATrigger> Triggers
         {
             get => _triggers;
             set => SetProperty(ref _triggers, value);
@@ -25,7 +25,7 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
 
         public void AddTrigger()
         {
-            Triggers.Add(new Trigger());
+            Triggers.Add(new ATrigger());
         }
 
         public bool CanAddTrigger()
@@ -33,21 +33,23 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
             return true;
         }
 
-        public void RemoveTrigger(Trigger trigger)
+        public void RemoveTrigger(ATrigger trigger)
         {
             Triggers.Remove(trigger);
         }
 
-        public bool CanRemoveCondition(Trigger trigger)
+        public bool CanRemoveCondition(ATrigger trigger)
         {
             return !trigger.Equals(Triggers.First());
         }
 
+
+
         public TriggerGroup()
         {
-            Triggers = new ObservableCollection<Trigger>();
+            Triggers = new ObservableCollection<ATrigger>();
             AddTriggerCommand = new RelayCommand(AddTrigger, CanAddTrigger);
-            RemoveTriggerCommand = new RelayCommand<Trigger>(RemoveTrigger, CanRemoveCondition);
+            RemoveTriggerCommand = new RelayCommand<ATrigger>(RemoveTrigger, CanRemoveCondition);
         }
     }
 }

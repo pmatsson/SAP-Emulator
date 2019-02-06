@@ -98,25 +98,30 @@
     </ApplicationDefinition>
     <Compile Include="Common\NamespaceManager.cs" />
     <Compile Include="Common\NotifyPropertyChangedBase.cs" />
+    <Compile Include="HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Action\ActionBase.cs" />
     <Compile Include="Model\Action\AddAction.cs" />
+    <Compile Include="Model\Action\CopyAction.cs" />
     <Compile Include="Model\Action\SendAction.cs" />
     <Compile Include="Model\Condition\AlwaysCondition.cs" />
     <Compile Include="Model\Condition\ContainsCondition.cs" />
     <Compile Include="Model\Condition\ConditionBase.cs" />
     <Compile Include="Model\Condition\CountCondition.cs" />
-    <Compile Include="ViewModel\RuleGroup\Action\Action.cs" />
+    <Compile Include="ViewModel\RuleGroup\Action\AAction.cs" />
     <Compile Include="ViewModel\RuleGroup\Action\ActionGroup.cs" />
-    <Compile Include="ViewModel\RuleGroup\Condition\Condition.cs" />
+    <Compile Include="ViewModel\RuleGroup\Condition\ACondition.cs" />
     <Compile Include="ViewModel\RuleGroup\Condition\ConditionGroup.cs" />
-    <Compile Include="ViewModel\RuleGroup\Trigger\Trigger.cs" />
+    <Compile Include="ViewModel\RuleGroup\ARuleGroup.cs" />
+    <Compile Include="ViewModel\RuleGroup\Trigger\ATrigger.cs" />
     <Compile Include="ViewModel\RuleGroup\Trigger\TriggerGroup.cs" />
     <Compile Include="Model\Trigger\TimerTrigger.cs" />
     <Compile Include="Model\UnitBase.cs" />
     <Compile Include="MQ\MQHandler.cs" />
     <Compile Include="MQ\MQProps.cs" />
     <Compile Include="Processor\RuleProcessor.cs" />
-    <Compile Include="ViewModel\RuleGroup\IRuleGroup.cs" />
+    <Compile Include="ViewModel\RuleGroup\IRuleUnit.cs" />
     <Compile Include="ViewModel\RuleViewModel.cs" />
     <Compile Include="View\Behavior\FileDialogBehavior.cs" />
     <Compile Include="View\Converter\NegateBooleanConverter.cs" />
@@ -127,6 +132,10 @@
     <Compile Include="View\Builder\TestBuilderView.xaml.cs">
       <DependentUpon>TestBuilderView.xaml</DependentUpon>
     </Compile>
+    <Page Include="HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
