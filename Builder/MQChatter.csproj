@@ -132,6 +132,9 @@
     <Compile Include="View\Builder\TestBuilderView.xaml.cs">
       <DependentUpon>TestBuilderView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XPathTestWindow.xaml.cs">
+      <DependentUpon>XPathTestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Builder\TestBuilderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XPathTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

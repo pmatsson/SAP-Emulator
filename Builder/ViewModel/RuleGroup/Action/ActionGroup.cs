@@ -2,6 +2,7 @@
 using MQChatter.Common;
 using MQChatter.Model.Action;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -29,16 +30,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
 
         public void AddAction()
         {
-            var action = new AAction();
-            action.PropertyChanged += Action_PropertyChanged;
-            Actions.Add(action);
-            ValidateGroup();
-        }
-
-        private void Action_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == "Selected")
-                ValidateGroup();
+            Actions.Add(new AAction());
         }
 
         public bool CanAddAction()
@@ -49,8 +41,6 @@ namespace MQChatter.ViewModel.RuleGroup.Action
         public void RemoveAction(AAction action)
         {
             Actions.Remove(action);
-            action.PropertyChanged -= Action_PropertyChanged;
-            ValidateGroup();
         }
 
         public bool CanRemoveAction(AAction action)
@@ -70,7 +60,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             set => SetProperty(ref _nofErrors, value);
         }
 
-        public bool ValidateGroup()
+        public bool ValidateUnit()
         {
             void AddError(string msg)
             {
@@ -93,13 +83,13 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             var add = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(AddAction));
             var cpy = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(CopyAction));
             var snd = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(SendAction));
-
+            var ss = Actions;
             if (add != null && snd == null)
             {
                 AddError("'Add' requires a 'Send' in the same group");
             }
 
-            if(cpy != null && snd == null)
+            if (cpy != null && snd == null)
             {
                 AddError("'Copy' requires a 'Send' in the same group and 'Recieved' in the same rule");
             }
@@ -110,8 +100,43 @@ namespace MQChatter.ViewModel.RuleGroup.Action
         public ActionGroup()
         {
             Actions = new ObservableCollection<AAction>();
+            Actions.CollectionChanged += Actions_CollectionChanged;
             AddActionCommand = new RelayCommand(AddAction, CanAddAction);
             RemoveActionCommand = new RelayCommand<AAction>(RemoveAction, CanRemoveAction);
+        }
+
+        private void Actions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e?.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    AAction aaction = item as AAction;
+                    if (aaction != null && e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        aaction.PropertyChanged += Aaction_PropertyChanged;
+                        ValidateUnit();
+                    }
+                }
+            }
+            if (e?.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    AAction aaction = item as AAction;
+                    if (aaction != null && e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        aaction.PropertyChanged -= Aaction_PropertyChanged;
+                        ValidateUnit();
+                    }
+                }
+            }
+        }
+
+        private void Aaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Selected")
+                ValidateUnit();
         }
     }
 }

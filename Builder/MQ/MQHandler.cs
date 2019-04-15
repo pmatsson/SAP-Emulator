@@ -13,8 +13,8 @@ namespace MQChatter.MQ
 
         public MQHandler()
         {
-            MQEnvironment.UserId = "emulator";
-            MQEnvironment.Password = "Abcd1234";
+            //MQEnvironment.UserId = "emulator";
+            //MQEnvironment.Password = "Abcd1234";
         }
 
         public bool IsConnected()

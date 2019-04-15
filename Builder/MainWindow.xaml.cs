@@ -115,8 +115,13 @@ namespace MQChatter
             var w = new HelpWindow();
             w.Show();
             w.Activate();
-            w.Focus();
-            w.Topmost = true;
+        }
+
+        private void XPathTest_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new XPathTestWindow();
+            w.Show();
+            w.Activate();
         }
     }
 }

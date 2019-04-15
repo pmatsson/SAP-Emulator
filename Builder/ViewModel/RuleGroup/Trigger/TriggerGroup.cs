@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using MQChatter.Common;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -9,6 +10,8 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
     public class TriggerGroup : NotifyPropertyChangedBase, IRuleUnit
     {
         private ObservableCollection<ATrigger> _triggers;
+        private string _errorMsg;
+        private int _noErrors;
 
         [XmlIgnore]
         public RelayCommand AddTriggerCommand { get; private set; }
@@ -21,6 +24,18 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
         {
             get => _triggers;
             set => SetProperty(ref _triggers, value);
+        }
+
+        public int NumberOfErrors
+        {
+            get => _noErrors;
+            set => SetProperty(ref _noErrors, value);
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMsg;
+            set => SetProperty(ref _errorMsg, value);
         }
 
         public void AddTrigger()
@@ -43,13 +58,54 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
             return !trigger.Equals(Triggers.First());
         }
 
+        public bool ValidateUnit()
+        {
+            NumberOfErrors = 0;
+            ErrorMessage = "No errors in configuration :)";
 
+            return true;
+        }
 
         public TriggerGroup()
         {
             Triggers = new ObservableCollection<ATrigger>();
             AddTriggerCommand = new RelayCommand(AddTrigger, CanAddTrigger);
             RemoveTriggerCommand = new RelayCommand<ATrigger>(RemoveTrigger, CanRemoveCondition);
+            Triggers.CollectionChanged += Triggers_CollectionChanged;
+        }
+
+        private void Triggers_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e?.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    ATrigger atrigger = item as ATrigger;
+                    if (atrigger != null && e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        atrigger.PropertyChanged += Atrigger_PropertyChanged;
+                        ValidateUnit();
+                    }
+                }
+            }
+            if (e?.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    ATrigger atrigger = item as ATrigger;
+                    if (atrigger != null && e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        atrigger.PropertyChanged -= Atrigger_PropertyChanged;
+                        ValidateUnit();
+                    }
+                }
+            }
+        }
+
+        private void Atrigger_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Selected")
+                ValidateUnit();
         }
     }
 }

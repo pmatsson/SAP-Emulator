@@ -68,18 +68,188 @@
                             </StackPanel>
                         </TabItem>
                         <TabItem Header="Examples" Controls:ControlsHelper.HeaderFontSize="12">
-   
+                            <Label Content="This page is under construction" FontSize="18" FontWeight="Bold"/>
                         </TabItem>
                         <TabItem Header="Cheat sheet" Controls:ControlsHelper.HeaderFontSize="12">
+                            <StackPanel>
+                                <Grid  Height="Auto" Name="TransitionContainer" Background="White">
+                                    <FlowDocumentScrollViewer  >
+                                        <FlowDocument >
+                                            <Table CellSpacing="5">
+                                                <Table.Columns>
+                                                    <TableColumn Width="1*"/>
+                                                    <TableColumn Width="3*"/>
+                                                </Table.Columns>
+                                                
+                                                <TableRowGroup>
+                                                    <!-- Title row for the table. -->
+                                                    <TableRow Background="SkyBlue">
+                                                        <TableCell ColumnSpan="2">
+                                                            <Paragraph FontSize="16pt" FontWeight="Bold">Selecting Nodes</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
 
+                                                    <!-- Header row for the table. -->
+                                                    <TableRow Background="LightGoldenrodYellow">
+                                                        <TableCell>
+                                                            <Paragraph FontSize="14pt" FontWeight="Bold">Expression</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph FontSize="14pt" FontWeight="Bold">Description</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+
+                                  
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Paragraph>nodename</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects all nodes with the name "nodename"</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    
+                                                    <TableRow Background="lightgray">
+                                                        <TableCell>
+                                                            <Paragraph>/</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects from the root node</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Paragraph>//</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects nodes in the document from the current node that match the selection no matter where they are</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow Background="lightgray">
+                                                        <TableCell>
+                                                            <Paragraph>.</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects the current node</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Paragraph>..</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects the parent of the current node</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    <TableRow Background="lightgray">
+                                                        <TableCell>
+                                                            <Paragraph>@</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects attributes</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+   
+                                                </TableRowGroup>
+                                                <TableRowGroup>
+                                                </TableRowGroup>
+                                            </Table>
+                                            <Table CellSpacing="5">
+                                                <Table.Columns>
+                                                    <TableColumn Width="1*"/>
+                                                    <TableColumn Width="3*"/>
+                                                </Table.Columns>
+                                                <TableRowGroup>
+                                                    <!-- Title row for the table. -->
+                                                    <TableRow Background="SkyBlue">
+                                                        <TableCell ColumnSpan="2">
+                                                            <Paragraph FontSize="16pt" FontWeight="Bold">Predicates</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <!-- Header row for the table. -->
+                                                    <TableRow Background="LightGoldenrodYellow">
+                                                        <TableCell>
+                                                            <Paragraph FontSize="14pt" FontWeight="Bold">Expression</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph FontSize="14pt" FontWeight="Bold">Description</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Paragraph>/bookstore/book[1]</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects the first book element that is the child of the bookstore element.</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow Background="LightGray">
+                                                        <TableCell>
+                                                            <Paragraph>/bookstore/book[last()]</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects the last book element that is the child of the bookstore element</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow >
+                                                        <TableCell>
+                                                            <Paragraph>/bookstore/book[last()-1]</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects the last but one book element that is the child of the bookstore element</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow Background="LightGray">
+                                                        <TableCell>
+                                                            <Paragraph>//title[@lang]</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects all the title elements that have an attribute named lang</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow >
+                                                        <TableCell>
+                                                            <Paragraph>//title[@lang='eng']</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects all the title elements that have an attribute named lang with a value of 'eng'</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    <TableRow Background="LightGray">
+                                                        <TableCell>
+                                                            <Paragraph>/bookstore/book[price>35.00]/title</Paragraph>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Paragraph>Selects all the title elements of the book elements of the bookstore element that have a price element with a value greater than 35.00</Paragraph>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableRowGroup>
+                                            </Table>
+                                        </FlowDocument>
+                                    </FlowDocumentScrollViewer>
+                                </Grid>
+                            </StackPanel>
                         </TabItem>
                     </Controls:MetroAnimatedSingleRowTabControl>
                 </TabItem>
                 <TabItem Header="Constructing rules" >
-                    <TextBox Grid.Column="1" Text="Some other text" />
+                    <StackPanel>
+                        <Label Content="This page is under construction" FontSize="18" FontWeight="Bold"/>
+                        <Label Content="Rules are processed left to right top to bottom."/>
+                    </StackPanel>
                 </TabItem>
                 <TabItem Header="Running chatter" Controls:ControlsHelper.HeaderMargin="20">
-                    <TextBox Grid.Column="1" Text="Some other text" />
+                    <Label Content="This page is under construction" FontSize="18" FontWeight="Bold"/>
                 </TabItem>
             </Controls:MetroAnimatedSingleRowTabControl>
         </StackPanel>

@@ -63,13 +63,6 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             {
                 Selected = AvailableActions.First();
             }
-
-            PropertyChanged += Selected_PropertyChanged;
-        }
-
-        private void Selected_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            //throw new System.NotImplementedException();
         }
     }
 }

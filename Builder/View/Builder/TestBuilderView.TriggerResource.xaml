@@ -59,7 +59,11 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding TriggerGroup.Triggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding TriggerGroup.Triggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.ColumnSpan="2">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -84,7 +88,23 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Grid.Row="1" Command="{Binding TriggerGroup.AddTriggerCommand}" Style="{StaticResource AddRuleButtonStyle}" />
+            
+            <Button Grid.Row="1" Grid.ColumnSpan="2" Command="{Binding TriggerGroup.AddTriggerCommand}" Style="{StaticResource AddRuleButtonStyle}" />
+
+            <!--<Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=TriggerGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ConditionGroup.ErrorMessage}" Margin="4,0,0,0" >
+                <Controls:Badged.Style>
+                    <Style TargetType="Controls:Badged">
+                        <Setter Property="BadgeBackground" Value="IndianRed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=TriggerGroup.NumberOfErrors}" Value="0">
+                                <Setter Property="BadgeBackground" Value="DodgerBlue"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:Badged.Style>
+                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"/>
+            </Controls:Badged>-->
+            
         </Grid>
     </DataTemplate>
 </ResourceDictionary>
