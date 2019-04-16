@@ -26,6 +26,7 @@ namespace MQChatter.Processor
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public event EventHandler<ARuleGroup> RuleProcessed;
+        public event EventHandler<string> ErrorEncountered;
 
         public event EventHandler<string> MessageReceived;
 
@@ -63,10 +64,15 @@ namespace MQChatter.Processor
                 {
                     await ProcessRules();
                 }
+                catch (ArgumentException argex)
+                {
+                    logger.Fatal("Unrecoverable error encountered. Throwing: {0}", argex.Message);
+                    throw;
+                }
                 catch (Exception ex)
                 {
-                    logger.Warn("Unhandled exception was caught. Throwing: {0}", ex.Message);
-                    throw;
+                    logger.Warn("Error encountered {0}", ex.Message);
+                    ErrorEncountered(this, ex.Message);
                 }
             }
         }
@@ -113,6 +119,7 @@ namespace MQChatter.Processor
                     catch (Exception ex)
                     {
                         logger.Warn(ex, "Received message contains invalid xml markup");
+                        ErrorEncountered(this, "Invalid xml: " + msg);
                     }
                 }
 

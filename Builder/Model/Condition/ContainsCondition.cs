@@ -1,6 +1,7 @@
 ﻿using MQChatter.Common;
 using MQChatter.ViewModel.RuleGroup.Condition;
 using NLog;
+using System;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -20,19 +21,27 @@ namespace MQChatter.Model.Condition
 
         protected override bool ProcessCondition(XmlDocument doc, int ruleProcessCount, ConditionGroup conditionGroup)
         {
-            logger.Debug("Searching for {0}", Path);
-            XmlNodeList nodes = doc?.SelectNodes(Path, NamespaceManager.CreateNamespaceManager(doc));
-            foreach (XmlNode node in nodes)
+            try
             {
-                logger.Debug("Matched {0}", node.InnerText);
-                if (node.ChildNodes.Count == 1 && (node.FirstChild is XmlText))
+                logger.Debug("Searching for {0}", Path);
+                XmlNodeList nodes = doc?.SelectNodes(Path, NamespaceManager.CreateNamespaceManager(doc));
+                foreach (XmlNode node in nodes)
                 {
-                    if (node.InnerText == Value)
+                    logger.Debug("Matched {0}", node.InnerText);
+                    if (node.ChildNodes.Count == 1 && (node.FirstChild is XmlText))
                     {
-                        return true;
+                        if (node.InnerText == Value)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+
 
             return false;
         }

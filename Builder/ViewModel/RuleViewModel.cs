@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel
@@ -21,6 +22,7 @@ namespace MQChatter.ViewModel
 
         private ObservableCollection<ARuleGroup> _ruleGroups;
         private int _processedRulesCount;
+        private int _errorCount;
         private RuleProcessor _ruleProcessor;
         private bool _isRunningEmulator;
         private string _openDocument;
@@ -44,6 +46,12 @@ namespace MQChatter.ViewModel
             set => SetProperty(ref _processedRulesCount, value);
         }
 
+        public int ErrorCount
+        {
+            get => _errorCount;
+            set => SetProperty(ref _errorCount, value);
+        }
+
         public bool IsRunningEmulator
         {
             get => _isRunningEmulator;
@@ -65,20 +73,22 @@ namespace MQChatter.ViewModel
         public async void StartEmulation()
         {
             IsRunningEmulator = true;
+            ProcessedRuleCount = 0;
             _ruleProcessor = new RuleProcessor(RuleGroups.ToList());
             _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
+            _ruleProcessor.ErrorEncountered += _ruleProcessor_ErrorEncountered;
             _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
 
             // Logging configuration
             NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
             NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile")
             {
-                FileName = "emulation_" + DateTime.Now.DayOfYear.ToString() + ".log"
+                FileName = "chatter_" + DateTime.Now.ToString("yyyy-MM-ddTHH_mm_ss") + ".log"
             };
 
             NLog.Targets.ConsoleTarget logconsole = new NLog.Targets.ConsoleTarget("logconsole");
             config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
-            config.AddRule(LogLevel.Warn, LogLevel.Fatal, logfile);
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, logfile);
             LogManager.Configuration = config;
 
             try
@@ -87,9 +97,21 @@ namespace MQChatter.ViewModel
             }
             catch
             {
-                _ruleProcessor.Stop();
-                IsRunningEmulator = false;
+                logger.Warn("Stopped rule processing due to exception.");
             }
+
+            await Task.Delay(1000);
+
+            DestroyRuleProcessor();
+    
+            return;
+        }
+
+        private void _ruleProcessor_ErrorEncountered(object sender, string e)
+        {
+            ErrorCount++;
+            
+            logger.Trace("Error registered");
         }
 
         private void _ruleProcessor_MessageReceived(object sender, string s)
@@ -99,11 +121,21 @@ namespace MQChatter.ViewModel
 
         public void CancelEmulation()
         {
+            DestroyRuleProcessor();
+        }
+
+        private void DestroyRuleProcessor()
+        {
             if (_ruleProcessor != null)
             {
                 _ruleProcessor.Stop();
-                ProcessedRuleCount = 0;
+                _ruleProcessor.RuleProcessed -= RuleProcessor_RuleProcessed;
+                _ruleProcessor.ErrorEncountered -= _ruleProcessor_ErrorEncountered;
+                _ruleProcessor.MessageReceived -= _ruleProcessor_MessageReceived;
+                _ruleProcessor = null;
                 IsRunningEmulator = false;
+                ProcessedRuleCount = 0;
+                ErrorCount = 0;
             }
         }
 

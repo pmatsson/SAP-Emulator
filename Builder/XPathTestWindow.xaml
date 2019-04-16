@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:behavior="clr-namespace:MQChatter.View.Behavior"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:MQChatter"
@@ -43,7 +43,8 @@
         </Button>
 
         <Button Grid.ColumnSpan="3" Grid.Row="1"  Click="Button_Click">
-            <iconPacks:PackIconFontAwesome Kind="PlaySolid" Foreground="Green" />
+            <materialDesign:PackIcon Kind="Play"/>
+            <!--<iconPacks:PackIconFontAwesome Kind="PlaySolid" Foreground="Green" />-->
         </Button>
 
         <TextBlock Grid.ColumnSpan="3" Grid.Row="2" Text="{Binding Result, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />

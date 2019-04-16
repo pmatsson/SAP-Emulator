@@ -3,26 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:conv="clr-namespace:MQChatter.View.Converter"
              xmlns:local="clr-namespace:MQChatter.View"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              Background="Transparent">
 
-    <Border BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="10" Background="White">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Grid.Row="0" Text="Processing rules" Foreground="{DynamicResource AccentColorBrush}" FontStyle="Oblique"
+    <Border BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="5" Foreground="AliceBlue"/>
+            <TextBlock Grid.Row="0" Text="Processing rules" Foreground="#FF2567C7" 
                    FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="50" />
 
-            <Controls:ProgressRing Grid.Row="1" Foreground="{DynamicResource AccentColorBrush}" IsActive="{Binding IsRunningEmulator}" Margin="40" />
+            <materialDesign:Badged  Badge="{Binding ErrorCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20,40,20,40" VerticalAlignment="Bottom" 
+                                    HorizontalContentAlignment="Stretch" BadgeBackground="Red" ToolTip="Error(s)">
 
-            <Controls:Badged Grid.Row="2" Badge="{Binding ProcessedRuleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20">
+                <ProgressBar Minimum="0" Maximum="10"
+                                       Value="{Binding ErrorCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Background="LightGray" VerticalAlignment="Center"  >
+                    <ProgressBar.Foreground>
+                        <LinearGradientBrush>
+                            <GradientStop Color="PaleVioletRed" Offset="0.0"/>
+                            <GradientStop Color="DarkRed" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </ProgressBar.Foreground>
+                </ProgressBar>
+            </materialDesign:Badged>
 
-                <Controls:MetroProgressBar Minimum="0" Maximum="{Binding RuleGroups.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            <materialDesign:Badged Badge="{Binding ProcessedRuleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20" VerticalAlignment="Bottom" 
+                                    HorizontalContentAlignment="Stretch" BadgeBackground="#FF2567C7" ToolTip="Processed rule(s)">
+
+                <ProgressBar Minimum="0" Maximum="{Binding RuleGroups.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        Value="{Binding ProcessedRuleCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Background="LightGray" Foreground="{DynamicResource ProgressBrush}" VerticalAlignment="Bottom" />
-            </Controls:Badged>
-        </StackPanel>
+                                       Background="LightGray"  VerticalAlignment="Center" >
+                    <ProgressBar.Foreground>
+                        <LinearGradientBrush>
+                            <GradientStop Color="CornflowerBlue" Offset="0.0"/>
+                            <GradientStop Color="#FF2567C7" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </ProgressBar.Foreground>
+                </ProgressBar>
+            </materialDesign:Badged>
+        </Grid>
     </Border>
 </UserControl>

@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:MQChatter.View.Style">
 
-    <Thickness x:Key="RuleElementMargin">0,0,2,2</Thickness>
-    <Thickness x:Key="RuleSubElementMargin">0,0,2,0</Thickness>
-    <Thickness x:Key="RuleLastElementMargin">0,0,0,2</Thickness>
+    <Thickness x:Key="RuleElementMargin">0,0,5,5</Thickness>
+    <Thickness x:Key="RuleSubElementMargin">0,0,5,0</Thickness>
+    <Thickness x:Key="RuleLastElementMargin">0,0,0,5</Thickness>
 </ResourceDictionary>

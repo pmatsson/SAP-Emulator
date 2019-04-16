@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:triggerType="clr-namespace:MQChatter.Model.Trigger"
-                    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+                    <!--xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"-->
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Style/ButtonDictionary.xaml" />
@@ -19,22 +20,20 @@
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <TextBox  Text="{Binding DocumentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Controls:TextBoxHelper.Watermark="telegram root" Margin="{StaticResource RuleSubElementMargin}" />
-            <StackPanel Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}">
-                <ToggleButton x:Name="MQButton" Style="{StaticResource MQSettingsToggleButtonStyle}" DataContext="{Binding Path=MQSettings}" />
-                <Popup IsOpen="{Binding IsChecked, ElementName=MQButton}" DataContext="{Binding Path=MQSettings}" StaysOpen="False" Width="200" Height="auto" AllowsTransparency="True">
-                    <Border Background="White" Padding="5" BorderBrush="{StaticResource AccentColorBrush}" BorderThickness="2" CornerRadius="10">
-                        <StackPanel>
-                            <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="10" />
-                            <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue manager" Margin="2" />
-                            <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="queue" Margin="2" />
-                            <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="channel" Margin="2" />
-                            <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="hostname" Margin="2" />
-                            <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextBoxHelper.Watermark="port" Margin="2" />
-                        </StackPanel>
-                    </Border>
-                </Popup>
-            </StackPanel>
+                 materialDesign:HintAssist.Hint="telegram root" Margin="{StaticResource RuleSubElementMargin}" />
+            <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres" StaysOpen="True" Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}" DataContext="{Binding Path=MQSettings}" HorizontalAlignment="Stretch" Background="Gray">
+                <materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:PackIcon Style="{StaticResource MQSettingsToggleButtonStyle}" />
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel Width="150" HorizontalAlignment="Center">
+                    <TextBlock Text="MQ properties" Foreground="Black" HorizontalAlignment="Center" FontWeight="Bold" Margin="10" />
+                    <TextBox Text="{Binding QueueManagerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="queue manager" Margin="2" />
+                    <TextBox Text="{Binding QueueName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="queue" Margin="2" />
+                    <TextBox Text="{Binding ChannelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="channel" Margin="2" />
+                    <TextBox Text="{Binding Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="hostname" Margin="2" />
+                    <TextBox Text="{Binding Port, TargetNullValue='', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="port" Margin="2" />
+                </StackPanel>
+            </materialDesign:PopupBox>
         </Grid>
     </DataTemplate>
 
@@ -46,7 +45,7 @@
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Controls:TextBoxHelper.Watermark="time" Margin="{StaticResource RuleSubElementMargin}" Grid.Column="0" />
+                materialDesign:HintAssist.Hint="time" Margin="{StaticResource RuleSubElementMargin}" Grid.Column="0" />
             <ComboBox Grid.Column="1" SelectedValue="{Binding TimeUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        Margin="{StaticResource RuleSubElementMargin}" ItemsSource="{Binding TimeUnits}" />
         </Grid>
