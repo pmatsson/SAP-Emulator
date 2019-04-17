@@ -196,5 +196,13 @@ namespace MQChatter
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void ButtonCredits_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new CreditsWindow();
+            w.Show();
+            w.Activate();
+            e.Handled = true;
+        }
     }
 }

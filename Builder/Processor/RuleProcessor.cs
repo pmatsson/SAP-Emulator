@@ -163,7 +163,7 @@ namespace MQChatter.Processor
 
         public void Stop()
         {
-            logger.Debug("Stopping emulation...");
+            logger.Debug("Stop command recieved.");
             _wtoken.Cancel();
         }
 

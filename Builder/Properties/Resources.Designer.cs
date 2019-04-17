@@ -22,7 +22,7 @@ namespace MQChatter.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MQChatter.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MQChatter.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,174 @@ namespace MQChatter.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ControlzEx license
+        ///-------------------------
+        ///
+        ///The MIT License (MIT)
+        ///
+        ///Copyright (c) 2015 Jan Karger, Bastian Schmidt
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software is
+        ///furnish [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ControlzEx_license {
+            get {
+                return ResourceManager.GetString("ControlzEx_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Awesome WPF License
+        ///-------------------------
+        ///The MIT License (MIT)
+        ///
+        ///Copyright (c) 2014-2016 charri
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software is
+        ///furnished to do so, [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Font_Awesome_WPF_license {
+            get {
+                return ResourceManager.GetString("Font_Awesome_WPF_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Awesome Free License
+        ///-------------------------
+        ///
+        ///Font Awesome Free is free, open source, and GPL friendly. You can use it for
+        ///commercial projects, open source projects, or really almost whatever you want.
+        ///Full Font Awesome Free license: https://fontawesome.com/license/free.
+        ///
+        ///# Icons: CC BY 4.0 License (https://creativecommons.org/licenses/by/4.0/)
+        ///In the Font Awesome Free download, the CC BY 4.0 license applies to all icons
+        ///packaged as SVG and JS file types.
+        ///
+        ///# Fonts: SIL OFL 1.1 License (htt [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string FontAwesome_License {
+            get {
+                return ResourceManager.GetString("FontAwesome_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to gong-wpf-dragrop license
+        ///-------------------------
+        ///
+        ///BSD 3-Clause License
+        ///
+        ///Copyright (c) 2015-16, Jan Karger (Steven Kirk)
+        ///All rights reserved.
+        ///
+        ///Redistribution and use in source and binary forms, with or without
+        ///modification, are permitted provided that the following conditions are met:
+        ///
+        ///* Redistributions of source code must retain the above copyright notice, this
+        ///  list of conditions and the following disclaimer.
+        ///
+        ///* Redistributions in binary form must reproduce the above copyright notice,
+        ///  t [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string gong_wpf_dragdrop_license {
+            get {
+                return ResourceManager.GetString("gong_wpf_dragdrop_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Design Colors license
+        ///-------------------------------
+        ///
+        ///Microsoft Public License (MS-PL)
+        ///
+        ///This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software. 1. Definitions The terms &quot;reproduce,&quot; &quot;reproduction,&quot; &quot;derivative works,&quot; and &quot;distribution&quot; have the same meaning here as under U.S. copyright law. A &quot;contribution&quot; is the original software, or any additions or changes to the software. A &quot;contr [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string MaterialDesignColors_license {
+            get {
+                return ResourceManager.GetString("MaterialDesignColors_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Material Design Themes license
+        ///-------------------------------
+        ///
+        ///The MIT License (MIT)
+        ///
+        ///Copyright (c) James Willock,  Mulholland Software and Contributors
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit pe [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string MaterialDesignThemes_license {
+            get {
+                return ResourceManager.GetString("MaterialDesignThemes_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MvvmLight &amp; MvvmLightLibs license 
+        ///-------------------------
+        ///
+        ///The MIT License (MIT)
+        ///
+        ///Copyright (c) 2009 - 2018 Laurent Bugnion
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string MvvmLight_license {
+            get {
+                return ResourceManager.GetString("MvvmLight_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NLog license
+        ///-------------------------
+        ///
+        ///Copyright (c) 2004-2019 Jaroslaw Kowalski &lt;jaak@jkowalski.net&gt;, Kim Christensen, Julian Verdurmen
+        ///
+        ///All rights reserved.
+        ///
+        ///Redistribution and use in source and binary forms, with or without 
+        ///modification, are permitted provided that the following conditions 
+        ///are met:
+        ///
+        ///* Redistributions of source code must retain the above copyright notice, 
+        ///  this list of conditions and the following disclaimer. 
+        ///
+        ///* Redistributions in binary form must reproduce the above c [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string NLog_license {
+            get {
+                return ResourceManager.GetString("NLog_license", resourceCulture);
             }
         }
     }

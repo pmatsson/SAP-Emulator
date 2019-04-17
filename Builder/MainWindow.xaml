@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:MQChatter"
         xmlns:conv="clr-namespace:MQChatter.View.Converter"
         xmlns:view="clr-namespace:MQChatter.View"
@@ -31,7 +32,7 @@
         <Thickness x:Key="TestBuilderViewMargin" 
                    Top="{StaticResource GridWindowTitleMenuHeight}" 
                    Left="{StaticResource GridMenuWidth}"/>
-        <sys:Double x:Key="ListViewItemHeight">70</sys:Double>
+        <sys:Double x:Key="ListViewItemHeight">60</sys:Double>
         <sys:Double x:Key="ListViewItemIconWidth">25</sys:Double>
         <Thickness x:Key="ListViewItemIconMargin">10</Thickness>
         <VerticalAlignment x:Key="ListViewItemIconAlignment">Center</VerticalAlignment>
@@ -55,15 +56,25 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="{StaticResource GridMenuWidth}" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Key="PackIconMenuHeaderFadeIn">
+            <DoubleAnimation Duration="00:00:00.5"  Storyboard.TargetProperty="(FrameworkElement.Opacity)" Storyboard.TargetName="PackIconMenuHeader"
+                         From="0.0" To="1.0"/>
+        </Storyboard>
+        <Storyboard x:Key="PackIconMenuHeaderFadeOut">
+            <DoubleAnimation Duration="00:00:00.5"  Storyboard.TargetProperty="(FrameworkElement.Opacity)" Storyboard.TargetName="PackIconMenuHeader"
+                         From="1.0" To="0.0"/>
+        </Storyboard>
         <conv:NegateBooleanConverter x:Key="boolinverter" />
     </Window.Resources>
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
             <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeIn}"/>
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
             <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeOut}"/>
         </EventTrigger>
     </Window.Triggers>
     
@@ -81,11 +92,10 @@
                 <materialDesign:PopupBox HorizontalAlignment="Right" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="False">
                     <StackPanel Width="150">
                         <Button x:Name="ButtonMaximize" Content="Maximize" Click="ButtonMaximize_Click"/>
-                        <Button x:Name="ButtonStandardize" Content="Standardize" Click="ButtonStandardize_Click"/>
+                        <Button x:Name="ButtonStandardize" Content="Standard" Click="ButtonStandardize_Click"/>
                         <Button x:Name="ButtonMinimize" Content="Minimize" Click="ButtonMinimize_Click"/>
                         <Separator />
-                        <Button Content="Licenses"/>
-                        <Button Content="Credits"/>
+                        <Button x:Name="ButtonCredits" Content="Credits" Click="ButtonCredits_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
@@ -94,16 +104,17 @@
             <view:TestBuilderView  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}" />
             <view:EmulatorView  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}" />
         </materialDesign:Transitioner>
-        <!--<view:TestBuilderView Margin="{StaticResource TestBuilderViewMargin}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}" />-->
         <Grid x:Name="GridMenu" Width="{StaticResource GridMenuWidth}" HorizontalAlignment="Left" Background="#FF212983">
             <StackPanel>
                 <Grid Height="150" Background="White">
+                    <fa:ImageAwesome x:Name="PackIconMenuHeader" Icon="LifeSaver" Spin="True" SpinDuration="5" Foreground="AliceBlue" Opacity="0"/>
                     <Button x:Name="ButtonCloseMenu" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="Collapsed" Click="ButtonCloseMenu_Click">
                         <materialDesign:PackIcon Width="25" Height="25" Foreground="#FF1B3861" Kind="Close" />
                     </Button>
                     <Button x:Name="ButtonOpenMenu" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Click="ButtonOpenMenu_Click">
                         <materialDesign:PackIcon Width="25" Height="25" Foreground="#FF1B3861" Kind="HamburgerMenu" />
                     </Button>
+                    <!--<materialDesign:PackIcon x:Name="PackIconMenuHeader" Width="50" Height="50" Foreground="#FF1B3861" Kind="Information"  HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>-->
                 </Grid>
                 <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListViewItem x:Name="ListViewItemFile" Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD" 

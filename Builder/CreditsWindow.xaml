@@ -1,0 +1,14 @@
+﻿<Window x:Class="MQChatter.CreditsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MQChatter"
+        mc:Ignorable="d"
+        Title="Credits" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+        <ScrollViewer>
+            <TextBlock x:Name="TextBlockCredits" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Padding="50" TextWrapping="WrapWithOverflow"/>
+        </ScrollViewer>
+    </Grid>
+</Window>
