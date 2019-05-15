@@ -40,7 +40,7 @@
                                 <ControlTemplate TargetType="{x:Type GroupItem}">
                                     <Expander x:Name="exp" IsExpanded="True">
                                         <Expander.Header>
-                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold"/>
                                         </Expander.Header>
                                         <ItemsPresenter/>
                                     </Expander>
@@ -76,7 +76,7 @@
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
                         <Setter Property="Background" Value="LightSteelBlue"/>
-                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Foreground" Value="White" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -127,6 +127,17 @@
                                                 <Setter Property="FontSize" Value="8"/>
                                                 <Setter Property="Foreground" Value="LightGray"/>
                                                 <Setter Property="ToolTip" Value="Group" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="false">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="TextBox">
+                                                                    <TextBlock Text="{Binding GroupName, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Padding="5" TextTrimming="CharacterEllipsis"  Cursor="Pen" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
                                             </Style>
                                         </TextBox.Style>
                                     </TextBox>
@@ -140,10 +151,21 @@
                                                 <Setter Property="Background" Value="Transparent" />
                                                 <Setter Property="BorderBrush" Value="Transparent"/>
                                                 <Setter Property="FontSize" Value="12"/>
-                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="Foreground" Value="PaleVioletRed"/>
+                                                <Setter Property="TextWrapping" Value="NoWrap"/>
                                                 <Setter Property="FontStyle" Value="Italic"/>
-                                                <Setter Property="TextDecorations" Value="Underline"/>
-                                                <Setter Property="ToolTip" Value="Title" />
+                                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="false">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="TextBox">
+                                                                    <TextBlock Text="{Binding Title, Mode=OneWay, UpdateSourceTrigger=LostFocus}" TextTrimming="CharacterEllipsis" Cursor="Pen" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
                                             </Style>
                                         </TextBox.Style>
                                     </TextBox>
