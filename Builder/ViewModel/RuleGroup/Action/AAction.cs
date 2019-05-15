@@ -55,7 +55,8 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             {
                 new SendAction(),
                 new AddAction(),
-                new CopyAction()
+                new CopyAction(),
+                new NoAction(),
             };
 
 

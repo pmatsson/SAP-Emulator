@@ -27,22 +27,47 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DataGrid x:Name="RuleDG" ItemsSource="{Binding RuleGroups, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False"
+    <DataGrid x:Name="RuleDG" ItemsSource="{Binding GroupedRuleGroups, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" AutoGenerateColumns="False"
               CanUserAddRows="False" CanUserDeleteRows="True" AlternationCount="2" EnableColumnVirtualization="True" EnableRowVirtualization="True"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedRule, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
               VerticalScrollBarVisibility="Visible" GridLinesVisibility="None"  dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
+        <DataGrid.GroupStyle>
+            <GroupStyle >
+                <GroupStyle.ContainerStyle>
+                    <Style TargetType="{x:Type GroupItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                    <Expander x:Name="exp" IsExpanded="True">
+                                        <Expander.Header>
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Expander.Header>
+                                        <ItemsPresenter/>
+                                    </Expander>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+                <GroupStyle.Panel>
+                    <ItemsPanelTemplate>
+                        <DataGridRowsPresenter/>
+                    </ItemsPanelTemplate>
+                </GroupStyle.Panel>
+            </GroupStyle>
+        </DataGrid.GroupStyle>
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell">
                 <Setter Property="Padding" Value="20" />
                 <Setter Property="BorderBrush" Value="#FF2567C7" />
                 <Setter Property="BorderThickness" Value="0,0.5,0,0.5" />
                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                <Setter Property="Margin" Value="0,2.5,0,2.5" />
+                <Setter Property="Margin" Value="0,0,0,2.5" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type DataGridCell}">
                             <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True" CornerRadius="20">
+                                    Background="{TemplateBinding Background}" SnapsToDevicePixels="True" CornerRadius="0,0,0,0">
                                 <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
                         </ControlTemplate>
@@ -50,15 +75,84 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
-                        <!--<Setter Property="Background" Value="LightSteelBlue"/>-->
-                        <!--<Setter Property="Foreground" Value="Black" />-->
+                        <Setter Property="Background" Value="LightSteelBlue"/>
+                        <Setter Property="Foreground" Value="Black" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </DataGrid.CellStyle>
         <DataGrid.RowStyle>
-
             <Style TargetType="DataGridRow">
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridRow">
+                            <Border x:Name="DGR_Border"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="True"
+                        CornerRadius="8,8,8,8">
+
+
+                                <SelectiveScrollingGrid>
+                                    <SelectiveScrollingGrid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </SelectiveScrollingGrid.ColumnDefinitions>
+                                    <SelectiveScrollingGrid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </SelectiveScrollingGrid.RowDefinitions>
+                                    <DataGridCellsPresenter Grid.Column="1" Grid.Row="1"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    <DataGridDetailsPresenter Grid.Column="1"
+                                                  Grid.Row="2"
+                                                  SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                  Visibility="{TemplateBinding DetailsVisibility}" />
+                                    <DataGridRowHeader Grid.RowSpan="3"
+                                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                           Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding GroupName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="VerticalAlignment" Value="Top" />
+                                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                <Setter Property="Width" Value="100"/>
+                                                <Setter Property="Height" Value="20" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="FontSize" Value="8"/>
+                                                <Setter Property="Foreground" Value="LightGray"/>
+                                                <Setter Property="ToolTip" Value="Group" />
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="VerticalAlignment" Value="Top" />
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="Width" Value="100"/>
+                                                <Setter Property="Height" Value="20" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="FontStyle" Value="Italic"/>
+                                                <Setter Property="TextDecorations" Value="Underline"/>
+                                                <Setter Property="ToolTip" Value="Title" />
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                </SelectiveScrollingGrid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                         <Setter Property="Background" Value="White"/>
@@ -69,6 +163,7 @@
                 </Style.Triggers>
             </Style>
         </DataGrid.RowStyle>
+
         <DataGrid.Columns>
             <DataGridTemplateColumn Width="1*" Header="When" CellTemplate="{StaticResource TriggerTemplate}" />
             <DataGridTemplateColumn Width="1*" Header="If" CellTemplate="{StaticResource ConditionTemplate}" />

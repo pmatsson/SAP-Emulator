@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 
@@ -22,6 +23,7 @@ namespace MQChatter.ViewModel
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private ObservableCollection<ARuleGroup> _ruleGroups;
+        ListCollectionView _groupedRuleGroups;
         private int _processedRulesCount;
         private int _errorCount;
         private RuleProcessor _ruleProcessor;
@@ -37,6 +39,12 @@ namespace MQChatter.ViewModel
         {
             get => _ruleGroups;
             set => SetProperty(ref _ruleGroups, value);
+        }
+
+        public ListCollectionView GroupedRuleGroups
+        {
+            get => _groupedRuleGroups;
+            set => SetProperty(ref _groupedRuleGroups, value);
         }
 
         public ARuleGroup SelectedRule
@@ -78,10 +86,15 @@ namespace MQChatter.ViewModel
         public RuleViewModel()
         {
             RuleGroups = new ObservableCollection<ARuleGroup>();
+            GroupedRuleGroups = new ListCollectionView(RuleGroups);
+            GroupedRuleGroups.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+            GroupedRuleGroups.IsLiveGrouping = true;
+    
             _timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 50), DispatcherPriority.Background, t_Tick, Dispatcher.CurrentDispatcher);
             _timer.Stop();
             _isRunningEmulator = false;
         }
+
 
         void t_Tick(object sender, EventArgs e)
         {
@@ -191,6 +204,9 @@ namespace MQChatter.ViewModel
         public void DeSerializeRules(string filename)
         {
             RuleGroups = RuleSerializer.Deserialize(filename);
+            GroupedRuleGroups = new ListCollectionView(RuleGroups);
+            GroupedRuleGroups.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+            GroupedRuleGroups.IsLiveGrouping = true;
         }
 
         public static class RuleSerializer

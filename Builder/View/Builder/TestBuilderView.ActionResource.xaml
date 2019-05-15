@@ -70,6 +70,10 @@
         </Grid>
     </DataTemplate>
 
+    <!-- AddAction template -->
+    <DataTemplate DataType="{x:Type actionType:NoAction}">
+    </DataTemplate>
+
 
     <!-- Action template -->
     <DataTemplate x:Key="ActionTemplate">

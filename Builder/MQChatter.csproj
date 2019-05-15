@@ -113,6 +113,7 @@
     <Compile Include="Model\Action\ActionBase.cs" />
     <Compile Include="Model\Action\AddAction.cs" />
     <Compile Include="Model\Action\CopyAction.cs" />
+    <Compile Include="Model\Action\NoAction.cs" />
     <Compile Include="Model\Action\SendAction.cs" />
     <Compile Include="Model\Condition\AlwaysCondition.cs" />
     <Compile Include="Model\Condition\ContainsCondition.cs" />
