@@ -10,7 +10,6 @@ namespace MQChatter.ViewModel.RuleGroup.Action
 {
     public class ActionGroup : NotifyPropertyChangedBase, IRuleUnit
     {
-        private string _errorMessage;
         private int _nofErrors;
 
         private ObservableCollection<AAction> _actions;
@@ -48,13 +47,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             return !action.Equals(Actions.First());
         }
 
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
-        }
-
-        public int NumberOfErrors
+        public int ErrorsInConfiguration
         {
             get => _nofErrors;
             set => SetProperty(ref _nofErrors, value);
@@ -64,21 +57,10 @@ namespace MQChatter.ViewModel.RuleGroup.Action
         {
             void AddError(string msg)
             {
-                if (NumberOfErrors > 0)
-                {
-                    ErrorMessage += "\n";
-                }
-                else
-                {
-                    ErrorMessage = "";
-                }
-
-                NumberOfErrors++;
-                ErrorMessage += NumberOfErrors.ToString() + ". " + msg + ".";
+                ErrorsInConfiguration++;
             }
 
-            NumberOfErrors = 0;
-            ErrorMessage = "No errors in configuration :)";
+            ErrorsInConfiguration = 0;
 
             var add = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(AddAction));
             var cpy = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(CopyAction));
@@ -94,7 +76,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
                 AddError("'Copy' requires a 'Send' in the same group and 'Recieved' in the same rule");
             }
 
-            return NumberOfErrors == 0;
+            return ErrorsInConfiguration == 0;
         }
 
         public ActionGroup()

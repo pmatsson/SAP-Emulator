@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel
@@ -27,6 +28,10 @@ namespace MQChatter.ViewModel
         private bool _isRunningEmulator;
         private string _openDocument;
         private ARuleGroup _selectedRule;
+        private string _runTime;
+
+        private DispatcherTimer _timer;
+        private DateTime _startTime;
 
         public ObservableCollection<ARuleGroup> RuleGroups
         {
@@ -64,20 +69,36 @@ namespace MQChatter.ViewModel
             set => SetProperty(ref _openDocument, value);
         }
 
+        public string RunTime
+        {
+            get => _runTime;
+            set => SetProperty(ref _runTime, value);
+        }
+
         public RuleViewModel()
         {
             RuleGroups = new ObservableCollection<ARuleGroup>();
+            _timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 50), DispatcherPriority.Background, t_Tick, Dispatcher.CurrentDispatcher);
+            _timer.Stop();
             _isRunningEmulator = false;
+        }
+
+        void t_Tick(object sender, EventArgs e)
+        {
+            RunTime = (DateTime.Now - _startTime).ToString("hh\\:mm\\:ss\\.fff");
         }
 
         public async void StartEmulation()
         {
+            _startTime = DateTime.Now;
             IsRunningEmulator = true;
             ProcessedRuleCount = 0;
             _ruleProcessor = new RuleProcessor(RuleGroups.ToList());
             _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
             _ruleProcessor.ErrorEncountered += _ruleProcessor_ErrorEncountered;
             _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
+
+
 
             // Logging configuration
             NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
@@ -93,6 +114,7 @@ namespace MQChatter.ViewModel
 
             try
             {
+                _timer?.Start();
                 await _ruleProcessor.Start();
             }
             catch
@@ -126,6 +148,7 @@ namespace MQChatter.ViewModel
 
         private void DestroyRuleProcessor()
         {
+            _timer?.Stop();
             if (_ruleProcessor != null)
             {
                 _ruleProcessor.Stop();

@@ -4,8 +4,8 @@
     {
         bool ValidateUnit();
 
-        int NumberOfErrors { get; set; }
+        int ErrorsInConfiguration { get; set; }
 
-        string ErrorMessage { get; set; }
+        //string ErrorMessage { get; set; }
     }
 }

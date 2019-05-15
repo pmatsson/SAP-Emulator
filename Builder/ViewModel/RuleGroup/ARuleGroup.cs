@@ -2,7 +2,7 @@
 using MQChatter.ViewModel.RuleGroup.Action;
 using MQChatter.ViewModel.RuleGroup.Condition;
 using MQChatter.ViewModel.RuleGroup.Trigger;
-
+using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup
 {
@@ -14,6 +14,7 @@ namespace MQChatter.ViewModel.RuleGroup
 
         public ActionGroup ActionGroup { get; set; }
 
+        [XmlIgnore]
         public int ProcessCount { get; set; }
 
         public ARuleGroup()

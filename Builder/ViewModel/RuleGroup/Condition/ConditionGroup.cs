@@ -10,7 +10,6 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
     public class ConditionGroup : NotifyPropertyChangedBase, IRuleUnit
     {
         private ObservableCollection<ACondition> _conditions;
-        private string _errorMsg;
         private int _noErrors;
 
         [XmlIgnore]
@@ -25,16 +24,10 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             get => _conditions;
             set => SetProperty(ref _conditions, value);
         }
-        public int NumberOfErrors
+        public int ErrorsInConfiguration
         {
             get => _noErrors;
             set => SetProperty(ref _noErrors, value);
-        }
-
-        public string ErrorMessage
-        {
-            get => _errorMsg;
-            set => SetProperty(ref _errorMsg, value);
         }
 
         public void AddCondition()
@@ -59,9 +52,8 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
 
         public bool ValidateUnit()
         {
-            NumberOfErrors = 0;
-            ErrorMessage = "No errors in configuration :)";
-            return true;
+            ErrorsInConfiguration = 0;
+            return ErrorsInConfiguration == 0;
         }
 
         public ConditionGroup()

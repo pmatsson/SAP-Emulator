@@ -15,6 +15,8 @@
             <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="5" Foreground="AliceBlue"/>
             <TextBlock Grid.Row="0" Text="Processing rules" Foreground="#FF2567C7" 
                    FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="50" />
+            <TextBlock Grid.Row="0" Text="{Binding RunTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FF2567C7" 
+                    HorizontalAlignment="Center" Margin="100" />
 
             <materialDesign:Badged  Badge="{Binding ErrorCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20,40,20,40" VerticalAlignment="Bottom" 
