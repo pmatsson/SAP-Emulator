@@ -179,7 +179,7 @@ namespace MQChatter.ViewModel
         {
             rule.ProcessCount++;
             ProcessedRuleCount = RuleGroups.Where(x => x?.ProcessCount > 0).Count();
-            logger.Trace("Rule " + rule.GetHashCode() + " processed. This rule has been processed {0} time(s)", rule.ProcessCount.ToString());
+            logger.Trace("Rule " + rule.Title + " processed. This rule has been processed {0} time(s)", rule.ProcessCount.ToString());
         }
 
         public void CreateRule()

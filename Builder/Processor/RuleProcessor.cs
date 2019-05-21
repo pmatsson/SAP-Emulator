@@ -116,10 +116,11 @@ namespace MQChatter.Processor
                     {
                         doc.LoadXml(msg);
                     }
-                    catch (Exception ex)
+                    catch(XmlException ex)
                     {
                         logger.Warn(ex, "Received message contains invalid xml markup");
-                        ErrorEncountered(this, "Invalid xml: " + msg);
+                        logger.Warn(ex, "@Line: " + ex.LineNumber + " @Position: " + ex.LinePosition);
+                        ErrorEncountered(this, "Instance:" + Environment.NewLine + ex.InnerException.ToString());
                     }
                 }
 
@@ -145,12 +146,12 @@ namespace MQChatter.Processor
                 // Check trigger, retrieve xml if applicable
                 if (CheckTriggers(out XmlDocument doc, ruleGroup.TriggerGroup, ruleGroup.ProcessCount))
                 {
-                    logger.Debug("Fulfilled trigger for rule {0}", ruleGroup.GetHashCode());
+                    logger.Debug("Fulfilled trigger for rule {0}", ruleGroup.Title);
 
                     // Check conditions
                     if (CheckConditions(doc, ruleGroup.ConditionGroup, ruleGroup.ProcessCount))
                     {
-                        logger.Debug("Fulfilled condition for rule {0}", ruleGroup.GetHashCode());
+                        logger.Debug("Fulfilled condition for rule {0}", ruleGroup.Title);
                         // Perform action
                         DoActions(doc, ruleGroup.ActionGroup, ruleGroup.ProcessCount);
                         RuleProcessed(this, ruleGroup);
