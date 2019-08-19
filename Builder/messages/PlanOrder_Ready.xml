@@ -1,0 +1,36 @@
+<ProcessProductionSchedule xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="6" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>SE26</LogicalID>
+      <ReferenceID>636902653343721535</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-25T11:58:22.8023166Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <ProductionSchedule>
+      <ProductionRequest>
+        <ID>0000065842</ID>
+        <StartTime>2019-04-25T11:58:20.647</StartTime>
+        <SegmentRequirement>
+          <ID>ROOT</ID>
+          <MaterialProducedRequirement>
+            <MaterialDefinitionID>000000000032144707</MaterialDefinitionID>
+            <Quantity>
+              <QuantityString>1</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure xsi:nil="true" />
+            </Quantity>
+          </MaterialProducedRequirement>
+        </SegmentRequirement>
+        <Any>
+          <OrderIdentifier>B</OrderIdentifier>
+          <OrderType></OrderType>
+          <PeggedRequirement></PeggedRequirement>
+          <SequenceNumber>00000000000000</SequenceNumber>
+          <Status>READY</Status>
+        </Any>
+      </ProductionRequest>
+    </ProductionSchedule>
+  </DataArea>
+</ProcessProductionSchedule>

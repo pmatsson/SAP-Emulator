@@ -59,7 +59,6 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             {
                 Selected = AvailableConditions.First();
             }
-
         }
     }
 }

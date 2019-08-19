@@ -1,18 +1,8 @@
 ﻿using MQChatter.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MQChatter
 {
@@ -28,7 +18,7 @@ namespace MQChatter
 
         private void GridWindowTitleMenu_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
@@ -45,18 +35,17 @@ namespace MQChatter
 
         private void SubmenuOpenClose(object sender, MouseButtonEventArgs e)
         {
-            int expandedHeight;
             TimeSpan duration = new TimeSpan(0, 0, 0, 0, 500);
             int listViewItemHeight = int.Parse(Resources["ListViewItemHeight"].ToString());
-            var fwe = sender as FrameworkElement;
+            FrameworkElement fwe = sender as FrameworkElement;
 
-            if (fwe != null && int.TryParse(fwe.Tag?.ToString(), out expandedHeight))
+            if (fwe != null && int.TryParse(fwe.Tag?.ToString(), out int expandedHeight))
             {
                 if (fwe.Height == listViewItemHeight)
                 {
                     AnimateHeight(sender, expandedHeight, duration);
                 }
-                else if(fwe.Height == expandedHeight)
+                else if (fwe.Height == expandedHeight)
                 {
                     AnimateHeight(sender, listViewItemHeight, duration);
                 }
@@ -67,12 +56,11 @@ namespace MQChatter
         {
             if (obj is FrameworkElement)
             {
-                var fwe = obj as FrameworkElement;
+                FrameworkElement fwe = obj as FrameworkElement;
                 DoubleAnimation animation = new DoubleAnimation(height, duration);
                 fwe.BeginAnimation(FrameworkElement.HeightProperty, animation);
             }
         }
-
 
         private void ListViewItemExit_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -176,7 +164,7 @@ namespace MQChatter
 
         private void ListViewItemXpathTool_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var w = new XPathTestWindow();
+            XPathTestWindow w = new XPathTestWindow();
             w.Show();
             w.Activate();
             e.Handled = true;
@@ -184,22 +172,22 @@ namespace MQChatter
 
         private void ButtonMaximize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Maximized;
+            WindowState = WindowState.Maximized;
         }
 
         private void ButtonStandardize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Normal;
+            WindowState = WindowState.Normal;
         }
 
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void ButtonCredits_Click(object sender, RoutedEventArgs e)
         {
-            var w = new CreditsWindow();
+            CreditsWindow w = new CreditsWindow();
             w.Show();
             w.Activate();
             e.Handled = true;

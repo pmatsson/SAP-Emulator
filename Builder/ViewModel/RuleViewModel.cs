@@ -17,13 +17,12 @@ using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel
 {
-
     public class RuleViewModel : NotifyPropertyChangedBase
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private ObservableCollection<ARuleGroup> _ruleGroups;
-        ListCollectionView _groupedRuleGroups;
+        private ListCollectionView _groupedRuleGroups;
         private int _processedRulesCount;
         private int _errorCount;
         private RuleProcessor _ruleProcessor;
@@ -89,14 +88,13 @@ namespace MQChatter.ViewModel
             GroupedRuleGroups = new ListCollectionView(RuleGroups);
             GroupedRuleGroups.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
             GroupedRuleGroups.IsLiveGrouping = true;
-    
+
             _timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 50), DispatcherPriority.Background, t_Tick, Dispatcher.CurrentDispatcher);
             _timer.Stop();
             _isRunningEmulator = false;
         }
 
-
-        void t_Tick(object sender, EventArgs e)
+        private void t_Tick(object sender, EventArgs e)
         {
             RunTime = (DateTime.Now - _startTime).ToString("hh\\:mm\\:ss\\.fff");
         }
@@ -110,8 +108,6 @@ namespace MQChatter.ViewModel
             _ruleProcessor.RuleProcessed += RuleProcessor_RuleProcessed;
             _ruleProcessor.ErrorEncountered += _ruleProcessor_ErrorEncountered;
             _ruleProcessor.MessageReceived += _ruleProcessor_MessageReceived;
-
-
 
             // Logging configuration
             NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
@@ -138,14 +134,14 @@ namespace MQChatter.ViewModel
             await Task.Delay(1000);
 
             DestroyRuleProcessor();
-    
+
             return;
         }
 
         private void _ruleProcessor_ErrorEncountered(object sender, string e)
         {
             ErrorCount++;
-            
+
             logger.Trace("Error registered");
         }
 

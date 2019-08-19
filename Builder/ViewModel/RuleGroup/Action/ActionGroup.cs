@@ -62,10 +62,10 @@ namespace MQChatter.ViewModel.RuleGroup.Action
 
             ErrorsInConfiguration = 0;
 
-            var add = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(AddAction));
-            var cpy = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(CopyAction));
-            var snd = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(SendAction));
-            var ss = Actions;
+            AAction add = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(AddAction));
+            AAction cpy = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(CopyAction));
+            AAction snd = Actions.FirstOrDefault(x => x.Selected.GetType() == typeof(SendAction));
+            ObservableCollection<AAction> ss = Actions;
             if (add != null && snd == null)
             {
                 AddError("'Add' requires a 'Send' in the same group");
@@ -91,7 +91,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
         {
             if (e?.NewItems != null)
             {
-                foreach (var item in e.NewItems)
+                foreach (object item in e.NewItems)
                 {
                     AAction aaction = item as AAction;
                     if (aaction != null && e.Action == NotifyCollectionChangedAction.Add)
@@ -103,7 +103,7 @@ namespace MQChatter.ViewModel.RuleGroup.Action
             }
             if (e?.OldItems != null)
             {
-                foreach (var item in e.OldItems)
+                foreach (object item in e.OldItems)
                 {
                     AAction aaction = item as AAction;
                     if (aaction != null && e.Action == NotifyCollectionChangedAction.Remove)
@@ -118,7 +118,9 @@ namespace MQChatter.ViewModel.RuleGroup.Action
         private void Aaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Selected")
+            {
                 ValidateUnit();
+            }
         }
     }
 }

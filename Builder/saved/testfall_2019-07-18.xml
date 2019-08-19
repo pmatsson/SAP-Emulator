@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfARuleGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessEquipmentInformation</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1869C.KANBAN.REPLENISHMENT</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:Equipment/default:ID</PathFrom>
+          <PathTo>//ns0:EquipmentID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:EquipmentProperty/default:Value/default:ValueString</PathFrom>
+          <PathTo>//ns0:MaterialLot/ns0:MaterialDefinitionID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="Add">
+          <Path>//ns0:HUT</Path>
+          <Value>1</Value>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\MaterialReception.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1862A.KANBAN.REPLENISHMENT</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Material</GroupName>
+    <Title>Material request / Replenishment</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Once" />
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\MaterialMaster.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1719B.MATERIAL.MASTER</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Initial import</GroupName>
+    <Title>MaterialMaster</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Once" />
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\WR46_SCH03_1904.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1871B.FACTORY.CALENDAR</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Initial import</GroupName>
+    <Title>Calendar</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="TimerTrigger">
+          <Time>15</Time>
+          <TimeUnit>Seconds</TimeUnit>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="CountCondition">
+          <Operator>&lt;=</Operator>
+          <Value>2</Value>
+          <Resets>false</Resets>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Add">
+          <Path>//ns0:ProductionRequest/ns0:ID[1]</Path>
+          <Value>1</Value>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\robin_msg\PlannedOrder.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1720D.PLANNED.ORDER</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Plan order</GroupName>
+    <Title>Plan order</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="TimerTrigger">
+          <Time>10</Time>
+          <TimeUnit>Seconds</TimeUnit>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="CountCondition">
+          <Operator>=</Operator>
+          <Value>2</Value>
+          <Resets>false</Resets>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\PlanOrder_Cancel.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1720E.PLANNED.ORDER.CANCEL</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Plan order</GroupName>
+    <Title>Plan order cancel</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Once" />
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\ProdOrder.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1868J.PRODUCTION.ORDER</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Production order</GroupName>
+    <Title>Production order</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessProductionSchedule</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1715B.ORDER.STATUS.CHANGE</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Contains">
+          <Path>//default:Status</Path>
+          <Value>COMPLETED</Value>
+        </Condition>
+      </ConditionItem>
+      <ConditionItem>
+        <Condition xsi:type="Contains">
+          <Path>//default:OrderIdentifier</Path>
+          <Value>B</Value>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:ProductionRequest/default:ID</PathFrom>
+          <PathTo>//ns1:ProductionRequest/ns1:ID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\PlanOrder_Close.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1720F.PLANNED.ORDER.CLOSURE</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Plan order</GroupName>
+    <Title>Plan order close</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="TimerTrigger">
+          <Time>10</Time>
+          <TimeUnit>Seconds</TimeUnit>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="CountCondition">
+          <Operator>=</Operator>
+          <Value>2</Value>
+          <Resets>false</Resets>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\ProdOrder_Cancel.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1868K.PRODUCTION.ORDER.CANCEL</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Production order</GroupName>
+    <Title>Prod order cancel</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessProductionSchedule</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1715B.ORDER.STATUS.CHANGE</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Contains">
+          <Path>//default:Status</Path>
+          <Value>COMPLETED</Value>
+        </Condition>
+      </ConditionItem>
+      <ConditionItem>
+        <Condition xsi:type="Contains">
+          <Path>//default:OrderIdentifier</Path>
+          <Value>A</Value>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:ProductionRequest/default:ID</PathFrom>
+          <PathTo>//ns1:ProductionRequest/ns1:ID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\ProdOrder_Close.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1868L.PRODUCTION.ORDER.CLOSURE</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Production order</GroupName>
+    <Title>Prod order complete / close</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessProductionPerformance</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC3233.PRODUCTION.COMPLETION</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="NoAction" />
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Material status</GroupName>
+    <Title>GR</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessProductionPerformance</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1716B.MATERIAL.CONSUMPTION</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="NoAction" />
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Material status</GroupName>
+    <Title>GI</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessMaterialInformation</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1863B.MATERIAL.BLOCKING</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="CountCondition">
+          <Operator>=</Operator>
+          <Value>1</Value>
+          <Resets>false</Resets>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\Unblock.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1870G.MATERIAL.BLOCKING</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialDefinitionID</PathFrom>
+          <PathTo>//ns0:MaterialDefinitionID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSubLot/default:ID</PathFrom>
+          <PathTo>//ns0:MaterialSubLot/ns0:ID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSublotProperty/default:Value/default:ValueString</PathFrom>
+          <PathTo>//ns0:MaterialSublotProperty/ns0:Value/ns0:ValueString</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSublotProperty/default:Value/default:Key</PathFrom>
+          <PathTo>//ns0:MaterialSublotProperty/ns0:Value/ns0:Key</PathTo>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Defect management</GroupName>
+    <Title>Scrapped unblock</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessMaterialInformation</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1863B.MATERIAL.BLOCKING</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="CountCondition">
+          <Operator>=</Operator>
+          <Value>2</Value>
+          <Resets>false</Resets>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="Send">
+          <FilePath>C:\Users\cmatsson\Projects\SAPEmulator\messages\anders_msg\Scrapped.xml</FilePath>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1870G.MATERIAL.BLOCKING</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialDefinitionID</PathFrom>
+          <PathTo>//ns0:MaterialDefinitionID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSubLot/default:ID</PathFrom>
+          <PathTo>//ns0:MaterialSubLot/ns0:ID</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSublotProperty/default:Value/default:ValueString</PathFrom>
+          <PathTo>//ns0:MaterialSublotProperty/ns0:Value/ns0:ValueString</PathTo>
+        </Action>
+      </ActionItem>
+      <ActionItem>
+        <Action xsi:type="CopyAction">
+          <PathFrom>//default:MaterialSublotProperty/default:Value/default:Key</PathFrom>
+          <PathTo>//ns0:MaterialSublotProperty/ns0:Value/ns0:Key</PathTo>
+        </Action>
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Defect management</GroupName>
+    <Title>Scrapped conf</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessMaterialInformation</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC1927B.SERIAL.NUMBER.STATUS</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Contains">
+          <Path>//default:MaterialSubLot/default:Status</Path>
+          <Value>Rejected</Value>
+        </Condition>
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="NoAction" />
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Defect management</GroupName>
+    <Title>Reject</Title>
+  </ARuleGroup>
+  <ARuleGroup>
+    <TriggerGroup>
+      <TriggerItem>
+        <Trigger xsi:type="Recieved">
+          <DocumentType>ProcessProductionPerformance</DocumentType>
+          <MQSettings>
+            <QueueManagerName>VCC173D2</QueueManagerName>
+            <QueueName>VCC3258.SERIAL.NUMBER</QueueName>
+            <ChannelName>CLIENTS.PRIME_SKEP</ChannelName>
+            <Hostname>skosvw2111.sko.volvocars.net</Hostname>
+            <Port>1414</Port>
+          </MQSettings>
+        </Trigger>
+      </TriggerItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </TriggerGroup>
+    <ConditionGroup>
+      <ConditionItem>
+        <Condition xsi:type="Always" />
+      </ConditionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ConditionGroup>
+    <ActionGroup>
+      <ActionItem>
+        <Action xsi:type="NoAction" />
+      </ActionItem>
+      <ErrorsInConfiguration>0</ErrorsInConfiguration>
+    </ActionGroup>
+    <GroupName>Material status</GroupName>
+    <Title>S/N declaration</Title>
+  </ARuleGroup>
+</ArrayOfARuleGroup>

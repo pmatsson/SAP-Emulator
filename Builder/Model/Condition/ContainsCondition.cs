@@ -42,7 +42,6 @@ namespace MQChatter.Model.Condition
                 throw new ArgumentException(ex.Message);
             }
 
-
             return false;
         }
     }

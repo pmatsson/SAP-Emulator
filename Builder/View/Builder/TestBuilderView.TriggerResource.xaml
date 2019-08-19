@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:triggerType="clr-namespace:MQChatter.Model.Trigger"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
-                    <!--xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"-->
+    <!--xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"-->
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Style/ButtonDictionary.xaml" />
@@ -87,23 +87,22 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            
+
             <Button Grid.Row="1" Grid.ColumnSpan="2" Command="{Binding TriggerGroup.AddTriggerCommand}" Style="{StaticResource AddRuleButtonStyle}" />
 
-            <!--<Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=TriggerGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ConditionGroup.ErrorMessage}" Margin="4,0,0,0" >
+            <!--<Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=TriggerGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ConditionGroup.ErrorMessage}" Margin="4,0,0,0">
                 <Controls:Badged.Style>
                     <Style TargetType="Controls:Badged">
                         <Setter Property="BadgeBackground" Value="IndianRed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=TriggerGroup.NumberOfErrors}" Value="0">
-                                <Setter Property="BadgeBackground" Value="DodgerBlue"/>
+                                <Setter Property="BadgeBackground" Value="DodgerBlue" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Controls:Badged.Style>
-                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"/>
+                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False" />
             </Controls:Badged>-->
-            
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

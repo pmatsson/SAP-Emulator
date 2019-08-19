@@ -1,0 +1,59 @@
+<ProcessProductionPerformance xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="6" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>SE26</LogicalID>
+      <ReferenceID>636902653343654843</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-16T09:13:26.8808676Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <ProductionPerformance>
+      <ProductionResponse>
+        <ID>20190416091326</ID>
+        <ProductionRequestID>0000060506</ProductionRequestID>
+        <StartTime>2019-04-16T08:58:22.727</StartTime>
+        <EndTime>2019-04-16T09:12:42.493</EndTime>
+        <SegmentResponse>
+          <ID>ROOT</ID>
+          <Location>
+            <EquipmentID>WR000044</EquipmentID>
+            <EquipmentElementLevel>ProductionLine</EquipmentElementLevel>
+          </Location>
+          <MaterialProducedActual>
+            <MaterialDefinitionID>000000000008244816</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID>000000000001004897</MaterialSubLotID>
+            <Quantity>
+              <QuantityString>1</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <MaterialProducedActualProperty>
+              <ID>VendorSerialNumber</ID>
+              <Value>
+                <ValueString>1004897</ValueString>
+                <DataType xsi:nil="true" />
+                <UnitOfMeasure xsi:nil="true" />
+              </Value>
+            </MaterialProducedActualProperty>
+            <MaterialProducedActualProperty>
+              <ID>Status</ID>
+              <Value>
+                <ValueString>Unrestricted</ValueString>
+                <DataType xsi:nil="true" />
+                <UnitOfMeasure xsi:nil="true" />
+              </Value>
+            </MaterialProducedActualProperty>
+          </MaterialProducedActual>
+        </SegmentResponse>
+        <Any>
+          <OrderIdentifier>B</OrderIdentifier>
+          <OrderType></OrderType>
+          <PeggedRequirement></PeggedRequirement>
+          <SequenceNumber>00000000000000</SequenceNumber>
+        </Any>
+      </ProductionResponse>
+    </ProductionPerformance>
+  </DataArea>
+</ProcessProductionPerformance>

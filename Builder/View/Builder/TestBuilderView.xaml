@@ -32,7 +32,7 @@
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedRule, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
               VerticalScrollBarVisibility="Visible" GridLinesVisibility="None"  dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
         <DataGrid.GroupStyle>
-            <GroupStyle >
+            <GroupStyle>
                 <GroupStyle.ContainerStyle>
                     <Style TargetType="{x:Type GroupItem}">
                         <Setter Property="Template">
@@ -40,9 +40,9 @@
                                 <ControlTemplate TargetType="{x:Type GroupItem}">
                                     <Expander x:Name="exp" IsExpanded="True">
                                         <Expander.Header>
-                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" />
                                         </Expander.Header>
-                                        <ItemsPresenter/>
+                                        <ItemsPresenter />
                                     </Expander>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -51,7 +51,7 @@
                 </GroupStyle.ContainerStyle>
                 <GroupStyle.Panel>
                     <ItemsPanelTemplate>
-                        <DataGridRowsPresenter/>
+                        <DataGridRowsPresenter />
                     </ItemsPanelTemplate>
                 </GroupStyle.Panel>
             </GroupStyle>
@@ -76,7 +76,7 @@
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
                         <!--<Setter Property="Foreground" Value="Black" />-->
-                        <Setter Property="Background" Value="LightSteelBlue"/>
+                        <Setter Property="Background" Value="LightSteelBlue" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -94,14 +94,13 @@
                         SnapsToDevicePixels="True"
                         CornerRadius="8,8,8,8">
 
-
                                 <SelectiveScrollingGrid>
                                     <SelectiveScrollingGrid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </SelectiveScrollingGrid.ColumnDefinitions>
                                     <SelectiveScrollingGrid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </SelectiveScrollingGrid.RowDefinitions>
@@ -119,13 +118,13 @@
                                         <TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Setter Property="VerticalAlignment" Value="Top" />
-                                                <Setter Property="HorizontalAlignment" Value="Left"/>
-                                                <Setter Property="Width" Value="100"/>
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="Width" Value="100" />
                                                 <Setter Property="Height" Value="20" />
                                                 <Setter Property="Background" Value="Transparent" />
-                                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                                <Setter Property="FontSize" Value="8"/>
-                                                <Setter Property="Foreground" Value="LightGray"/>
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Setter Property="FontSize" Value="8" />
+                                                <Setter Property="Foreground" Value="LightGray" />
                                                 <Setter Property="ToolTip" Value="Group" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="false">
@@ -145,16 +144,16 @@
                                         <TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Setter Property="VerticalAlignment" Value="Top" />
-                                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                <Setter Property="Width" Value="100"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="Width" Value="100" />
                                                 <Setter Property="Height" Value="20" />
                                                 <Setter Property="Background" Value="Transparent" />
-                                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                                <Setter Property="FontSize" Value="12"/>
-                                                <Setter Property="Foreground" Value="PaleVioletRed"/>
-                                                <Setter Property="TextWrapping" Value="NoWrap"/>
-                                                <Setter Property="FontStyle" Value="Italic"/>
-                                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Setter Property="FontSize" Value="12" />
+                                                <Setter Property="Foreground" Value="PaleVioletRed" />
+                                                <Setter Property="TextWrapping" Value="NoWrap" />
+                                                <Setter Property="FontStyle" Value="Italic" />
+                                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="false">
                                                         <Setter Property="Template">
@@ -177,10 +176,10 @@
 
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Background" Value="White" />
                     </Trigger>
                     <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                        <Setter Property="Background" Value="WhiteSmoke"/>
+                        <Setter Property="Background" Value="WhiteSmoke" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

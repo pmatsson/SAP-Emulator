@@ -1,0 +1,58 @@
+<ProcessMaterialInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="6" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>SE26</LogicalID>
+      <ReferenceID>636902653343687564</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-23T05:56:04.1551393Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <MaterialInformation>
+      <ID xsi:nil="true" />
+      <Location xsi:nil="true" />
+      <PublishedDate xsi:nil="true" />
+      <MaterialLot>
+        <ID />
+        <MaterialDefinitionID>000000000031460605</MaterialDefinitionID>
+        <MaterialSubLot>
+          <ID>000000000001004897</ID>
+          <Status>Scrapped</Status>
+          <MaterialSublotProperty>
+            <ID>Block</ID>
+            <Value>
+              <ValueString>303</ValueString>
+              <DataType>integer</DataType>
+              <UnitOfMeasure />
+              <Key>13881</Key>
+              <Any>
+                <Description>[2019-04-23 07:40:44-] CB_VED_del-XPOS(3)-YPOS(6)-Defect(303 - Porositet)-Comment([2019-04-23 07:40:40-]Lotta)</Description>
+              </Any>
+            </Value>
+          </MaterialSublotProperty>
+          <Quantity>
+            <QuantityString>1</QuantityString>
+            <DataType>double</DataType>
+            <UnitOfMeasure>PCE</UnitOfMeasure>
+          </Quantity>
+          <Any>
+            <VendorSerialNumber>1004897</VendorSerialNumber>
+          </Any>
+        </MaterialSubLot>
+        <Location>
+          <EquipmentID>WL000596</EquipmentID>
+          <EquipmentElementLevel>WorkCell</EquipmentElementLevel>
+        </Location>
+        <Quantity>
+          <QuantityString>1</QuantityString>
+          <DataType>double</DataType>
+          <UnitOfMeasure>PCE</UnitOfMeasure>
+        </Quantity>
+        <Any>
+          <VendorCode>C7CUL</VendorCode>
+          <HUT></HUT>
+        </Any>
+      </MaterialLot>
+    </MaterialInformation>
+  </DataArea>
+</ProcessMaterialInformation>

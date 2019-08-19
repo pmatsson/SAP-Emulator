@@ -69,7 +69,7 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
         {
             if (e?.NewItems != null)
             {
-                foreach (var item in e.NewItems)
+                foreach (object item in e.NewItems)
                 {
                     ATrigger atrigger = item as ATrigger;
                     if (atrigger != null && e.Action == NotifyCollectionChangedAction.Add)
@@ -81,7 +81,7 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
             }
             if (e?.OldItems != null)
             {
-                foreach (var item in e.OldItems)
+                foreach (object item in e.OldItems)
                 {
                     ATrigger atrigger = item as ATrigger;
                     if (atrigger != null && e.Action == NotifyCollectionChangedAction.Remove)
@@ -96,7 +96,9 @@ namespace MQChatter.ViewModel.RuleGroup.Trigger
         private void Atrigger_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Selected")
+            {
                 ValidateUnit();
+            }
         }
     }
 }

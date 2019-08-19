@@ -1,0 +1,47 @@
+<ProcessMaterialInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="3" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>CN14</LogicalID>
+      <ReferenceID>636878141619803826</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-19T01:38:42.3223944Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <MaterialInformation>
+      <ID xsi:nil="true" />
+      <Location xsi:nil="true" />
+      <PublishedDate xsi:nil="true" />
+      <MaterialLot>
+        <ID />
+        <MaterialDefinitionID>000000000031410242</MaterialDefinitionID>
+        <MaterialSubLot>
+          <ID />
+          <Status>Unblocked</Status>
+          <Quantity>
+            <QuantityString>192</QuantityString>
+            <DataType>double</DataType>
+            <UnitOfMeasure>PCE</UnitOfMeasure>
+          </Quantity>
+          <Any>
+            <VendorSerialNumber></VendorSerialNumber>
+          </Any>
+        </MaterialSubLot>
+        <Location>
+          <EquipmentID>WR000007_ARCHIVE</EquipmentID>
+          <EquipmentElementLevel>StorageUnit</EquipmentElementLevel>
+        </Location>
+        <StorageLocation>S810</StorageLocation>
+        <Quantity>
+          <QuantityString>192</QuantityString>
+          <DataType>double</DataType>
+          <UnitOfMeasure>PCE</UnitOfMeasure>
+        </Quantity>
+        <Any>
+          <VendorCode>AECOY</VendorCode>
+          <HUT>00000000000012753603</HUT>
+        </Any>
+      </MaterialLot>
+    </MaterialInformation>
+  </DataArea>
+</ProcessMaterialInformation>

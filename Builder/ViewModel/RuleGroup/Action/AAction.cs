@@ -43,14 +43,11 @@ namespace MQChatter.ViewModel.RuleGroup.Action
                     AvailableActions = loadedActions;
                 }
                 SetProperty(ref _selected, value);
-
             }
         }
 
         public AAction()
         {
-
-
             AvailableActions = new ObservableCollection<ActionBase>()
             {
                 new SendAction(),
@@ -58,7 +55,6 @@ namespace MQChatter.ViewModel.RuleGroup.Action
                 new CopyAction(),
                 new NoAction(),
             };
-
 
             if (Selected == null)
             {

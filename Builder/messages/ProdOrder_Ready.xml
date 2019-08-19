@@ -1,0 +1,35 @@
+<ProcessProductionSchedule xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="3" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>CN14</LogicalID>
+      <ReferenceID>636878141620026419</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-25T12:00:01.9598747Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <ProductionSchedule>
+      <ProductionRequest>
+        <ID>100030017014</ID>
+        <StartTime>2019-04-25T11:59:57.883</StartTime>
+        <SegmentRequirement>
+          <ID>ROOT</ID>
+          <MaterialProducedRequirement>
+            <MaterialDefinitionID>000000000008286722</MaterialDefinitionID>
+            <Quantity>
+              <QuantityString>360</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure xsi:nil="true" />
+            </Quantity>
+          </MaterialProducedRequirement>
+        </SegmentRequirement>
+        <Any>
+          <OrderIdentifier>A</OrderIdentifier>
+          <OrderType>Z010</OrderType>
+          <SequenceNumber>00000000000000</SequenceNumber>
+          <Status>READY</Status>
+        </Any>
+      </ProductionRequest>
+    </ProductionSchedule>
+  </DataArea>
+</ProcessProductionSchedule>

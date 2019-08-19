@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MQChatter.Common;
+using MQChatter.ViewModel.RuleGroup.Action;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
-using MQChatter.Common;
-using MQChatter.ViewModel.RuleGroup.Action;
 
 namespace MQChatter.Model.Action
 {

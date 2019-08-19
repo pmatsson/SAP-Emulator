@@ -28,28 +28,27 @@
         </ResourceDictionary>
     </Window.Resources>
 
-        <!--<TextBlock TextAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="XPath validator"/>
+    <!--<TextBlock TextAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="XPath validator" />
         <Border BorderBrush="Blue" BorderThickness="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock Text="{Binding Result, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-0.6,0" />
         </Border>-->
     <Grid VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="1*" />
-
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock TextAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="XPath validator" Grid.ColumnSpan="3" Grid.Row="0" Margin="20"/>
+        <TextBlock TextAlignment="Center" FontSize="24" FontWeight="DemiBold" Text="XPath validator" Grid.ColumnSpan="3" Grid.Row="0" Margin="20" />
         <TextBox Text="{Binding XPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     IsReadOnly="False" Margin="0,0,4.6,31" materialDesign:HintAssist.Hint="xpath" Grid.Column="0" Grid.Row="1"/>
+                     IsReadOnly="False" Margin="0,0,4.6,31" materialDesign:HintAssist.Hint="xpath" Grid.Column="0" Grid.Row="1" />
         <TextBox  Text="{Binding FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     IsReadOnly="True" Margin="0.4,0,4,31" materialDesign:HintAssist.Hint="file" Grid.Column="1" Grid.Row="1"/>
+                     IsReadOnly="True" Margin="0.4,0,4,31" materialDesign:HintAssist.Hint="file" Grid.Column="1" Grid.Row="1" />
         <Button  Style="{StaticResource FileButtonStyle}"
                     Margin="0,0,5.4,31" Grid.Column="2" Grid.Row="1">
             <i:Interaction.Behaviors>
@@ -57,12 +56,12 @@
             </i:Interaction.Behaviors>
         </Button>
 
-        <Button Grid.ColumnSpan="3" Grid.Row="2"  Click="Button_Click" Background="#FF212983" Margin="0,0.2,0.4,15" >
-            <materialDesign:PackIcon Kind="Play" Foreground="#FF1368BD"/>
+        <Button Grid.ColumnSpan="3" Grid.Row="2"  Click="Button_Click" Background="#FF212983" Margin="0,0.2,0.4,15">
+            <materialDesign:PackIcon Kind="Play" Foreground="#FF1368BD" />
         </Button>
 
         <Border Grid.ColumnSpan="3" Grid.Row="3" BorderBrush="#FF1368BD" Background="#f4f4f4" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="10" Padding="10">
-            <TextBlock Text="{Binding Result, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-0.6,0"/>
+            <TextBlock Text="{Binding Result, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-0.6,0" />
         </Border>
     </Grid>
 </Window>

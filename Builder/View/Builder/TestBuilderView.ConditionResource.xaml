@@ -44,9 +44,9 @@
             <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      materialDesign:HintAssist.Hint="value" Margin="{StaticResource RuleSubElementMargin}" />
             <ToggleButton Grid.Column="2" Margin="{StaticResource RuleSubElementMargin}" Background="Black"
-                          ToolTip="Repeating" 
+                          ToolTip="Repeating"
                           IsChecked="{Binding Resets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                
+
                 <materialDesign:PackIcon Kind="Repeat" />
             </ToggleButton>
         </Grid>
@@ -84,23 +84,22 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            
+
             <Button Grid.Row="1" Grid.ColumnSpan="2" Command="{Binding ConditionGroup.AddConditionCommand}" Style="{StaticResource AddRuleButtonStyle}" />
 
-            <!--<Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=ConditionGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ConditionGroup.ErrorMessage}" Margin="4,0,0,0" >
+            <!--<Controls:Badged Grid.Row="1" Grid.Column="1" Badge="{Binding Path=ConditionGroup.NumberOfErrors}" BadgePlacementMode="BottomRight" HorizontalAlignment="Stretch" ToolTip="{Binding Path=ConditionGroup.ErrorMessage}" Margin="4,0,0,0">
                 <Controls:Badged.Style>
                     <Style TargetType="Controls:Badged">
                         <Setter Property="BadgeBackground" Value="IndianRed" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=ConditionGroup.NumberOfErrors}" Value="0">
-                                <Setter Property="BadgeBackground" Value="DodgerBlue"/>
+                                <Setter Property="BadgeBackground" Value="DodgerBlue" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Controls:Badged.Style>
-                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"/>
+                <Button  Style="{StaticResource ErrorButtonStyle}" IsEnabled="False" />
             </Controls:Badged>-->
-            
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

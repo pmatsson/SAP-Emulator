@@ -2,7 +2,6 @@
 using MQChatter.ViewModel.RuleGroup.Action;
 using MQChatter.ViewModel.RuleGroup.Condition;
 using MQChatter.ViewModel.RuleGroup.Trigger;
-using System;
 using System.Xml.Serialization;
 
 namespace MQChatter.ViewModel.RuleGroup

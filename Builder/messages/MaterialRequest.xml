@@ -1,0 +1,24 @@
+<ProcessEquipmentInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>CN14</LogicalID>
+      <ReferenceID>636892618189570323</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-04T04:15:28.5495425Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <EquipmentInformation>
+      <Equipment>
+        <ID>0005401</ID>
+        <EquipmentProperty>
+          <ID>MaterialDefinition</ID>
+          <Value>
+            <ValueString>000000000031460669</ValueString>
+            <DataType>string</DataType>
+            <UnitOfMeasure xsi:nil="true" />
+          </Value>
+        </EquipmentProperty>
+      </Equipment>
+    </EquipmentInformation>
+  </DataArea>
+</ProcessEquipmentInformation>

@@ -1,0 +1,145 @@
+<ProcessProductionPerformance xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="3" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>CN14</LogicalID>
+      <ReferenceID>636892618189570321</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-03-27T06:07:37.8969492Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <ProductionPerformance>
+      <ProductionResponse>
+        <ID>20190327060737</ID>
+        <ProductionRequestID>100030011111</ProductionRequestID>
+        <StartTime>2019-03-07T06:47:32.73</StartTime>
+        <SegmentResponse>
+          <ID>ROOT</ID>
+          <Location>
+            <EquipmentID>WR000006</EquipmentID>
+            <EquipmentElementLevel>ProductionLine</EquipmentElementLevel>
+          </Location>
+          <MaterialProducedActual>
+            <MaterialDefinitionID>000000000008610075</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID>000000000007057639</MaterialSubLotID>
+            <Quantity>
+              <QuantityString>1</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <MaterialProducedActualProperty>
+              <ID>VendorSerialNumber</ID>
+              <Value>
+                <ValueString>7057639</ValueString>
+                <DataType xsi:nil="true" />
+                <UnitOfMeasure xsi:nil="true" />
+              </Value>
+            </MaterialProducedActualProperty>
+          </MaterialProducedActual>
+        </SegmentResponse>
+        <SegmentResponse>
+          <ID>0330</ID>
+          <Location>
+            <EquipmentID>WT000234</EquipmentID>
+            <EquipmentElementLevel>EquipmentModule</EquipmentElementLevel>
+            <Any>
+              <OfflineRepairIdentifier />
+            </Any>
+          </Location>
+          <ActualStartTime>2019-03-27T05:53:11.423</ActualStartTime>
+          <ActualEndTime>2019-03-27T05:53:11.45</ActualEndTime>
+          <Any>
+            <ScrapIdentifier />
+          </Any>
+        </SegmentResponse>
+        <SegmentResponse>
+          <ID>0340</ID>
+          <Location>
+            <EquipmentID>WT000234</EquipmentID>
+            <EquipmentElementLevel>EquipmentModule</EquipmentElementLevel>
+            <Any>
+              <OfflineRepairIdentifier />
+            </Any>
+          </Location>
+          <ActualStartTime>2019-03-27T05:53:14.283</ActualStartTime>
+          <ActualEndTime>2019-03-27T05:53:14.31</ActualEndTime>
+          <Any>
+            <ScrapIdentifier />
+          </Any>
+        </SegmentResponse>
+        <SegmentResponse>
+          <ID>0350</ID>
+          <Location>
+            <EquipmentID>WT000234</EquipmentID>
+            <EquipmentElementLevel>EquipmentModule</EquipmentElementLevel>
+            <Any>
+              <OfflineRepairIdentifier />
+            </Any>
+          </Location>
+          <ActualStartTime>2019-03-27T05:53:42.893</ActualStartTime>
+          <ActualEndTime>2019-03-27T06:07:34.113</ActualEndTime>
+          <MaterialConsumedActual>
+            <MaterialDefinitionID>000000000000985135</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID />
+            <Quantity>
+              <QuantityString>8</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <Any>
+              <VendorCode>AD0L3</VendorCode>
+              <VendorBatchId></VendorBatchId>
+              <VendorSerialNumber></VendorSerialNumber>
+              <HUT>00000000000009324940</HUT>
+              <ReversalIdentifier></ReversalIdentifier>
+            </Any>
+          </MaterialConsumedActual>
+          <MaterialConsumedActual>
+            <MaterialDefinitionID>000000000031410578</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID />
+            <Quantity>
+              <QuantityString>1</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <Any>
+              <VendorCode>CHN08</VendorCode>
+              <VendorBatchId></VendorBatchId>
+              <VendorSerialNumber></VendorSerialNumber>
+              <HUT>00000000000911018714</HUT>
+              <ReversalIdentifier></ReversalIdentifier>
+            </Any>
+          </MaterialConsumedActual>
+          <MaterialConsumedActual>
+            <MaterialDefinitionID>000000000030624475</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID />
+            <Quantity>
+              <QuantityString>10</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <Any>
+              <VendorCode>AD06P</VendorCode>
+              <VendorBatchId></VendorBatchId>
+              <VendorSerialNumber></VendorSerialNumber>
+              <HUT>00000000000009099816</HUT>
+              <ReversalIdentifier></ReversalIdentifier>
+            </Any>
+          </MaterialConsumedActual>
+          <Any>
+            <ScrapIdentifier />
+          </Any>
+        </SegmentResponse>
+        <Any>
+          <OrderIdentifier>A</OrderIdentifier>
+          <OrderType>Z010</OrderType>
+          <SequenceNumber>00000000000000</SequenceNumber>
+        </Any>
+      </ProductionResponse>
+    </ProductionPerformance>
+  </DataArea>
+</ProcessProductionPerformance>

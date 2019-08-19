@@ -1,0 +1,50 @@
+<ProcessProductionPerformance xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Extended="http://www.wbf.org/xml/B2MML-V0401-AllExtensions" releaseID="6" xmlns="http://www.wbf.org/xml/B2MML-V0401">
+  <ApplicationArea>
+    <Sender>
+      <LogicalID>SE26</LogicalID>
+      <ReferenceID>636902653343654740</ReferenceID>
+    </Sender>
+    <CreationDateTime>2019-04-16T09:06:57.6311559Z</CreationDateTime>
+  </ApplicationArea>
+  <DataArea>
+    <Process />
+    <ProductionPerformance>
+      <ProductionResponse>
+        <ID>20190416090657</ID>
+        <ProductionRequestID>0000060521</ProductionRequestID>
+        <StartTime>2019-04-16T09:06:51.15</StartTime>
+        <SegmentResponse>
+          <ID>ROOT</ID>
+          <Location>
+            <EquipmentID>WR000042</EquipmentID>
+            <EquipmentElementLevel>ProductionLine</EquipmentElementLevel>
+          </Location>
+          <MaterialProducedActual>
+            <MaterialDefinitionID>000000000031460605</MaterialDefinitionID>
+            <MaterialLotID />
+            <MaterialSubLotID>000000000001004897</MaterialSubLotID>
+            <Quantity>
+              <QuantityString>1</QuantityString>
+              <DataType>double</DataType>
+              <UnitOfMeasure>PCE</UnitOfMeasure>
+            </Quantity>
+            <MaterialProducedActualProperty>
+              <ID>VendorSerialNumber</ID>
+              <Value>
+                <ValueString>1004897</ValueString>
+                <DataType xsi:nil="true" />
+                <UnitOfMeasure xsi:nil="true" />
+              </Value>
+            </MaterialProducedActualProperty>
+          </MaterialProducedActual>
+        </SegmentResponse>
+        <Any>
+          <OrderIdentifier>B</OrderIdentifier>
+          <OrderType></OrderType>
+          <PeggedRequirement></PeggedRequirement>
+          <SequenceNumber>00000000000000</SequenceNumber>
+        </Any>
+      </ProductionResponse>
+    </ProductionPerformance>
+  </DataArea>
+</ProcessProductionPerformance>

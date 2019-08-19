@@ -24,14 +24,14 @@
     <Window.DataContext>
         <vm:RuleViewModel />
     </Window.DataContext>
-    
+
     <Window.Resources>
         <sys:Double x:Key="GridWindowTitleMenuHeight">70</sys:Double>
         <sys:Double x:Key="GridMenuWidth">70</sys:Double>
         <sys:Double x:Key="GridMenuExpandedWidth">200</sys:Double>
-        <Thickness x:Key="TestBuilderViewMargin" 
-                   Top="{StaticResource GridWindowTitleMenuHeight}" 
-                   Left="{StaticResource GridMenuWidth}"/>
+        <Thickness x:Key="TestBuilderViewMargin"
+                   Top="{StaticResource GridWindowTitleMenuHeight}"
+                   Left="{StaticResource GridMenuWidth}" />
         <sys:Double x:Key="ListViewItemHeight">60</sys:Double>
         <sys:Double x:Key="ListViewItemIconWidth">25</sys:Double>
         <Thickness x:Key="ListViewItemIconMargin">10</Thickness>
@@ -58,29 +58,29 @@
         </Storyboard>
         <Storyboard x:Key="PackIconMenuHeaderFadeIn">
             <DoubleAnimation Duration="00:00:00.5"  Storyboard.TargetProperty="(FrameworkElement.Opacity)" Storyboard.TargetName="PackIconMenuHeader"
-                         From="0.0" To="1.0"/>
+                         From="0.0" To="1.0" />
         </Storyboard>
         <Storyboard x:Key="PackIconMenuHeaderFadeOut">
             <DoubleAnimation Duration="00:00:00.5"  Storyboard.TargetProperty="(FrameworkElement.Opacity)" Storyboard.TargetName="PackIconMenuHeader"
-                         From="1.0" To="0.0"/>
+                         From="1.0" To="0.0" />
         </Storyboard>
         <conv:NegateBooleanConverter x:Key="boolinverter" />
     </Window.Resources>
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
-            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeIn}"/>
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}" />
+            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeIn}" />
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
-            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeOut}"/>
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+            <BeginStoryboard Storyboard="{StaticResource PackIconMenuHeaderFadeOut}" />
         </EventTrigger>
     </Window.Triggers>
-    
+
     <Grid Background="LightGray">
         <Grid x:Name="GridWindowTitleMenu" Height="{StaticResource GridWindowTitleMenuHeight}" VerticalAlignment="Top" Background="#FF2567C7" MouseLeftButtonDown="GridWindowTitleMenu_MouseLeftButtonDown">
-            <TextBlock Text="MQ Chatter" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+            <TextBlock Text="MQ Chatter" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" />
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button x:Name="ButtonPlay" Background="{x:Null}" BorderBrush="White" Click="ButtonPlay_Click" IsEnabled="{Binding IsRunningEmulator, Converter={StaticResource boolinverter}}">
                     <materialDesign:PackIcon Kind="Play" />
@@ -88,14 +88,14 @@
                 <Button x:Name="ButtonStop" Margin="30 0" Background="{x:Null}" BorderBrush="White" Click="ButtonStop_Click" IsEnabled="{Binding IsRunningEmulator}">
                     <materialDesign:PackIcon Kind="Stop" />
                 </Button>
-                <TextBlock Text="More" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18"/>
+                <TextBlock Text="More" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" />
                 <materialDesign:PopupBox HorizontalAlignment="Right" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="False">
                     <StackPanel Width="150">
-                        <Button x:Name="ButtonMaximize" Content="Maximize" Click="ButtonMaximize_Click"/>
-                        <Button x:Name="ButtonStandardize" Content="Standard" Click="ButtonStandardize_Click"/>
-                        <Button x:Name="ButtonMinimize" Content="Minimize" Click="ButtonMinimize_Click"/>
+                        <Button x:Name="ButtonMaximize" Content="Maximize" Click="ButtonMaximize_Click" />
+                        <Button x:Name="ButtonStandardize" Content="Standard" Click="ButtonStandardize_Click" />
+                        <Button x:Name="ButtonMinimize" Content="Minimize" Click="ButtonMinimize_Click" />
                         <Separator />
-                        <Button x:Name="ButtonCredits" Content="Credits" Click="ButtonCredits_Click"/>
+                        <Button x:Name="ButtonCredits" Content="Credits" Click="ButtonCredits_Click" />
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
@@ -107,123 +107,122 @@
         <Grid x:Name="GridMenu" Width="{StaticResource GridMenuWidth}" HorizontalAlignment="Left" Background="#FF212983">
             <StackPanel>
                 <Grid Height="150" Background="White">
-                    <fa:ImageAwesome x:Name="PackIconMenuHeader" Icon="LifeSaver" Spin="True" SpinDuration="5" Foreground="AliceBlue" Opacity="0"/>
+                    <fa:ImageAwesome x:Name="PackIconMenuHeader" Icon="LifeSaver" Spin="True" SpinDuration="5" Foreground="AliceBlue" Opacity="0" />
                     <Button x:Name="ButtonCloseMenu" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="Collapsed" Click="ButtonCloseMenu_Click">
                         <materialDesign:PackIcon Width="25" Height="25" Foreground="#FF1B3861" Kind="Close" />
                     </Button>
                     <Button x:Name="ButtonOpenMenu" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Click="ButtonOpenMenu_Click">
                         <materialDesign:PackIcon Width="25" Height="25" Foreground="#FF1B3861" Kind="HamburgerMenu" />
                     </Button>
-                    <!--<materialDesign:PackIcon x:Name="PackIconMenuHeader" Width="50" Height="50" Foreground="#FF1B3861" Kind="Information"  HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>-->
+                    <!--<materialDesign:PackIcon x:Name="PackIconMenuHeader" Width="50" Height="50" Foreground="#FF1B3861" Kind="Information"  HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" />-->
                 </Grid>
                 <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListViewItem x:Name="ListViewItemFile" Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD" 
+                    <ListViewItem x:Name="ListViewItemFile" Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD"
                                   Tag="240" MouseLeftButtonUp="SubmenuOpenClose">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                                <materialDesign:PackIcon Kind="Folder" Width="{StaticResource ListViewItemIconWidth}" 
-                                                         Height="{StaticResource ListViewItemIconWidth}" 
-                                                         Margin="{StaticResource ListViewItemIconMargin}" 
-                                                         VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
-                                <TextBlock Text="File" Margin="{StaticResource ListViewItemTextMargin}" 
-                                           VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
+                                <materialDesign:PackIcon Kind="Folder" Width="{StaticResource ListViewItemIconWidth}"
+                                                         Height="{StaticResource ListViewItemIconWidth}"
+                                                         Margin="{StaticResource ListViewItemIconMargin}"
+                                                         VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
+                                <TextBlock Text="File" Margin="{StaticResource ListViewItemTextMargin}"
+                                           VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                             </StackPanel>
                             <ListViewItem x:Name="ListViewItemNew" MouseLeftButtonUp="ListViewItemNew_MouseLeftButtonUp">
-                                <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}" >
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                            Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                            Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                            VerticalAlignment="Center"/>
-                                    <materialDesign:PackIcon Kind="File" 
-                                                             Width="{StaticResource SubListViewItemIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <TextBlock Text="New" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                            Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                            Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                            VerticalAlignment="Center" />
+                                    <materialDesign:PackIcon Kind="File"
+                                                             Width="{StaticResource SubListViewItemIconWidth}"
+                                                             Height="{StaticResource SubListViewItemIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="New" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  x:Name="ListViewItemOpen" MouseLeftButtonUp="ListViewItemOpen_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <materialDesign:PackIcon Kind="Folder"  Width="{StaticResource SubListViewItemIconWidth}" Height="{StaticResource SubListViewItemIconWidth}" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Open" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <materialDesign:PackIcon Kind="Folder"  Width="{StaticResource SubListViewItemIconWidth}" Height="{StaticResource SubListViewItemIconWidth}" VerticalAlignment="Center" />
+                                    <TextBlock Text="Open" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  x:Name="ListViewItemSave" MouseLeftButtonUp="ListViewItemSave_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <materialDesign:PackIcon Kind="ContentSave"  Width="{StaticResource SubListViewItemIconWidth}" Height="{StaticResource SubListViewItemIconWidth}" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Save" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <materialDesign:PackIcon Kind="ContentSave"  Width="{StaticResource SubListViewItemIconWidth}" Height="{StaticResource SubListViewItemIconWidth}" VerticalAlignment="Center" />
+                                    <TextBlock Text="Save" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem  x:Name="ListViewItemSaveAs" MouseLeftButtonUp="ListViewItemSaveAs_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
                                     <materialDesign:PackIcon Kind="ContentSaveAll"
-                                                             Width="{StaticResource SubListViewItemIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <TextBlock Text="Save as" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                                             Width="{StaticResource SubListViewItemIconWidth}"
+                                                             Height="{StaticResource SubListViewItemIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="Save as" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD" 
+                    <ListViewItem Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD"
                                   Tag="150" MouseLeftButtonUp="SubmenuOpenClose">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Edit" Width="{StaticResource ListViewItemIconWidth}" 
-                                                     Height="{StaticResource ListViewItemIconWidth}" 
-                                                     Margin="{StaticResource ListViewItemIconMargin}" 
-                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
-                                <TextBlock Text="Edit" Margin="{StaticResource ListViewItemTextMargin}" 
-                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
-
+                                <materialDesign:PackIcon Kind="Edit" Width="{StaticResource ListViewItemIconWidth}"
+                                                     Height="{StaticResource ListViewItemIconWidth}"
+                                                     Margin="{StaticResource ListViewItemIconMargin}"
+                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
+                                <TextBlock Text="Edit" Margin="{StaticResource ListViewItemTextMargin}"
+                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                             </StackPanel>
                             <ListViewItem x:Name="ListViewItemAddRule" MouseLeftButtonUp="ListViewItemAddRule_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
                                     <materialDesign:PackIcon Kind="AddBox"
-                                                             Width="{StaticResource SubListViewItemIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <TextBlock Text="Add rule" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                                             Width="{StaticResource SubListViewItemIconWidth}"
+                                                             Height="{StaticResource SubListViewItemIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="Add rule" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem x:Name="ListViewItemDeleteRule" MouseLeftButtonUp="ListViewItemDeleteRule_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
                                     <materialDesign:PackIcon Kind="Trashcan"
-                                                             Width="{StaticResource SubListViewItemIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <TextBlock Text="Delete rule" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                                             Width="{StaticResource SubListViewItemIconWidth}"
+                                                             Height="{StaticResource SubListViewItemIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="Delete rule" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                         </StackPanel>
@@ -231,58 +230,58 @@
                     <ListViewItem Height="{StaticResource ListViewItemHeight}" Tag="105" Foreground="#FF1368BD" MouseLeftButtonUp="SubmenuOpenClose">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Toolbox" Width="{StaticResource ListViewItemIconWidth}" 
-                                                     Height="{StaticResource ListViewItemIconWidth}" 
-                                                     Margin="{StaticResource ListViewItemIconMargin}" 
-                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
-                                <TextBlock Text="Tools" Margin="{StaticResource ListViewItemTextMargin}" 
-                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
+                                <materialDesign:PackIcon Kind="Toolbox" Width="{StaticResource ListViewItemIconWidth}"
+                                                     Height="{StaticResource ListViewItemIconWidth}"
+                                                     Margin="{StaticResource ListViewItemIconMargin}"
+                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
+                                <TextBlock Text="Tools" Margin="{StaticResource ListViewItemTextMargin}"
+                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                             </StackPanel>
                             <ListViewItem x:Name="ListViewItemXpathTool" MouseLeftButtonUp="ListViewItemXpathTool_MouseLeftButtonUp">
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource SubListViewPanelMargin}">
-                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}" 
-                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}" 
-                                                             VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="{StaticResource SubListViewItemLeadingIconKind}"
+                                                             Width="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             Height="{StaticResource SubListViewItemLeadingIconWidth}"
+                                                             VerticalAlignment="Center" />
                                     <materialDesign:PackIcon Kind="Xml"
-                                                             Width="{StaticResource SubListViewItemIconWidth}" 
-                                                             Height="{StaticResource SubListViewItemIconWidth}" 
-                                                             VerticalAlignment="Center"/>
-                                    <TextBlock Text="XPath validator" VerticalAlignment="Center" 
-                                               Margin="{StaticResource SubListViewTextMargin}" 
-                                               FontSize="{StaticResource SubListViewItemTextFontSize}"/>
+                                                             Width="{StaticResource SubListViewItemIconWidth}"
+                                                             Height="{StaticResource SubListViewItemIconWidth}"
+                                                             VerticalAlignment="Center" />
+                                    <TextBlock Text="XPath validator" VerticalAlignment="Center"
+                                               Margin="{StaticResource SubListViewTextMargin}"
+                                               FontSize="{StaticResource SubListViewItemTextFontSize}" />
                                 </StackPanel>
                             </ListViewItem>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Settings" Width="{StaticResource ListViewItemIconWidth}" 
-                                                     Height="{StaticResource ListViewItemIconWidth}" 
-                                                     Margin="{StaticResource ListViewItemIconMargin}" 
-                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
+                            <materialDesign:PackIcon Kind="Settings" Width="{StaticResource ListViewItemIconWidth}"
+                                                     Height="{StaticResource ListViewItemIconWidth}"
+                                                     Margin="{StaticResource ListViewItemIconMargin}"
+                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
                             <TextBlock Text="Settings" Margin="{StaticResource ListViewItemTextMargin}"
-                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
+                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="HelpBox" Width="{StaticResource ListViewItemIconWidth}" 
-                                                     Height="{StaticResource ListViewItemIconWidth}" 
-                                                     Margin="{StaticResource ListViewItemIconMargin}" 
-                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
-                            <TextBlock Text="Help" Margin="{StaticResource ListViewItemTextMargin}" 
-                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
+                            <materialDesign:PackIcon Kind="HelpBox" Width="{StaticResource ListViewItemIconWidth}"
+                                                     Height="{StaticResource ListViewItemIconWidth}"
+                                                     Margin="{StaticResource ListViewItemIconMargin}"
+                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
+                            <TextBlock Text="Help" Margin="{StaticResource ListViewItemTextMargin}"
+                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="ListViewItemExit" Height="{StaticResource ListViewItemHeight}" Foreground="#FF1368BD" MouseLeftButtonUp="ListViewItemExit_MouseLeftButtonUp">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ExitRun" Width="{StaticResource ListViewItemIconWidth}" 
-                                                     Height="{StaticResource ListViewItemIconWidth}" 
-                                                     Margin="{StaticResource ListViewItemIconMargin}" 
-                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}"/>
-                            <TextBlock Text="Exit" Margin="{StaticResource ListViewItemTextMargin}" 
-                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}"/>
+                            <materialDesign:PackIcon Kind="ExitRun" Width="{StaticResource ListViewItemIconWidth}"
+                                                     Height="{StaticResource ListViewItemIconWidth}"
+                                                     Margin="{StaticResource ListViewItemIconMargin}"
+                                                     VerticalAlignment="{StaticResource ListViewItemIconAlignment}" />
+                            <TextBlock Text="Exit" Margin="{StaticResource ListViewItemTextMargin}"
+                                       VerticalAlignment="{StaticResource ListViewItemTextAlignment}" />
                         </StackPanel>
                     </ListViewItem>
                 </ListView>

@@ -12,39 +12,39 @@
 
     <Border BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="5" Foreground="AliceBlue"/>
-            <TextBlock Grid.Row="0" Text="Processing rules" Foreground="#FF2567C7" 
+            <fa:ImageAwesome Icon="Cog" Spin="True" SpinDuration="5" Foreground="AliceBlue" />
+            <TextBlock Grid.Row="0" Text="Processing rules" Foreground="#FF2567C7"
                    FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="50" />
-            <TextBlock Grid.Row="0" Text="{Binding RunTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FF2567C7" 
+            <TextBlock Grid.Row="0" Text="{Binding RunTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FF2567C7"
                     HorizontalAlignment="Center" Margin="100" />
 
             <materialDesign:Badged  Badge="{Binding ErrorCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20,40,20,40" VerticalAlignment="Bottom" 
+                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20,40,20,40" VerticalAlignment="Bottom"
                                     HorizontalContentAlignment="Stretch" BadgeBackground="Red" ToolTip="Error(s)">
 
                 <ProgressBar Minimum="0" Maximum="10"
                                        Value="{Binding ErrorCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Background="LightGray" VerticalAlignment="Center"  >
+                                       Background="LightGray" VerticalAlignment="Center">
                     <ProgressBar.Foreground>
                         <LinearGradientBrush>
-                            <GradientStop Color="PaleVioletRed" Offset="0.0"/>
-                            <GradientStop Color="DarkRed" Offset="1.0"/>
+                            <GradientStop Color="PaleVioletRed" Offset="0.0" />
+                            <GradientStop Color="DarkRed" Offset="1.0" />
                         </LinearGradientBrush>
                     </ProgressBar.Foreground>
                 </ProgressBar>
             </materialDesign:Badged>
 
             <materialDesign:Badged Badge="{Binding ProcessedRuleCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20" VerticalAlignment="Bottom" 
+                         BadgePlacementMode="Right" HorizontalAlignment="Stretch" Margin="20" VerticalAlignment="Bottom"
                                     HorizontalContentAlignment="Stretch" BadgeBackground="#FF2567C7" ToolTip="Processed rule(s)">
 
                 <ProgressBar Minimum="0" Maximum="{Binding RuleGroups.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        Value="{Binding ProcessedRuleCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Background="LightGray"  VerticalAlignment="Center" >
+                                       Background="LightGray"  VerticalAlignment="Center">
                     <ProgressBar.Foreground>
                         <LinearGradientBrush>
-                            <GradientStop Color="CornflowerBlue" Offset="0.0"/>
-                            <GradientStop Color="#FF2567C7" Offset="1.0"/>
+                            <GradientStop Color="CornflowerBlue" Offset="0.0" />
+                            <GradientStop Color="#FF2567C7" Offset="1.0" />
                         </LinearGradientBrush>
                     </ProgressBar.Foreground>
                 </ProgressBar>

@@ -24,6 +24,7 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
             get => _conditions;
             set => SetProperty(ref _conditions, value);
         }
+
         public int ErrorsInConfiguration
         {
             get => _noErrors;
@@ -69,19 +70,19 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
         {
             if (e?.NewItems != null)
             {
-                foreach (var item in e.NewItems)
+                foreach (object item in e.NewItems)
                 {
                     ACondition acondition = item as ACondition;
                     if (acondition != null && e.Action == NotifyCollectionChangedAction.Add)
                     {
-                        acondition.PropertyChanged += Acondition_PropertyChanged; 
+                        acondition.PropertyChanged += Acondition_PropertyChanged;
                         ValidateUnit();
                     }
                 }
             }
             if (e?.OldItems != null)
             {
-                foreach (var item in e.OldItems)
+                foreach (object item in e.OldItems)
                 {
                     ACondition acondition = item as ACondition;
                     if (acondition != null && e.Action == NotifyCollectionChangedAction.Remove)
@@ -96,7 +97,9 @@ namespace MQChatter.ViewModel.RuleGroup.Condition
         private void Acondition_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Selected")
+            {
                 ValidateUnit();
+            }
         }
     }
 }

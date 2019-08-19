@@ -1,6 +1,5 @@
 ﻿using MQChatter.Model.Trigger;
 using MQChatter.MQ;
-using MQChatter.ViewModel;
 using MQChatter.ViewModel.RuleGroup;
 using MQChatter.ViewModel.RuleGroup.Action;
 using MQChatter.ViewModel.RuleGroup.Condition;
@@ -26,6 +25,7 @@ namespace MQChatter.Processor
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public event EventHandler<ARuleGroup> RuleProcessed;
+
         public event EventHandler<string> ErrorEncountered;
 
         public event EventHandler<string> MessageReceived;
@@ -116,7 +116,7 @@ namespace MQChatter.Processor
                     {
                         doc.LoadXml(msg);
                     }
-                    catch(XmlException ex)
+                    catch (XmlException ex)
                     {
                         logger.Warn(ex, "Received message contains invalid xml markup");
                         logger.Warn(ex, "@Line: " + ex.LineNumber + " @Position: " + ex.LinePosition);

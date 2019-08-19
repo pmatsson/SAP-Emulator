@@ -8,7 +8,7 @@
         Title="Credits" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
         <ScrollViewer>
-            <TextBlock x:Name="TextBlockCredits" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Padding="50" TextWrapping="WrapWithOverflow"/>
+            <TextBlock x:Name="TextBlockCredits" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Padding="50" TextWrapping="WrapWithOverflow" />
         </ScrollViewer>
     </Grid>
 </Window>

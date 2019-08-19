@@ -1,0 +1,20 @@
+<ns2:CancelProductionSchedule xmlns:ns2="http://www.wbf.org/xml/B2MML-V0401" releaseID="1">
+  <ns2:ApplicationArea>
+    <ns2:Sender>
+      <ns2:ConfirmationCode>Always</ns2:ConfirmationCode>
+    </ns2:Sender>
+    <ns2:CreationDateTime>9999-12-31T23:59:59.000-00:00</ns2:CreationDateTime>
+  </ns2:ApplicationArea>
+  <ns2:DataArea>
+    <ns2:Cancel></ns2:Cancel>
+    <ns2:ProductionSchedule>
+      <ns2:ProductionRequest>
+        <ns2:ID>1000100209</ns2:ID>
+        <ns2:Any>
+          <ns2:OrderIdentifier>B</ns2:OrderIdentifier>
+          <ns2:SiteID>SE26</ns2:SiteID>
+        </ns2:Any>
+      </ns2:ProductionRequest>
+    </ns2:ProductionSchedule>
+  </ns2:DataArea>
+</ns2:CancelProductionSchedule>

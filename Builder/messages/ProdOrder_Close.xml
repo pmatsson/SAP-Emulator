@@ -1,0 +1,21 @@
+<ns1:ProcessProductionSchedule xmlns:ns1="http://www.wbf.org/xml/B2MML-V0401" releaseID="1">
+  <ns1:ApplicationArea>
+    <ns1:Sender>
+      <ns1:LogicalID>CN14</ns1:LogicalID>
+    </ns1:Sender>
+    <ns1:CreationDateTime>9999-12-31T23:59:59.000-00:00</ns1:CreationDateTime>
+  </ns1:ApplicationArea>
+  <ns1:DataArea>
+    <ns1:Process>
+    </ns1:Process>
+    <ns1:ProductionSchedule>
+      <ns1:ProductionRequest>
+        <ns1:ID>20190701006</ns1:ID>
+        <ns1:Any>
+          <ns1:OrderIdentifier>A</ns1:OrderIdentifier>
+          <ns1:Status>CONF</ns1:Status>
+        </ns1:Any>
+      </ns1:ProductionRequest>
+    </ns1:ProductionSchedule>
+  </ns1:DataArea>
+</ns1:ProcessProductionSchedule>
